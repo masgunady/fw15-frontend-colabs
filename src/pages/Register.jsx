@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // import React from 'react'
 // import Image from "../components/Image"
-import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
 import { Link } from "react-router-dom";
 // icons
 import { FcGoogle } from "react-icons/fc";
@@ -12,7 +12,7 @@ import { MdArrowBackIos } from "react-icons/md";
 export default function Login() {
 
     return (
-        <div className="block md:grid md:grid-cols-[50%_minmax(300px,_1fr)] overflow-hidden font-Poppins gap-5 font-bold text-white">
+        <div className="block md:grid md:grid-cols-[50%_minmax(300px,_1fr)] overflow-scroll py-5 md:py-0 font-Poppins gap-5 font-bold text-white">
             <section className="hidden md:flex md:flex-col bg-primary h-screen gap-5 p-5">
                 {/* <img src={Image.loginImage} alt="Hero image" className="h-[41rem] w-[40rem]" /> */}
                 <div className="flex items-center mb-5 gap-5">
@@ -30,13 +30,13 @@ export default function Login() {
                 </div>
                 <div className="flex flex-col">
                     <div className="flex justify-center items-center gap-3 mb-8">
-                        <hr className="md:w-20 lg:w-[25%]" />
+                        <hr className="md:w-20 lg:w-[23%]" />
                         <span className="text-center">
-                            Don't have an account?
+                            Already have an account?
                         </span>
-                        <hr className="md:w-20 lg:w-[25%]" />
+                        <hr className="md:w-20 lg:w-[23%]" />
                     </div>
-                    <button className="btn w-[83%] self-center rounded-2xl">Sign Up</button>
+                    <button className="btn w-[83%] self-center rounded-2xl">Login Here</button>
                 </div>
                 <section className="flex gap-10 w-[83%] m-10 self-center text-base justify-between">
                     <div className="flex flex-col gap-6">
@@ -49,28 +49,34 @@ export default function Login() {
                     </div>
                 </section>
             </section>
-            <section className="flex flex-col pt-5 gap-2 md:pt-20 px-10 md:gap-5 font-normal text-black h-screen">
-                <h1 className="font-bold text-2xl">Login</h1>
-                <span className="font-thin text-sm text-gray-600">Hey, welcome back to News Today!</span>
-                <LoginForm />
-                <div className="flex flex-col md:gap-5 self-center items-center mt-5 md:mt-10">
-                    <span>OR LOGIN WITH</span>
-                    <div className="flex md:gap-5 justify-center mt-2">
+            <section className="flex flex-col pt-5 gap-2 md:pt-14 px-10 md:gap-5 font-normal text-black h-screen">
+                <h1 className="font-bold text-2xl">Sign Up</h1>
+                <span
+                    className="font-thin text-sm text-gray-600">Hey, welcome to News Today! Create an account to enjoy our full feautres!
+                </span>
+
+
+                <RegisterForm />
+
+                
+                <div className="flex flex-col gap-2 md:gap-5 self-center items-center">
+                    <span>OR SIGN UP WITH</span>
+                    <div className="flex gap-5 justify-center">
                         <FcGoogle className="text-4xl" />
                         <BsFacebook className="text-[34px] text-sky-600" />
                         <AiFillTwitterCircle className="text-[39px] text-sky-300" />
                     </div>
                 </div>
-                <div className="flex flex-col mt-5 md:hidden">
+                <div className="flex flex-col md:hidden">
                     <div className="flex justify-center items-center gap-3 mb-4 md:mb-8">
-                        <hr className="md:w-20 lg:w-[23%]" />
+                        <hr className="md:w-20 lg:w-[25%]" />
                         <span className="text-center">
                             Don't have an account?
                         </span>
-                        <hr className="md:w-20 lg:w-[23%]" />
+                        <hr className="md:w-20 lg:w-[25%]" />
                     </div>
-                    <button className="btn rounded-2xl">Sign Up</button>
-                    <Link to="/register" className="mt-5 self-center underline underline-offset-4 cursor-pointer">Back to Home Page</Link>
+                    <Link to="/register" className="rounded-2xl self-center font-bold hover:text-cyan-700">Sign Up</Link>
+                    <Link to="/" className="mt-5 self-center underline underline-offset-4 cursor-pointer hover:text-cyan-700">Back to Home Page</Link>
                 </div>
             </section>
         </div>
