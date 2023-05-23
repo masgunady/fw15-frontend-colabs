@@ -13,7 +13,7 @@ export default function SingIn() {
 
     return (
         <div className="grid grid-cols-[1fr_minmax(500px,_1fr)] overflow-hidden font-Poppins gap-5 font-bold">
-            <section className="flex flex-col bg-primary h-[41rem] gap-5 p-5">
+            <section className="flex flex-col bg-primary h-screen gap-5 p-5">
                 {/* <img src={Image.loginImage} alt="Hero image" className="h-[41rem] w-[40rem]" /> */}
                 <div className="flex items-center mb-5 gap-5">
                     <MdArrowBackIos />
@@ -47,7 +47,7 @@ export default function SingIn() {
                     </div>
                 </section>
             </section>
-            <section className="flex flex-col pt-20 px-10 gap-5 font-normal text-black">
+            <section className="flex flex-col pt-20 px-10 gap-5 font-normal text-black h-screen">
                 <h1 className="font-bold text-2xl">Login</h1>
                 <span className="font-thin text-sm text-gray-600">Hey, welcome back to News Today!</span>
                 <LoginForm/>
