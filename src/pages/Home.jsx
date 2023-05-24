@@ -14,11 +14,11 @@ const Home = () => {
                 <Header />
             </div>
             <section>
-                <div className="relative p-7 md:p-11 lg:p-28 h-screen bg-home-banner bg-no-repeat bg-cover text-black">
+                <div className="relative p-7 md:p-11 lg:p-28 h-[950px] bg-home-banner bg-no-repeat bg-cover text-black">
                     <div className="absolute flex flex-col gap-7 w-[90%] max-w-[670px]">
                         <div className="font-serif text-3xl md:text-4xl lg:text-6xl font-bold">Share Information and Educate People</div>
                         <div className="w-[90%] max-w-[500px] text-base md:text-xl">
-                            Everyone has their point of view of something, but just don’t be afraid to express the facts. Be an author and share you prespective of something to the world.
+                            Everyone has their point of view of something, but just don&apos;t be afraid to express the facts. Be an author and share you prespective of something to the world.
                         </div>
                         <div>
                             <Link to="/" className="btn btn-primary text-white capitalize w-[170px] text-md">

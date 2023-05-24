@@ -8,6 +8,7 @@ export default {
     extend: {
       backgroundImage:{
         'home-banner': 'url(\'/src/assets/image/home-banner.png\')',
+        'article-banner': 'url(\'/src/assets/image/article-banner.png\')',
       },
       fontFamily: {
           'serif': ['ui-serif', 'Georgia'],
