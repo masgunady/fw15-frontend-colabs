@@ -22,7 +22,7 @@ export default {
                     'primary':'#03989e',
                     'secondary':'#373a42',
                     'accent':'#ff3d71',
-                    'neutral':'#c1c5d0',
+                    'neutral':'#03999e5f',
                     'info':'#F4F7FF',
                     'success':'#3366FF',
                     'error':'#ff0000',
@@ -33,6 +33,7 @@ export default {
   },
   plugins: [
     require('daisyui'),
+    require('tailwind-scrollbar-hide')
   ],
 }
 
