@@ -5,8 +5,7 @@ import categoryPict from '../assets/image/category-pict.png';
 import { AiOutlineLike, AiOutlineFieldTime, AiOutlinePlus } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { FaFilter } from 'react-icons/fa';
-import latestNews from '../assets/image/latest-news.png';
-import embedVideo from '../assets/image/embed-video.png';
+
 const Article = () => {
     return (
         <div className="className='bg-white md:bg-[#F4F7FF]'">
