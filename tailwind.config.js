@@ -9,6 +9,7 @@ export default {
       backgroundImage:{
         'home-banner': 'url(\'/src/assets/image/home-banner.png\')',
         'article-banner': 'url(\'/src/assets/image/article-banner.png\')',
+        'category-banner': 'url(\'/src/assets/image/category-banner.png\')',
       },
       fontFamily: {
           'serif': ['ui-serif', 'Georgia'],
