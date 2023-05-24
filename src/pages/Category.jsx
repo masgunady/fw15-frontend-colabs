@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+
 import categoryPict from '../assets/image/category-pict.png';
 import { FaFilter } from 'react-icons/fa';
 const Category = () => {
