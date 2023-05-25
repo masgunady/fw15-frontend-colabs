@@ -5,6 +5,7 @@ import Article from './pages/Article';
 import Category from './pages/Category';
 import SearchResult from './pages/SearchResult';
 import ArticleView from './pages/ArticleView';
+import NotificationAdmin from './pages/NotificationAdmin';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -19,8 +20,9 @@ export default function App() {
                 <Route path="/category" element={<Category />} />
                 <Route path="/search-result" element={<SearchResult />} />
                 <Route path="/article-view" element={<ArticleView />} />
-                <Route path="auth/login" element={<Login />} />
-                <Route path="auth/register" element={<Register />} />
+                <Route path="/notification-admin" element={<NotificationAdmin />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
