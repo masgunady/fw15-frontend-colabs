@@ -8,6 +8,7 @@ import ArticleView from './pages/ArticleView';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import EditProfile from './pages/EditProfile'
 
 export default function App() {
     return (
@@ -18,10 +19,11 @@ export default function App() {
                 <Route path="/category" element={<Category />} />
                 <Route path="/search-result" element={<SearchResult />} />
                 <Route path="/article-view" element={<ArticleView />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="auth/login" element={<Login />} />
+                <Route path="auth/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/profile/edit" element={<EditProfile />} />
             </Routes>
         </BrowserRouter>
     );
