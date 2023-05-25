@@ -2,6 +2,9 @@
 const Image = {
     loginImage: new URL("../assets/image/loginImage.png", import.meta.url),
     forgotImage: new URL("../assets/image/forgotImage.png", import.meta.url),
+    profileAvatar: new URL("../assets/image/profileAvatar.png", import.meta.url),
+    covid: new URL("../assets/image/latest-news.png", import.meta.url),
+
 }
 
 export default Image
