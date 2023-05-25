@@ -22,8 +22,8 @@ export default function App() {
                 <Route path="/search-result" element={<SearchResult />} />
                 <Route path="/article-view" element={<ArticleView />} />
                 <Route path="/notification-admin" element={<NotificationAdmin />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
