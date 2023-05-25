@@ -7,7 +7,42 @@ import { RiBookmarkFill } from 'react-icons/ri';
 import latestNews from '../assets/image/latest-news.png';
 import embedVideo from '../assets/image/embed-video.png';
 // import homeBanner from '../assets/image/home-banner.png';
+
+import React from 'react';
+import axios from 'axios';
+
 const Home = () => {
+    const [tagArticle, setTagArtcile] = React.useState([])
+    const [category, setCategory] = React.useState([])
+    const [article, setArticle] = React.useState([])
+
+    React.useEffect(() => {
+        async function getDataTagArticle(){
+            const {data} = await axios.get('http://localhost:8888/tags')
+            console.log(data)
+            setTagArtcile(data.results)
+        }
+        getDataTagArticle()
+    }, [])
+
+    React.useEffect(() => {
+        async function getDataCategory(){
+            const {data} = await axios.get('http://localhost:8888/categories')
+            console.log(data)
+            setCategory(data.results)
+        }
+        getDataCategory()
+    }, [])
+
+    React.useEffect(() => {
+        async function getDataArticle(){
+            const {data} = await axios.get('http://localhost:8888/article')
+            console.log(data)
+            setArticle(data.results)
+        }
+        getDataArticle()
+    }, [])
+    
     return (
         <div className="className='bg-white md:bg-[#F4F7FF]'">
             <div className="header">
@@ -47,41 +82,15 @@ const Home = () => {
                         <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
                             <div className="w-full  scrollbar-hide overflow-scroll">
                                 <div className="flex items-center gap-5">
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #jokowidodo
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #dayniki
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #jokowidodo
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #dayniki
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
-                                    </div>
+                                    {tagArticle.map(item => {
+                                        return (
+                                            <div key={`tagArticle-${item.id}`} className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                                <Link className="text-primary" to="">
+                                                    #{item.name}
+                                                </Link>
+                                            </div>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -92,42 +101,16 @@ const Home = () => {
                         <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28  text-black font-bold">Category</div>
                         <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28  h-[260px]">
                             <div className="flex items-center gap-5 scrollbar-hide overflow-scroll h-full">
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
-                                <div className="flex flex-col gap-5 justify-center items-center">
-                                    <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                        <img src={categoryPict} className="w-full h-full " alt="" />
-                                    </div>
-                                    <div className="text-black text-xl font-semibold">Goverment</div>
-                                </div>
+                                {category.map(items => {
+                                    return (
+                                        <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
+                                            <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
+                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full " alt="" />}
+                                            </div>
+                                            <div className="text-black text-xl font-semibold">{items.name}</div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
@@ -137,34 +120,38 @@ const Home = () => {
                         <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Recomended</div>
                         <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 h-[310px]">
                             <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                    <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                            <Link>
-                                                <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            </Link>
-                                            <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                            <div className="flex justify-between w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike />
+                                {article.map(items => {
+                                    return(
+                                        <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
+                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
+                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                    <Link>
+                                                        <div className="text-primary text-xl font-bold">{items.title}</div>
+                                                    </Link>
+                                                    <div className="text-black text-center text-sm">{items.left}</div>
+                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineLike />
+                                                            </div>
+                                                            <div>2.1K</div>
+                                                        </div>
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineFieldTime />
+                                                            </div>
+                                                            <div>3m ago</div>
+                                                        </div>
+                                                        <div>
+                                                            <RiBookmarkFill />
+                                                        </div>
                                                     </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    )
+                                })}
                                 <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
                                     <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
                                     <div className="w-full h-[55%] absolute bottom-0 bg-white">
