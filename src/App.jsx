@@ -9,7 +9,8 @@ import NotificationAdmin from './pages/NotificationAdmin';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import EditProfile from './pages/EditProfile'
+import EditProfile from './pages/EditProfile';
+import ProfileInformation from './pages/ProfileInformation'
 
 export default function App() {
     return (
@@ -26,6 +27,7 @@ export default function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/profile/information" element={<ProfileInformation />} />
             </Routes>
         </BrowserRouter>
     );

@@ -25,7 +25,7 @@ export default function EditProfile() {
     return (
         <>
             <Header />
-            <container className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
+            <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
                 <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
                     <span className='md:text-2xl font-extrabold pl-14'>Profile</span>
                     <div className='w-[67%] p-10 my-10 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)] ml-14'>
@@ -182,7 +182,7 @@ export default function EditProfile() {
                     </form>
                     <button className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>
                 </section>
-            </container>
+            </div>
             <Footer />
         </>
     )
