@@ -2,7 +2,10 @@
 /* eslint-disable react/no-unescaped-entities */
 // import React from 'react'
 import Image from "../components/Image"
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import http from '../helper/http';
+import React from "react";
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 
 // icons
@@ -10,13 +13,52 @@ import { useNavigate } from "react-router-dom";
 // import { BsFacebook } from "react-icons/bs";
 // import { AiFillTwitterCircle } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
-import ResetPasswordForm from "../components/ResetPasswordForm";
 import { Helmet } from "react-helmet";
 
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = React.useState('')
+    const [successMessage, setSuccessMessage] = React.useState('')
+    const [iconEye, setIconEye] = React.useState(false)
+    const [typePassword, setTypePassword] = React.useState(false)
+    const [iconEyeCp, setIconEyeCp] = React.useState(false)
+    const [typeConfirmPassword, setTypeConfirmPassword] = React.useState(false)
 
+    const handleInputPassword = () => {
+        setIconEye(!typePassword)
+        setTypePassword(!iconEye)
+    }
+    const handleInputConfirmPassword = () => {
+        setIconEyeCp(!typeConfirmPassword)
+        setTypeConfirmPassword(!iconEyeCp)
+    }
+
+    const doReset = async (event) => {
+        event.preventDefault()
+        setErrorMessage('')
+        try {
+            const { value: code } = event.target.code
+            const { value: email } = event.target.email
+            const { value: password } = event.target.password
+            const { value: confirmPassword } = event.target.confirmPassword
+            const body = new URLSearchParams({ code, email, password, confirmPassword }).toString()
+
+            const { data } = await http().post('/auth/reset-password', body)
+            console.log(data)
+
+            setSuccessMessage(data.message)
+            setTimeout(() => {
+                setSuccessMessage('')
+            }, 1000)
+            setTimeout(() => {
+                navigate('/auth/login')
+            }, 2000)
+        } catch (error) {
+            const message = error?.response?.data?.message
+            setErrorMessage(message)
+        }
+    }
 
 
     return (
@@ -44,7 +86,63 @@ export default function ForgotPassword() {
                             className="font-thin text-sm text-gray-600">We are here to help you to recover your password.
                         </span>
                     </div>
-                    <ResetPasswordForm />
+                    <form onSubmit={doReset} action="submit" className="flex flex-col gap-4 px-16">
+                        {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
+                        {successMessage && <div className='alert alert-success'>{successMessage}</div>}
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="code">Insert Code :</label>
+                            <input type="text" name="code" placeholder="Enter your Code" className="input input-bordered w-full" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="email">Email Adress :</label>
+                            <input name="email" type="text" placeholder="Enter your email adress" className="input input-bordered w-full" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="password">Password :</label>
+                            <div className="flex relative">
+                                <input
+                                    name="password"
+                                    type={typePassword ? 'text' : 'password'}
+                                    placeholder="Enter your password "
+                                    className="input input-bordered w-full"
+                                />
+                                <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                                    {iconEye ? (
+                                        <i className=''>
+                                            <FiEye size={20} />
+                                        </i>
+                                    ) : (
+                                        <i className=''>
+                                            <FiEyeOff size={20} />
+                                        </i>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="confirmPassword">Confirm Password :</label>
+                            <div className="flex relative">
+                                <input
+                                    type={typeConfirmPassword ? 'text' : 'password'}
+                                    name="confirmPassword"
+                                    placeholder="Enter your phone number"
+                                    className="input input-bordered w-full"
+                                />
+                                <button type='button' onClick={handleInputConfirmPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                                    {iconEyeCp ? (
+                                        <i className=''>
+                                            <FiEye size={20} />
+                                        </i>
+                                    ) : (
+                                        <i className=''>
+                                            <FiEyeOff size={20} />
+                                        </i>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" className="btn btn-primary rounded-2xl mt-5 md:mt-5">Sign Up</button>
+                    </form>
                 </section>
             </div>
         </>

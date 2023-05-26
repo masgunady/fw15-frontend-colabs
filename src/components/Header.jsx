@@ -37,10 +37,10 @@ const Header = () => {
                 <div className="hidden md:block basis-1/4">
                     <div className="flex justify-end items-center gap-[1px] lg:gap-[15px]">
                         <div className="btn bg-white capitalize border-0 md:w-[90px] lg:w-[169px] h-[40px] flex items-center justify-center text-sm text-[#373a42] font-semibold cursor-pointer">
-                            <Link to="/login">Sign In</Link>
+                            <Link to="/auth/login">Sign In</Link>
                         </div>
                         <div className="btn btn-primary capitalize md:w-[90px] shadow-xl lg:w-[169px] h-[40px] flex items-center justify-center text-sm text-[#fff] font-semibold cursor-pointer  rounded-lg">
-                            <Link to="/register">Sign Up</Link>
+                            <Link to="/auth/register">Sign Up</Link>
                         </div>
                     </div>
                 </div>
