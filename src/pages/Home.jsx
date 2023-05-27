@@ -1,27 +1,31 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
+import { formatDistanceToNow } from 'date-fns';
 // import homeBanner from '../assets/image/home-banner.png';
 
 import React from 'react';
 import axios from 'axios';
 
 const Home = () => {
+    const { id } = useParams()
     const [tagArticle, setTagArtcile] = React.useState([]);
     const [category, setCategory] = React.useState([]);
     const [article, setArticle] = React.useState([]);
     const [articleLatest, setArticleLatest] = React.useState([]);
+    const [createdAt, setCreatedAt] = React.useState(null);
+
 
     React.useEffect(() => {
         async function getDataTagArticle() {
             const { data } = await axios.get('http://localhost:8888/tags?page=1&limit=15');
-            console.log(data);
             setTagArtcile(data.results);
+
         }
         getDataTagArticle();
     }, []);
@@ -29,7 +33,6 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataCategory() {
             const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=10');
-            console.log(data);
             setCategory(data.results);
         }
         getDataCategory();
@@ -38,17 +41,39 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataArticle() {
             const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
-            console.log(data);
             setArticle(data.results);
         }
         getDataArticle();
-    }, []);
+    }, [id]);
+
+
+    const getLikesCount = (articleId) => {
+        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
+        if (storedLikesCount) {
+            const likesCount = parseInt(storedLikesCount);
+            if (likesCount < 1000) {
+              return likesCount.toString();
+            } else {
+              const formattedCount = (likesCount / 1000).toFixed(1); 
+              return formattedCount.toString() + 'k'; 
+            }
+          } else {
+            return '0';
+          }
+    };
+
+    const formatUpdatedAt = (createdAt) => {
+        return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
+        
+      };
+
 
     React.useEffect(() => {
         async function getDataArticleLatest() {
             const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
-            console.log(data);
+            console.log(data)
             setArticleLatest(data.results);
+            setCreatedAt(data.results[0].createdAt);
         }
         getDataArticleLatest();
     }, []);
@@ -152,17 +177,17 @@ const Home = () => {
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{items.left}</div>
                                                         <div className="flex justify-between w-full text-sm text-black">
-                                                            <div className="flex gap-2 items-center">
+                                                            <div className="flex gap-2 justify-center items-center">
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>2.1K</div>
+                                                                <div> {getLikesCount(items.id)}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
                                                                     <AiOutlineFieldTime />
                                                                 </div>
-                                                                <div>3m ago</div>
+                                                                <div> {createdAt && formatUpdatedAt(createdAt)}</div>
                                                             </div>
                                                             <div>
                                                                 <RiBookmarkFill />
@@ -201,48 +226,48 @@ const Home = () => {
                             {
                                 articleLatest.map(item => {
                                     return (
-                                    <div className="border-b-2 border-primary py-7" key={`item-article-latest-${item.id}`}>
-                                        <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
-                                            <div className="flex flex-col sm:flex-row gap-9 items-start">
-                                                <div className="w-[260px] h-[176px] rounded-2xl overflow-hidden">
-                                                {item.picture && <img src={item.picture.startsWith('https') ? item.picture : `http://localhost:8888/uploads/${item.picture}`} className='w-full h-full object-cover' alt="" />}
-                                                </div>
-                                                <div className="flex flex-col gap-3">
-                                                    <Link to={`/article-view/${item.id}`} className="text-primary text-xl font-bold">{item.title}</Link>
-                                                    <div className="text-black text-lg font-semibold">{item.content}</div>
-                                                    <div className="text-lg capitalize">{item.author}</div>
-                                                    <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineLike />
+                                        <div className="border-b-2 border-primary py-7" key={`item-article-latest-${item.id}`}>
+                                            <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
+                                                <div className="flex flex-col sm:flex-row gap-9 items-start">
+                                                    <div className="w-[260px] h-[176px] rounded-2xl overflow-hidden">
+                                                        {item.picture && <img src={item.picture.startsWith('https') ? item.picture : `http://localhost:8888/uploads/${item.picture}`} className='w-full h-full object-cover' alt="" />}
+                                                    </div>
+                                                    <div className="flex flex-col gap-3">
+                                                        <Link to={`/article-view/${item.id}`} className="text-primary text-xl font-bold">{item.title}</Link>
+                                                        <div className="text-black text-lg font-semibold">{item.content}</div>
+                                                        <div className="text-lg capitalize">{item.author}</div>
+                                                        <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineLike />
+                                                                </div>
+                                                                <div> {getLikesCount(item.id)}</div>
                                                             </div>
-                                                            <div>{item.likeCount}K</div>
-                                                        </div>
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineFieldTime />
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineFieldTime />
+                                                                </div>
+                                                                <div> {createdAt && formatUpdatedAt(createdAt)}</div>
                                                             </div>
-                                                            <div>3m ago</div>
-                                                        </div>
-                                                        <div>
-                                                            <RiBookmarkFill />
+                                                            <div>
+                                                                <RiBookmarkFill />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <Link to={`/article-view/${item.id}`} className="btn btn-primary text-white capitalize w-full max-w-[185px]">
-                                                    Read now
-                                                </Link>
+                                                <div>
+                                                    <Link to={`/article-view/${item.id}`} className="btn btn-primary text-white capitalize w-full max-w-[185px]">
+                                                        Read now
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     )
                                 })
                             }
-                            
-                            
-                           
+
+
+
                         </div>
                     </section>
                 </main>
