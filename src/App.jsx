@@ -7,6 +7,7 @@ import Article from './pages/Article';
 import Category from './pages/Category';
 import SearchResult from './pages/SearchResult';
 import ArticleView from './pages/ArticleView';
+import ArticleViewAdmin from './pages/ArticleViewAdmin';
 import NotificationAdmin from './pages/NotificationAdmin';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -33,6 +34,7 @@ export default function App() {
                         <Route path="/category" element={<Category />} />
                         <Route path="/search-result" element={<SearchResult />} />
                         <Route path="/article-view/:id" element={<ArticleView />} />
+                        <Route path="/admin/article-view/:id" element={<ArticleViewAdmin />} />
                         <Route path="/notification-admin" element={<NotificationAdmin />} />
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/register" element={<Register />} />
