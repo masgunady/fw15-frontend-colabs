@@ -48,7 +48,8 @@ const ArticleView = () => {
 
     React.useEffect(() => {
         const getViewArticle = async (id) => {
-            const { data } = await http().get(`/article/${id}`)
+            console.log(token)
+            const { data } = await http(token).get(`/article/${id}`)
             setArticleView(data.results)
             const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
             setUpdatedAt(data.results.createdAt);
