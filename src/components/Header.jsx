@@ -121,8 +121,10 @@ const Header = () => {
                             <Link to="/auth/register">Sign Up</Link>
                         </div>
                     </div>
+
                     </>
                 )}
+
                 <div className="block md:hidden">
                     <div>
                         <button onClick={handleMenuMobile} id="btnShowNavMobile">

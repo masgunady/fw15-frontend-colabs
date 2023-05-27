@@ -49,7 +49,8 @@ const Article = () => {
         }
         getDataStudies();
     }, []);
-   
+
+
     return (
         <>
             {/* helmet */}
@@ -81,7 +82,9 @@ const Article = () => {
                                     <FaFilter className="text-black" size={30} />
                                 </button>
                                 <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
-                                    <AiOutlinePlus className="text-black" size={15} /> Write an article
+                                    <Link className='flex gap-1 justify-center items-center' to='/write-article'>
+                                        <AiOutlinePlus className="text-black" size={15} /> Write an article
+                                    </Link>
                                 </button>
                             </div>
                         </div>
@@ -104,15 +107,15 @@ const Article = () => {
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                         <Link to="/article-view">
-                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35)+`...`}</div>
+                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
-                                                        <div className="text-black text-center text-sm">{(items.content).slice(0, 60)+`...`}</div>
+                                                        <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
                                                         <div className="flex justify-between w-full text-sm text-black">
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>{items.likeCount}</div>
+                                                                <div> {getLikesCount(items.id)}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
@@ -153,15 +156,15 @@ const Article = () => {
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                         <Link to="/article-view">
-                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35)+`...`}</div>
+                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
-                                                        <div className="text-black text-center text-sm">{(items.content).slice(0, 60)+`...`}</div>
+                                                        <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
                                                         <div className="flex justify-between w-full text-sm text-black">
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>{items.likeCount}</div>
+                                                                <div> {getLikesCount(items.id)}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
@@ -210,7 +213,7 @@ const Article = () => {
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>{items.likeCount}</div>
+                                                                <div> {getLikesCount(items.id)}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
@@ -253,12 +256,13 @@ const Article = () => {
                                                             <div className="text-primary text-xl font-bold">{items.title}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{items.content}</div>
+
                                                         <div className="flex justify-between w-full text-sm text-black">
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>{items.likeCount}</div>
+                                                                <div> {getLikesCount(items.id)}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>
@@ -280,6 +284,8 @@ const Article = () => {
                             </div>
                         </div>
                     </section>
+                    
+      
 
                     <div className="w-full pb-16 flex items-center justify-center">
                         <div className="text-black text-xl font-semibold underline">Load another 30+ category</div>
