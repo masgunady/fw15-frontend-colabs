@@ -20,7 +20,6 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataTagArticle() {
             const { data } = await axios.get('http://localhost:8888/tags?page=1&limit=15');
-            console.log(data);
             setTagArtcile(data.results);
         }
         getDataTagArticle();
@@ -29,7 +28,6 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataCategory() {
             const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=10');
-            console.log(data);
             setCategory(data.results);
         }
         getDataCategory();
@@ -37,8 +35,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataArticle() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
-            console.log(data);
+            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=10');
             setArticle(data.results);
         }
         getDataArticle();
@@ -47,7 +44,6 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataArticleLatest() {
             const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
-            console.log(data);
             setArticleLatest(data.results);
         }
         getDataArticleLatest();
@@ -156,7 +152,7 @@ const Home = () => {
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div>2.1K</div>
+                                                                <div>{items.likeCount}K</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>

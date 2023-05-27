@@ -38,9 +38,9 @@ const Article = () => {
                                 <button className="btn bg-[#03999e5f] border-none">
                                     <FaFilter className="text-black" size={30} />
                                 </button>
-                                <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
+                                <Link to='/' className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
                                     <AiOutlinePlus className="text-black" size={15} /> Write an article
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </section>
