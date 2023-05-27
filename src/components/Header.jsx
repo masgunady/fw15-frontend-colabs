@@ -3,55 +3,52 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/image/logo-tosca.png';
 import { Link } from 'react-router-dom';
-import Image from './Image/';
-import {logout as logoutAction} from '../redux/reducers/auth'
+// import Image from './Image/';
+import ImageTemplate from '../components/ImageTemplate'
+import {logout as logoutAction, setWarningMessage} from '../redux/reducers/auth'
 import http from '../helper/http';
+import defaultImage from '../assets/image/default.png'
 
 
 import { FiHome, FiPlusSquare, FiList, FiHeart, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
-import { BsSearch } from "react-icons/bs";
-import { IoClose, IoNotificationsOutline } from "react-icons/io5";
+
 
 // import { IoIosNotificationsOutline } from "react-icons/io";
 
 
 
 const Header = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [profile, setProfile] = React.useState({})
+    const [menuMobile, setMenuMobile] = React.useState(false)
+    console.log(profile)
 
-    const token = useSelector((state) => state.auth.token);
-console.log(token)
-    const [menuMobile, setMenuMobile] = React.useState(false);
-    const [navbar, setNavbar] = React.useState(false);
-
+    const token = useSelector((state) => state.auth.token)
+    React.useEffect(() => {
+        async function getProfileData() {
+            const fallback = (message) => {
+                dispatch(logoutAction())
+                dispatch(setWarningMessage(message))
+                navigate('/auth/login')
+            }
+            const { data } = await http(token, fallback).get('/profile')
+            // console.log(data.results.picture)
+            setProfile(data.results)
+        }
+        if (token) {
+            getProfileData()
+        }
+    }, [token, dispatch, navigate])
 
     const handleMenuMobile = () => {
-        setMenuMobile(!menuMobile);
-    };
-
-    const showNavbar = () => {
-        setNavbar(!navbar);
+        setMenuMobile(!menuMobile)
     }
 
     const doLogout = () => {
-        window.localStorage.removeItem('token')
         dispatch(logoutAction())
         navigate('/auth/login')
-        console.log('oke')
     }
-
-
-    const [profile, setProfile] = React.useState({})
-    React.useEffect(() => {
-        const getProfile = async () => {
-            const token = window.localStorage.getItem('token')
-            const { data } = await http(token).get(`/profile`)
-            setProfile(data.results)
-        }
-        getProfile()
-     }, [])
-console.log(profile)
 
     return (
         <>
@@ -61,8 +58,8 @@ console.log(profile)
                         <img src={logo} className="w-28" alt="" />
                     </Link>
                 </div>
-                <div className="hidden md:flex justify-center items-center w-full">
-                    <ul className="flex gap-5 lg:gap-14 text-sm text-[#373a42] font-semibold tracking-[1px]">
+                <div className='hidden md:block'>
+                <ul className="flex gap-5 lg:gap-14 text-sm text-[#373a42] font-semibold tracking-[1px]">
                         <li className="cursor-pointer hover:border-b-2 border-primary">
                             <Link to="/">Home</Link>
                         </li>
@@ -78,8 +75,45 @@ console.log(profile)
                     </ul>
                 </div>
 
-                <div className="hidden md:block basis-3/6 ">
-                    <div className="flex justify-end items-center gap-[1px] lg:gap-[15px]">
+
+                {token ? (
+                    <>
+                        <div className='hidden md:block'>
+                            <div className='flex justify-start items-center gap-[10px] lg:gap-[15px]'>
+
+
+                            <div className="dropdown dropdown-end">
+                                <label tabIndex={0} className="m-1 cursor-pointer">
+                                <div className='inline-block rounded-full p-[2px] bg-gradient-to-tr from-[#3366FF] to-[#884DFF]'>
+                                    {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
+                                </div>
+                                </label>
+                                <ul tabIndex={0} className='dropdown-content menu p-4 mt-5 shadow bg-base-100 rounded-box w-52'>
+                                        <li>
+                                            <i>
+                                                <FiHome className='text-secondary' />
+                                                <Link className='capitalize text-secondary not-italic w-full' to='/profile/edit'>
+                                                    Edit Profile
+                                                </Link>
+                                            </i>
+                                        </li>
+                                        <li>
+                                            <i>
+                                                <FiLogOut className='text-red-500' />
+                                                <button onClick={doLogout} className=' bg-transparent w-full text-left text-red-500 capitalize'>
+                                                    Logout
+                                                </button>
+                                            </i>
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="flex justify-end items-center gap-[1px] lg:gap-[15px]">
                         <div className="btn bg-white capitalize border-0 md:w-[90px] lg:w-[169px] h-[40px] flex items-center justify-center text-sm text-[#373a42] font-semibold cursor-pointer">
                             <Link to="/auth/login">Sign In</Link>
                         </div>
@@ -87,39 +121,8 @@ console.log(profile)
                             <Link to="/auth/register">Sign Up</Link>
                         </div>
                     </div>
-
-                    <div className='flex items-center gap-5' >
-                        <div className='border-[1px] border-black flex items-center justify-evenly gap-3 p-2 rounded-xl h-12'>
-                            <div>
-                                <BsSearch className='text-primary' />
-                            </div>
-                            <input type="text" placeholder="Search" className="input-ghost w-full focus:outline-none" />
-                            <div>
-                                <IoClose className='text-primary cursor-pointer' />
-                            </div>
-                        </div>
-                        <IoNotificationsOutline className='text-black text-3xl' />
-                        <div className='cursor-pointer relative'>
-                            <div onClick={showNavbar} className='rounded-full w-14 h-14 p-[2px] bg-gradient-to-b from-green-400 to-primary duration-200  active:scale-[.9]'>
-                                <div className='bg-white h-full rounded-full p-1'>
-                                    <img
-                                        className='rounded-3xl h-full object-contain'
-                                        src={Image.profileAvatar}
-                                        alt="" />
-                                </div>
-                            </div>
-                            <div className={navbar? 'flex':'hidden'}>
-                                <ul className='text-black bg-white flex flex-col absolute z-10 w-[300%] top-[76px] left-[-56px] text-center gap-5'>
-                                    <li className='hover:bg-primary hover:text-white p-5'>Profile</li>
-                                    <li className='hover:bg-primary hover:text-white p-5'>Saved Article</li>
-                                    <li className='hover:bg-primary hover:text-white p-5'>Write Article</li>
-                                    <li onClick={doLogout} className='hover:bg-primary hover:text-white p-5'>Logout</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                    </>
+                )}
                 <div className="block md:hidden">
                     <div>
                         <button onClick={handleMenuMobile} id="btnShowNavMobile">
