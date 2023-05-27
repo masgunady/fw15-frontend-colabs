@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import http from "../helper/http";
 import { Formik } from "formik";
-import defaultProfile from '../assets/image/profileAvatar.png'
+import defaultProfile from '../assets/image/covid.jpeg'
+import { AiOutlineLoading3Quarters,  } from 'react-icons/ai'
 
 
 const WriteArticle = () => {
@@ -17,7 +18,16 @@ const WriteArticle = () => {
     const [article, setArticle] = React.useState({})
     const [category, setCategory] = React.useState([])
     const [selectedPicture, setSelectedPicture] = React.useState(false)
+    const [openModal, setOpenModal] = React.useState(false)
 
+    React.useEffect(()=>{
+        async function getDataArticle(){
+            const {data} =await http().get('/article')
+            console.log(data)
+            setArticle(data.results)
+        }
+        getDataArticle()
+    },[])
 
     React.useEffect(() => {
         async function getDataCategory() {
@@ -38,6 +48,7 @@ const WriteArticle = () => {
 
 
     const editArticle = async (values) => {
+        setOpenModal(true)
         const form = new FormData()
         Object.keys(values).forEach((key) => {
             if (values[key]) {
@@ -60,6 +71,7 @@ const WriteArticle = () => {
         } catch (err) {
             console.log(err)
         }
+        setOpenModal(false)
     }
 
     return (
@@ -88,6 +100,7 @@ const WriteArticle = () => {
                             <div className="flex justify-center items-center border border-2 rounded-lg w-full h-[535px]">
                                 <div className="flex justify-center items-center border-dashed border-2 rounded-lg w-[299px] h-[469px]">
                                     <img className='w-[299px] h-[469px] bg-cover rounded-lg' src={article?.picture?.startsWith('https') ? article.picture : (article?.picture === null ? defaultProfile : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${article?.picture}`)} />
+                                    {(console.log(defaultProfile))}
                                 </div>
                             </div>
                         </div>
@@ -187,6 +200,14 @@ const WriteArticle = () => {
                     <div></div>
                 </div>
             </main>
+            <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
             <div>
                 <Footer />
             </div>
