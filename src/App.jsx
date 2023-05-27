@@ -15,18 +15,20 @@ import EditProfile from './pages/EditProfile';
 import ProfileInformation from './pages/ProfileInformation'
 
 import { store , persistor} from "./redux/store"
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
     return (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <BrowserRouter>
+                <ScrollToTop />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/article" element={<Article />} />
                         <Route path="/category" element={<Category />} />
                         <Route path="/search-result" element={<SearchResult />} />
-                        <Route path="/article-view" element={<ArticleView />} />
+                        <Route path="/article-view/:id" element={<ArticleView />} />
                         <Route path="/notification-admin" element={<NotificationAdmin />} />
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/register" element={<Register />} />
