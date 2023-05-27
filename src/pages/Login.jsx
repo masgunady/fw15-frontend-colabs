@@ -1,16 +1,116 @@
 /* eslint-disable react/no-unescaped-entities */
 // import React from 'react'
 // import Image from "../components/Image"
-import LoginForm from "../components/LoginForm";
-import { Link } from "react-router-dom";
+// import LoginForm from "../components/LoginForm";
+import { Link, useNavigate } from "react-router-dom";
 // icons
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import { Helmet } from "react-helmet";
+import { Formik } from "formik";
+import * as Yup from 'yup';
+import propTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { clearMessage } from "../redux/reducers/auth";
+
+import { asyncLoginAction } from "../redux/actions/auth";
+
+
+const validationSechema = Yup.object({
+    email: Yup.string().email('Email is invalid'),
+    password: Yup.string().required('Password is invalid')
+})
+
+const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
+    const errorMessage = useSelector(state => state.auth.errorMessage)
+    const warningMessage = useSelector(state => state.auth.warningMessage)
+
+    return (
+        <form onSubmit={handleSubmit} action="submit" className="flex flex-col gap-5">
+            {errorMessage &&
+                (<div>
+                    <div className="alert alert-error danger text-[11px]">{errorMessage}</div>
+                </div>)}
+            {warningMessage &&
+                (<div>
+                    <div className="alert alert-warning danger text-[11px]">{warningMessage}</div>
+                </div>)}
+            <div className="flex flex-col gap-2 form-control">
+                <label htmlFor="email">Email Adress :</label>
+                <input
+                    name="email"
+                    type="text"
+                    placeholder="Enter your email adress"
+                    className="input input-bordered w-full"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                />
+                {errors.email && touched.email &&
+                    (<label className="label">
+                        <span className="label-text-left text-error text-xs ">{errors.email}</span>
+                    </label>
+                    )}
+            </div>
+            <div className="flex flex-col gap-2 form-control">
+                <label htmlFor="password">Password :</label>
+                <input
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password "
+                    className="input input-bordered w-full"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                />
+                {errors.password && touched.password && (
+                    <label className="label">
+                        <span className="label-text-left text-error text-xs ">{errors.password}</span>
+                    </label>
+                )}
+            </div>
+            <button disabled={isSubmitting} type="submit" className="btn btn-primary rounded-2xl mt-5 md:mt-10">Login</button>
+        </form>
+    )
+}
+
+FormLogin.propTypes = {
+    values: propTypes.string,
+    errors: propTypes.string,
+    touched: propTypes.string,
+    handleBlur: propTypes.func,
+    handleChange: propTypes.func,
+    handleSubmit: propTypes.func,
+    isSubmitting: propTypes.bool,
+}
 
 export default function Login() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const token = useSelector(state => state.auth.token)
+    const formError = useSelector(state => state.auth.formError)
+
+    React.useEffect(() => {
+        if (token) {
+            navigate('/')
+        }
+    }, [token, navigate])
+
+    const doLogin = async (values, { setSubmitting, setErrors }) => {
+        dispatch(clearMessage())
+        dispatch(asyncLoginAction(values))
+        if (formError.length) {
+            setErrors({
+                email: formError.filter(item => item.param === "email")[0].message,
+                password: formError.filter(item => item.param === "password")[0].message,
+            })
+        }
+        setSubmitting(false)
+
+    }
 
     return (
         <>
@@ -64,7 +164,20 @@ export default function Login() {
                 <section className="flex flex-col pt-5 gap-2 md:pt-20 px-10 md:gap-5 font-normal text-black h-screen">
                     <h1 className="font-bold text-2xl">Login</h1>
                     <span className="font-thin text-sm text-gray-600">Hey, welcome back to News Today!</span>
-                    <LoginForm />
+                    <div>
+                        <Formik
+                            initialValues={{
+                                email: '',
+                                password: ''
+                            }}
+                            validationSchema={validationSechema}
+                            onSubmit={doLogin}
+                        >
+                            {(props) => (
+                                <FormLogin {...props} />
+                            )}
+                        </Formik>
+                    </div>
                     <div className="flex flex-col md:gap-5 self-center items-center mt-5 md:mt-10">
                         <span>OR LOGIN WITH</span>
                         <div className="flex md:gap-5 justify-center mt-2">

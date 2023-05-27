@@ -1,14 +1,58 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/image/logo-tosca.png';
 import { Link } from 'react-router-dom';
+import Image from './Image/';
+import {logout as logoutAction} from '../redux/reducers/auth'
+import http from '../helper/http';
+
+
 import { FiHome, FiPlusSquare, FiList, FiHeart, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
+import { BsSearch } from "react-icons/bs";
+import { IoClose, IoNotificationsOutline } from "react-icons/io5";
+
+// import { IoIosNotificationsOutline } from "react-icons/io";
+
+
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const token = useSelector((state) => state.auth.token);
+console.log(token)
     const [menuMobile, setMenuMobile] = React.useState(false);
+    const [navbar, setNavbar] = React.useState(false);
+
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile);
     };
+
+    const showNavbar = () => {
+        setNavbar(!navbar);
+    }
+
+    const doLogout = () => {
+        window.localStorage.removeItem('token')
+        dispatch(logoutAction())
+        navigate('/auth/login')
+        console.log('oke')
+    }
+
+
+    const [profile, setProfile] = React.useState({})
+    React.useEffect(() => {
+        const getProfile = async () => {
+            const token = window.localStorage.getItem('token')
+            const { data } = await http(token).get(`/profile`)
+            setProfile(data.results)
+        }
+        getProfile()
+     }, [])
+console.log(profile)
+
     return (
         <>
             <nav className="flex justify-between items-center w-[100%] h-24 px-9 lg:px-14 bg-white">
@@ -34,13 +78,44 @@ const Header = () => {
                     </ul>
                 </div>
 
-                <div className="hidden md:block basis-1/4">
+                <div className="hidden md:block basis-3/6 ">
                     <div className="flex justify-end items-center gap-[1px] lg:gap-[15px]">
                         <div className="btn bg-white capitalize border-0 md:w-[90px] lg:w-[169px] h-[40px] flex items-center justify-center text-sm text-[#373a42] font-semibold cursor-pointer">
-                            <Link to="/login">Sign In</Link>
+                            <Link to="/auth/login">Sign In</Link>
                         </div>
                         <div className="btn btn-primary capitalize md:w-[90px] shadow-xl lg:w-[169px] h-[40px] flex items-center justify-center text-sm text-[#fff] font-semibold cursor-pointer  rounded-lg">
-                            <Link to="/register">Sign Up</Link>
+                            <Link to="/auth/register">Sign Up</Link>
+                        </div>
+                    </div>
+
+                    <div className='flex items-center gap-5' >
+                        <div className='border-[1px] border-black flex items-center justify-evenly gap-3 p-2 rounded-xl h-12'>
+                            <div>
+                                <BsSearch className='text-primary' />
+                            </div>
+                            <input type="text" placeholder="Search" className="input-ghost w-full focus:outline-none" />
+                            <div>
+                                <IoClose className='text-primary cursor-pointer' />
+                            </div>
+                        </div>
+                        <IoNotificationsOutline className='text-black text-3xl' />
+                        <div className='cursor-pointer relative'>
+                            <div onClick={showNavbar} className='rounded-full w-14 h-14 p-[2px] bg-gradient-to-b from-green-400 to-primary duration-200  active:scale-[.9]'>
+                                <div className='bg-white h-full rounded-full p-1'>
+                                    <img
+                                        className='rounded-3xl h-full object-contain'
+                                        src={Image.profileAvatar}
+                                        alt="" />
+                                </div>
+                            </div>
+                            <div className={navbar? 'flex':'hidden'}>
+                                <ul className='text-black bg-white flex flex-col absolute z-10 w-[300%] top-[76px] left-[-56px] text-center gap-5'>
+                                    <li className='hover:bg-primary hover:text-white p-5'>Profile</li>
+                                    <li className='hover:bg-primary hover:text-white p-5'>Saved Article</li>
+                                    <li className='hover:bg-primary hover:text-white p-5'>Write Article</li>
+                                    <li onClick={doLogout} className='hover:bg-primary hover:text-white p-5'>Logout</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-// import React from 'react'
 // import Image from "../components/Image"
-import RegisterForm from "../components/RegisterForm";
+import React from 'react'
 import { Link } from "react-router-dom";
+import propTypes from 'prop-types';
+import { Formik } from "formik";
+import * as Yup from 'yup';
+import { clearMessage } from "../redux/reducers/auth";
+import { asyncRegisterAction } from "../redux/actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 // icons
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
@@ -10,7 +17,124 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import { Helmet } from "react-helmet";
 
-export default function Login() {
+
+
+
+
+const validationSechema = Yup.object({
+    email: Yup.string().email('Email is invalid'),
+    password: Yup.string().required('Password is invalid')
+})
+
+
+const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
+    const errorMessage = useSelector(state => state.auth.errorMessage)
+    const warningMessage = useSelector(state => state.auth.warningMessage)
+
+
+    return (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {errorMessage &&
+                (<div>
+                    <div className="alert alert-error danger text-[11px]">{errorMessage}</div>
+                </div>)}
+            {warningMessage &&
+                (<div>
+                    <div className="alert alert-warning danger text-[11px]">{warningMessage}</div>
+                </div>)}
+            <div className="flex flex-col gap-2">
+                <label htmlFor="email">Email Adress :</label>
+                <input
+                    name="email"
+                    type="text"
+                    placeholder="Enter your email adress"
+                    className="input input-bordered w-full" 
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                />
+                {errors.email && touched.email &&
+                    (<label className="label">
+                        <span className="label-text-left text-error text-xs ">{errors.email}</span>
+                    </label>
+                    )}
+            </div>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="password">Password :</label>
+                <input
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password "
+                    className="input input-bordered w-full"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                />
+                {errors.password && touched.password && (
+                    <label className="label">
+                        <span className="label-text-left text-error text-xs ">{errors.password}</span>
+                    </label>
+                )}
+            </div>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="phoneNumber">Phone Number :</label>
+                <input
+                    name="phoneNumber"
+                    type="tel"
+                    placeholder="Enter your Phone Number "
+                    className="input input-bordered w-full"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.phoneNumber}
+                />
+                {errors.password && touched.password && (
+                    <label className="label">
+                        <span className="label-text-left text-error text-xs ">{errors.password}</span>
+                    </label>
+                )}
+            </div>
+            <button disabled={isSubmitting} className="btn btn-primary rounded-2xl mt-5 md:mt-5">Sign Up</button>
+        </form>
+    )
+}
+
+Form.propTypes = {
+    values: propTypes.string,
+    errors: propTypes.string,
+    touched: propTypes.object,
+    handleBlur: propTypes.func,
+    handleChange: propTypes.func,
+    handleSubmit: propTypes.func,
+    isSubmitting: propTypes.bool,
+}
+
+
+
+
+
+export default function Register() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const token = useSelector(state => state.auth.token)
+    const formError = useSelector(state => state.auth.formError)
+
+    const doLogin = async (values, { setSubmitting, setErrors }) => {
+        dispatch(clearMessage())
+        dispatch(asyncRegisterAction(values))
+        if (formError.length) {
+            setErrors({
+                email: formError.filter(item => item.param === "email")[0].message,
+                password: formError.filter(item => item.param === "password")[0].message,
+            })
+        }
+        setSubmitting(false)
+    }
+
+    React.useEffect(() => {
+        if (token) {
+            navigate('/')
+        }
+    }, [token, navigate])
 
     return (
         <>
@@ -67,8 +191,19 @@ export default function Login() {
                         className="font-thin text-sm text-gray-600">Hey, welcome to News Today! Create an account to enjoy our full feautres!
                     </span>
 
+                    <Formik
+                        initialValues={{
+                            email: '',
+                            password: ''
+                        }}
+                        validationSchema={validationSechema}
+                        onSubmit={doLogin}
+                    >
+                        {(props) => (
+                            <Form {...props} />
+                        )}
+                    </Formik>
 
-                    <RegisterForm />
 
 
                     <div className="flex flex-col gap-2 md:gap-5 self-center items-center">
