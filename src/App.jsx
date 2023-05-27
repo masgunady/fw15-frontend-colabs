@@ -13,6 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import EditProfile from './pages/EditProfile';
 import ProfileInformation from './pages/ProfileInformation'
+import WriteArticle from './pages/WriteArticle'
 
 import { store , persistor} from "./redux/store"
 import ScrollToTop from './components/ScrollToTop';
@@ -36,6 +37,7 @@ export default function App() {
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/profile/edit" element={<EditProfile />} />
                         <Route path="/profile/information" element={<ProfileInformation />} />
+                        <Route path="/write-article" element={<WriteArticle />} />
                     </Routes>
                 </BrowserRouter>
             </PersistGate>
