@@ -2,22 +2,43 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../helper/http";
 
 export const asyncLoginAction = createAsyncThunk(
-    'auth/login',
+    "auth/login",
     async (payload, { rejectWithValue }) => {
         try {
-             const body = new URLSearchParams(payload).toString()
-            const { data } = await http().post('/auth/log-in', body)
-            return data.results.token
+            const body = new URLSearchParams(payload).toString();
+            const { data } = await http().post("/auth/log-in", body);
+            return data.results.token;
         } catch (err) {
-            const results = err.response?.data?.results
-            const message = err?.response?.data?.message
+            const results = err.response?.data?.results;
+            const message = err?.response?.data?.message;
             if (results) {
-                return rejectWithValue(results)
+                return rejectWithValue(results);
             }
-            if(err.code === 'ERR_NETWORK'){
-                return rejectWithValue('Error: Connection to Backend Failed!')
+            if (err.code === "ERR_NETWORK") {
+                return rejectWithValue("Error: Connection to Backend Failed!");
             }
-            return rejectWithValue(message)
+            return rejectWithValue(message);
         }
     }
-)
+);
+
+export const asyncRegisterAction = createAsyncThunk(
+    "auth/registerAction",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const body = new URLSearchParams(payload).toString();
+            const { data } = await http().post("/auth/sign-up", body);
+            return data.results.token;
+        } catch (err) {
+            const results = err.response?.data?.results;
+            const message = err?.response?.data?.message;
+            if (results) {
+                return rejectWithValue(results);
+            }
+            if (err.code === "ERR_NETWORK") {
+                return rejectWithValue("Error: Connection to Backend Failed!");
+            }
+            return rejectWithValue(message);
+        }
+    }
+);

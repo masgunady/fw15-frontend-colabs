@@ -56,7 +56,7 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                     )}
             </div>
             <div className="flex flex-col gap-2 form-control">
-                <label htmlFor="email">Password :</label>
+                <label htmlFor="password">Password :</label>
                 <input
                     name="password"
                     type="password"
@@ -176,7 +176,6 @@ export default function Login() {
                             {(props) => (
                                 <FormLogin {...props} />
                             )}
-
                         </Formik>
                     </div>
                     <div className="flex flex-col md:gap-5 self-center items-center mt-5 md:mt-10">
