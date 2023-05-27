@@ -50,6 +50,21 @@ const Article = () => {
         getDataStudies();
     }, []);
 
+    const getLikesCount = (articleId) => {
+        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
+        if (storedLikesCount) {
+            const likesCount = parseInt(storedLikesCount);
+            if (likesCount < 1000) {
+                return likesCount.toString();
+            } else {
+                const formattedCount = (likesCount / 1000).toFixed(1);
+                return formattedCount.toString() + 'k';
+            }
+        } else {
+            return '0';
+        }
+    };
+
 
     return (
         <>
