@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -9,20 +9,62 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment/moment';
+import { useSelector } from 'react-redux';
+import { formatDistanceToNow } from 'date-fns';
 
 const ArticleView = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const [articleView, setArticleView] = React.useState({})
+    const [likesCount, setLikesCount] = React.useState(0)
+    const [isLiked, setIsLiked] = React.useState(false);
+    const [createdAt, setUpdatedAt] = React.useState(null);
+    const token = useSelector(state => state.auth.token)
+
+
+    const HandleLikes = async () => {
+        try {
+            const articleId = { articleId: id }
+            const qs = new URLSearchParams(articleId).toString()
+            await http(token).post('/likes', qs)
+            const updatedLikesCount = likesCount + 1;
+            setLikesCount(updatedLikesCount);
+            setIsLiked(true);
+            localStorage.setItem(`likesCount_${id}`, updatedLikesCount.toString());
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const formatLikesCount = (count) => {
+        if (count < 1000) {
+            return count.toString(); 
+        } else {
+            const formattedCount = (count / 1000).toFixed(1); 
+            return formattedCount.toString() + 'k'; 
+        }
+    };
+
+
+
     React.useEffect(() => {
         const getViewArticle = async (id) => {
             const { data } = await http().get(`/article/${id}`)
-            console.log(data)
             setArticleView(data.results)
+            const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
+            setUpdatedAt(data.results.createdAt);
+            setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : data.results.likesCount || 0);
         }
         if (id) {
             getViewArticle(id)
         }
     }, [id])
+
+    const formatUpdatedAt = (createdAt) => {
+        return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
+        
+    };
+
+    
     return (
         <>
 
@@ -69,15 +111,20 @@ const ArticleView = () => {
                                         <div className="flex justify-start gap-5 w-full text-sm text-black">
                                             <div className="flex gap-2 items-center">
                                                 <div>
-                                                    <AiOutlineLike size={40} />
+                                                    <button onClick={HandleLikes} className={`btn btn-ghost ${isLiked ? 'text-blue-500' : ''}`}>
+                                                        {isLiked ? <AiFillLike size={40} /> : <AiOutlineLike size={40} />}
+                                                    </button>
+
                                                 </div>
-                                                <div className="text-lg">{articleView?.likeCount}K</div>
+                                                {likesCount !== null && !isNaN(likesCount) && (
+                                                    <div className="text-lg">{formatLikesCount(likesCount)}</div>
+                                                )}
                                             </div>
                                             <div className="flex gap-2 items-center">
                                                 <div>
                                                     <AiOutlineFieldTime size={40} />
                                                 </div>
-                                                <div className="text-lg">3m ago</div>
+                                                <p>{createdAt && formatUpdatedAt(createdAt)}</p>
                                             </div>
                                             <div>
                                                 <RiBookmarkFill size={40} />
@@ -96,7 +143,7 @@ const ArticleView = () => {
                         <div className="w-full bg-white py-16 flex flex-col gap-5">
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
                                 <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black">
-                                   {articleView?.content}
+                                    {articleView?.content}
                                 </div>
                             </div>
                         </div>
