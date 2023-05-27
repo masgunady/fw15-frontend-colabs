@@ -127,7 +127,7 @@ const Home = () => {
                                                 <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                     {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
                                                 </div>
-                                                <div className="text-black text-xl font-semibold">{items.name}</div>
+                                                <div className="text-black text-xl font-semibold capitalize">{items.name}</div>
                                             </div>
                                         );
                                     })}
@@ -205,10 +205,10 @@ const Home = () => {
                                         <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
                                             <div className="flex flex-col sm:flex-row gap-9 items-start">
                                                 <div className="w-[260px] h-[176px] rounded-2xl overflow-hidden">
-                                                {item.picture && <img src={item.picture.startsWith('https') ? item.picture : `http://localhost:8888/uploads/${item.picture}`} alt="" />}
+                                                {item.picture && <img src={item.picture.startsWith('https') ? item.picture : `http://localhost:8888/uploads/${item.picture}`} className='w-full h-full object-cover' alt="" />}
                                                 </div>
                                                 <div className="flex flex-col gap-3">
-                                                    <div className="text-primary text-xl font-bold">{item.title}</div>
+                                                    <Link to={`/article-view/${item.id}`} className="text-primary text-xl font-bold">{item.title}</Link>
                                                     <div className="text-black text-lg font-semibold">{item.content}</div>
                                                     <div className="text-lg capitalize">{item.author}</div>
                                                     <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
@@ -231,7 +231,7 @@ const Home = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <Link to="/" className="btn btn-primary text-white capitalize w-full max-w-[185px]">
+                                                <Link to={`/article-view/${item.id}`} className="btn btn-primary text-white capitalize w-full max-w-[185px]">
                                                     Read now
                                                 </Link>
                                             </div>
