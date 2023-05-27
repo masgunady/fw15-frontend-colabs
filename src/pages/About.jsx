@@ -14,7 +14,9 @@ export default function About() {
             <main className='text-black'>
                 <section className='bg-primary py-20'>
                     <div className='flex flex-col md:flex-col-2 lg:grid lg:grid-cols-2 gap-10 p-14'>
-                        <img src={Image.logposeWhite} alt="" className='w-72 lg:w-[60%] lg:h-[60%] self-center' />
+                        <div className=' flex justify-center'>
+                        <img src={Image.logposeWhite} alt="" className='w-72 lg:w-[60%]  self-center' />
+                        </div>
                         <div className='flex flex-col text-secondary gap-10'>
                             <div className='font-black text-[2em]'>
                                 <q>

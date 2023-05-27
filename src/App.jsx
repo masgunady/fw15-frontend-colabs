@@ -41,7 +41,7 @@ export default function App() {
                         <Route path="/profile/edit" element={<EditProfile />} />
                         <Route path="/profile/information" element={<ProfileInformation />} />
                         <Route path="/write-article" element={<WriteArticle />} />
-                        <Route path="/About" element={<About />} />
+                        <Route path="/about" element={<About />} />
                     </Routes>
                 </BrowserRouter>
             </PersistGate>
