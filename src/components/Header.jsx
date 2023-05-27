@@ -70,7 +70,7 @@ const Header = () => {
                             <Link to="/category">Category</Link>
                         </li>
                         <li className="cursor-pointer hover:border-b-2 border-primary">
-                            <Link to="/">About</Link>
+                            <Link to="/about">About</Link>
                         </li>
                     </ul>
                 </div>
