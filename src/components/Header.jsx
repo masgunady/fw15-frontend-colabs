@@ -22,8 +22,6 @@ const Header = () => {
     const dispatch = useDispatch()
     const [profile, setProfile] = React.useState({})
     const [menuMobile, setMenuMobile] = React.useState(false)
-    console.log(profile)
-
     const token = useSelector((state) => state.auth.token)
     React.useEffect(() => {
         async function getProfileData() {

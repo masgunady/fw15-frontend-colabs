@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
@@ -12,13 +12,18 @@ import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
 
-const ArticleView = () => {
+const ArticleViewAdmin = () => {
     const { id } = useParams()
     const [articleView, setArticleView] = React.useState({})
     const [likesCount, setLikesCount] = React.useState(0)
     const [isLiked, setIsLiked] = React.useState(false);
     const [createdAt, setUpdatedAt] = React.useState(null);
     const token = useSelector(state => state.auth.token)
+    const location = useLocation();
+    const reqData = location.state;
+    const navigate = useNavigate()
+
+
 
 
     const HandleLikes = async () => {
@@ -64,6 +69,18 @@ const ArticleView = () => {
         
     };
 
+    const accRequestArticle = async() => {
+        const qs = new URLSearchParams(reqData).toString()
+        const {data} = await http(token).post('/request/acc-article',qs)
+        navigate('/',  { replace: true })
+    }
+
+    const rejectRequestArticle = async() => {
+        const qs = new URLSearchParams(reqData).toString()
+        await http(token).post('/request/reject-article',qs)
+        navigate('/',  { replace: true })
+    }
+
     
     return (
         <>
@@ -76,7 +93,7 @@ const ArticleView = () => {
                 </Helmet>
             </div>
 
-            <div className="className='bg-white md:bg-[#F4F7FF]'">
+            <div className="bg-white">
                 <div className="header">
                     <Header />
                 </div>
@@ -150,67 +167,9 @@ const ArticleView = () => {
                     </section>
 
                     <section>
-                        <div className="w-full py-16 flex flex-col gap-5 bg-white">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Comments</div>
-
-                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:px-56 w-full flex flex-col gap-7">
-                                <div className="flex gap-5 items-center w-full lg:w-[50%]">
-                                    <div className="overflow-hidden w-[55px] rounded-md">
-                                        <img src="https://i.pravatar.cc/55" alt="" />
-                                    </div>
-                                    <div className="w-full ">
-                                        <form className="flex gap-3 items-center ">
-                                            <div className="w-full">
-                                                <input type="text" className="input input-bordered input-primary w-full" />
-                                            </div>
-                                            <div>
-                                                <button type="submit" className="btn btn-ghost text-primary font-semibold capitalize">
-                                                    Submit
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col gap-5">
-                                    <div className="flex gap-5 items-center">
-                                        <div className="overflow-hidden w-[55px] rounded-md">
-                                            <img src="https://i.pravatar.cc/55" alt="" />
-                                        </div>
-                                        <div>
-                                            <div className="text-primary text-md font-semibold">Regina - 1M ago</div>
-                                            <div className="text-frey-800 text-md">Could agree morel</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-5 items-center">
-                                        <div className="overflow-hidden w-[55px] rounded-md">
-                                            <img src="https://i.pravatar.cc/55" alt="" />
-                                        </div>
-                                        <div>
-                                            <div className="text-primary text-md font-semibold">Regina - 1M ago</div>
-                                            <div className="text-frey-800 text-md">Could agree morel</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-5 items-center">
-                                        <div className="overflow-hidden w-[55px] rounded-md">
-                                            <img src="https://i.pravatar.cc/55" alt="" />
-                                        </div>
-                                        <div>
-                                            <div className="text-primary text-md font-semibold">Regina - 1M ago</div>
-                                            <div className="text-frey-800 text-md">Could agree morel</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-5 items-center">
-                                        <div className="overflow-hidden w-[55px] rounded-md">
-                                            <img src="https://i.pravatar.cc/55" alt="" />
-                                        </div>
-                                        <div>
-                                            <div className="text-primary text-md font-semibold">Regina - 1M ago</div>
-                                            <div className="text-frey-800 text-md">Could agree morel</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="w-full py-16 flex justify-center px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 gap-5 bg-white">
+                                <button onClick={accRequestArticle} className='w-full max-w-[300px] btn btn-primary text-xl  font-bold capitalize text-white'>Publish Article</button>
+                                <button onClick={rejectRequestArticle} className='w-full max-w-[300px] btn bg-[#03999e5f] text-xl  font-bold capitalize text-black hover:text-white border-0'>Decline Article Request</button>
                         </div>
                     </section>
                 </main>
@@ -221,4 +180,4 @@ const ArticleView = () => {
         </>
     );
 };
-export default ArticleView;
+export default ArticleViewAdmin;
