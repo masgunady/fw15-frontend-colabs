@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
-import latestNews from '../assets/image/latest-news.png';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
 // import homeBanner from '../assets/image/home-banner.png';
@@ -16,10 +15,11 @@ const Home = () => {
     const [tagArticle, setTagArtcile] = React.useState([]);
     const [category, setCategory] = React.useState([]);
     const [article, setArticle] = React.useState([]);
+    const [articleLatest, setArticleLatest] = React.useState([]);
 
     React.useEffect(() => {
         async function getDataTagArticle() {
-            const { data } = await axios.get('http://localhost:8888/tags');
+            const { data } = await axios.get('http://localhost:8888/tags?page=1&limit=15');
             console.log(data);
             setTagArtcile(data.results);
         }
@@ -28,7 +28,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataCategory() {
-            const { data } = await axios.get('http://localhost:8888/categories');
+            const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=10');
             console.log(data);
             setCategory(data.results);
         }
@@ -37,11 +37,20 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataArticle() {
-            const { data } = await axios.get('http://localhost:8888/article');
+            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
             console.log(data);
             setArticle(data.results);
         }
         getDataArticle();
+    }, []);
+
+    React.useEffect(() => {
+        async function getDataArticleLatest() {
+            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
+            console.log(data);
+            setArticleLatest(data.results);
+        }
+        getDataArticleLatest();
     }, []);
 
     return (
@@ -116,7 +125,7 @@ const Home = () => {
                                         return (
                                             <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
                                                 <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                                    {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full " alt="" />}
+                                                    {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
                                                 </div>
                                                 <div className="text-black text-xl font-semibold">{items.name}</div>
                                             </div>
@@ -133,11 +142,12 @@ const Home = () => {
                                 <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                     {article.map((items) => {
                                         return (
-                                            <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
-                                                <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                                    <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link>
+                                            <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                <div></div>
+                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                    <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{items.title}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{items.left}</div>
@@ -188,114 +198,51 @@ const Home = () => {
                     <section>
                         <div className="w-full bg-white py-16 px-7 md:px-16 lg:px-24 xl:px-28 flex flex-col gap-5 border-b-2 border-primary ">
                             <div className="text-2xl text-black font-bold">Latest News</div>
-                            <div className="border-b-2 border-primary py-7">
-                                <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
-                                    <div className="flex flex-col sm:flex-row gap-9 items-start">
-                                        <div className="">
-                                            <img src={latestNews} alt="" />
-                                        </div>
-                                        <div className="flex flex-col gap-3">
-                                            <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            <div className="text-black text-lg font-semibold">Why corona never ends? Let’s see how its facts</div>
-                                            <div className="text-lg">Writted by Ryann Jenn</div>
-                                            <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike />
+                            {
+                                articleLatest.map(item => {
+                                    return (
+                                    <div className="border-b-2 border-primary py-7" key={`item-article-latest-${item.id}`}>
+                                        <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
+                                            <div className="flex flex-col sm:flex-row gap-9 items-start">
+                                                <div className="w-[260px] h-[176px] rounded-2xl overflow-hidden">
+                                                {item.picture && <img src={item.picture.startsWith('https') ? item.picture : `http://localhost:8888/uploads/${item.picture}`} alt="" />}
+                                                </div>
+                                                <div className="flex flex-col gap-3">
+                                                    <div className="text-primary text-xl font-bold">{item.title}</div>
+                                                    <div className="text-black text-lg font-semibold">{item.content}</div>
+                                                    <div className="text-lg capitalize">{item.author}</div>
+                                                    <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineLike />
+                                                            </div>
+                                                            <div>{item.likeCount}K</div>
+                                                        </div>
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineFieldTime />
+                                                            </div>
+                                                            <div>3m ago</div>
+                                                        </div>
+                                                        <div>
+                                                            <RiBookmarkFill />
+                                                        </div>
                                                     </div>
-                                                    <div>2.1K</div>
                                                 </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill />
-                                                </div>
+                                            </div>
+                                            <div>
+                                                <Link to="/" className="btn btn-primary text-white capitalize w-full max-w-[185px]">
+                                                    Read now
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <Link to="/" className="btn btn-primary text-white capitalize w-full max-w-[185px]">
-                                            Read now
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="border-b-2 border-primary py-7">
-                                <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
-                                    <div className="flex flex-col sm:flex-row gap-9 items-start">
-                                        <div className="">
-                                            <img src={latestNews} alt="" />
-                                        </div>
-                                        <div className="flex flex-col gap-3">
-                                            <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            <div className="text-black text-lg font-semibold">Why corona never ends? Let’s see how its facts</div>
-                                            <div className="text-lg">Writted by Ryann Jenn</div>
-                                            <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike />
-                                                    </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <Link to="/" className="btn btn-primary text-white capitalize w-full max-w-[185px]">
-                                            Read now
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="border-b-2 border-primary py-7">
-                                <div className=" flex flex-col md:flex-row md:justify-between items-start md:items-center gap-5">
-                                    <div className="flex flex-col sm:flex-row gap-9 items-start">
-                                        <div className="">
-                                            <img src={latestNews} alt="" />
-                                        </div>
-                                        <div className="flex flex-col gap-3">
-                                            <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            <div className="text-black text-lg font-semibold">Why corona never ends? Let’s see how its facts</div>
-                                            <div className="text-lg">Writted by Ryann Jenn</div>
-                                            <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike />
-                                                    </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <Link to="/" className="btn btn-primary text-white capitalize w-full max-w-[185px]">
-                                            Read now
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
+                                    )
+                                })
+                            }
+                            
+                            
+                           
                         </div>
                     </section>
                 </main>
