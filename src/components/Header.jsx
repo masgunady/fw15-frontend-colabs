@@ -110,9 +110,9 @@ console.log(profile)
                             </div>
                             <div className={navbar? 'flex':'hidden'}>
                                 <ul className='text-black bg-white flex flex-col absolute z-10 w-[300%] top-[76px] left-[-56px] text-center gap-5'>
-                                    <li className='hover:bg-primary hover:text-white p-5'>Profile</li>
+                                    <Link to='/profile/edit'><li className='hover:bg-primary hover:text-white p-5'>Profile</li></Link>
                                     <li className='hover:bg-primary hover:text-white p-5'>Saved Article</li>
-                                    <li className='hover:bg-primary hover:text-white p-5'>Write Article</li>
+                                    <Link to='/write-article'><li className='hover:bg-primary hover:text-white p-5'>Write Article</li></Link>
                                     <li onClick={doLogout} className='hover:bg-primary hover:text-white p-5'>Logout</li>
                                 </ul>
                             </div>
