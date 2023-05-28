@@ -78,11 +78,11 @@ export default function ForgotPassword() {
                         {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
                         {successMessage && <div className='alert alert-success'>{successMessage}</div>}
                         <div className="flex flex-col gap-2">
-                            <input name="email" type="email" placeholder="Enter your email adress" className="input input-bordered w-full" />
+                            <input name="email" type="email" placeholder="Enter your email adress" className="input input-bordered border-primary w-full" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <button type="submit" className="btn btn-primary">Send Link</button>
-                            <button className="btn btn-secondary">Resend link</button>
+                            <button type="submit" className="btn btn-primary text-white capitalize tracking-wider">Send Link</button>
+                            <button className="btn btn-secondary text-white capitalize tracking-wider">Resend link</button>
                         </div>
                     </form>
                     <div className="h-screen bg-primary text-white pt-2 mt-2 flex flex-col-2 justify-between px-16 md:mt-5 py-5 lg:py-10 md:text-xs lg:text-normal">

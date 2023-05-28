@@ -94,7 +94,7 @@ const ArticleViewAdmin = () => {
             </div>
 
             <div className="bg-white">
-                <div className="header">
+            <div className="header pb-24">
                     <Header />
                 </div>
                 <section>

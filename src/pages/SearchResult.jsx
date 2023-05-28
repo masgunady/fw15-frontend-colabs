@@ -43,9 +43,9 @@ const SearchResult = () => {
 
     return (
         <div className="className='bg-white md:bg-[#F4F7FF]'">
-            <div className="header">
-                <Header />
-            </div>
+                <div className="header pb-24">
+                    <Header />
+                </div>
 
             <main>
                 <section>

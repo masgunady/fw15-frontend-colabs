@@ -17,6 +17,7 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import Image from '../components/Image';
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 
 
@@ -33,6 +34,12 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
     const warningMessage = useSelector(state => state.auth.warningMessage)
     const successMessage = useSelector((state) => state.auth.successMessage)
 
+    const [iconEye, setIconEye] = React.useState(false)
+    const [typePassword, setTypePassword] = React.useState(false)
+    const handleInputPassword = () => {
+        setIconEye(!typePassword)
+        setTypePassword(!iconEye)
+    }
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -51,7 +58,7 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                     name="email"
                     type="text"
                     placeholder="Enter your email adress"
-                    className="input input-bordered w-full"
+                    className="input input-bordered border-primary w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
@@ -62,13 +69,13 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                     </label>
                     )}
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 relative">
                 <label htmlFor="password">Password :</label>
                 <input
                     name="password"
-                    type="password"
+                    type={typePassword ? 'text' : 'password'}
                     placeholder="Enter your password "
-                    className="input input-bordered w-full"
+                    className="input input-bordered border-primary w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
@@ -78,6 +85,17 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                         <span className="label-text-left text-error text-xs ">{errors.password}</span>
                     </label>
                 )}
+                <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                    {iconEye ? (
+                        <i className=''>
+                            <FiEye size={20} />
+                        </i>
+                    ) : (
+                        <i className=''>
+                            <FiEyeOff size={20} />
+                        </i>
+                    )}
+                </button>
             </div>
             <div className="flex flex-col gap-2">
                 <label htmlFor="phoneNumber">Phone Number :</label>
@@ -85,7 +103,7 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                     name="phoneNumber"
                     type="tel"
                     placeholder="Enter your Phone Number "
-                    className="input input-bordered w-full"
+                    className="input input-bordered border-primary w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.phoneNumber}
@@ -96,7 +114,7 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                     </label>
                 )}
             </div>
-            <button disabled={isSubmitting} className="btn btn-primary rounded-2xl mt-5 md:mt-5">Sign Up</button>
+            <button disabled={isSubmitting} className="btn btn-primary text-white text-lg capitalize mt-5 md:mt-5">Sign Up</button>
         </form>
     )
 }
@@ -170,8 +188,8 @@ export default function Register() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                        <div>
-                            <img src={Image.logposeWhite} alt="" />
+                    <div className="h-[230px] flex flex-col items-center justify-end pb-7">
+                            <img src={Image.logposeWhite} alt="" className="w-[170px]" />
                         </div>
                         <span className="text-base">logpose@mail.com</span>
                     </div>
@@ -184,7 +202,7 @@ export default function Register() {
                             <hr className="md:w-20 lg:w-[23%]" />
                         </div>
                         <Link className="flex justify-center items-center" to="/auth/login">
-                            <button className="btn w-[83%] self-center rounded-2xl">Login Here</button>
+                            <button className="btn w-[83%] btn-neutral text-white text-lg capitalize self-center">Login Here</button>
                         </Link>
                     </div>
                     <section className="flex gap-10 w-[83%] m-10 self-center text-base justify-between">
@@ -198,7 +216,7 @@ export default function Register() {
                         </div>
                     </section>
                 </section>
-                <section className="flex flex-col pt-5 gap-2 md:pt-14 px-10 md:gap-5 font-normal text-black h-screen">
+                <section className="flex flex-col pt-20 gap-5 md:pt-28 px-10 md:gap-5 font-normal text-black h-screen">
                     <h1 className="font-bold text-2xl">Sign Up</h1>
                     <span
                         className="font-thin text-sm text-gray-600">Hey, welcome to News Today! Create an account to enjoy our full feautres!

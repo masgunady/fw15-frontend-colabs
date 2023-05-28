@@ -29,7 +29,9 @@ export default function ProfileInformation() {
 
     return (
         <>
-            <Header />
+            <div className="header pb-24">
+                    <Header />
+                </div>
             <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
                 <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
                     <span className='md:text-2xl font-extrabold pl-14'>Profile</span>
