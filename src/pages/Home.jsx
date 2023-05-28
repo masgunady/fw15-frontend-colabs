@@ -99,7 +99,7 @@ const Home = () => {
             </div>
 
             <div className="className='bg-white md:bg-[#F4F7FF]'">
-                <div className="header">
+                <div className="header pb-24">
                     <Header />
                 </div>
                 <section>
@@ -227,7 +227,7 @@ const Home = () => {
                                 <div className="flex flex-col gap-9 max-w-[400px]">
                                     <div className="font-serif text-4xl font-bold text-black">Lets hear about Kaylas success story</div>
                                     <div className="text-2xl font-semibold text-black">See how well News Today works in a real user’s life. </div>
-                                    <Link to="/" className="btn btn-primary capitalize w-full max-w-[180px]">
+                                    <Link to="/" className="btn btn-primary capitalize w-full text-white tracking-wider max-w-[180px]">
                                         Let&apos;s get started
                                     </Link>
                                 </div>
