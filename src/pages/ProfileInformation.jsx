@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+
 
 import Image from '../components/Image';
 import Header from '../components/Header'
@@ -12,11 +12,11 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import { articleLike } from '../redux/actions/articleLike';
 
 // icon
-import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import http from '../helper/http';
-import { fetchUserArticles } from 'actions';
+
 
 
 
