@@ -121,11 +121,6 @@ export default function Register() {
     const successMessage = useSelector((state) => state.auth.successMessage)
     const formError = useSelector(state => state.auth.formError)
 
-    React.useEffect(() => {
-        if (token) {
-            navigate('/auth/login')
-        }
-    }, [token, navigate])
 
     const doLogin = async (values, { setSubmitting, setErrors }) => {
         dispatch(clearMessage())
