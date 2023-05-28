@@ -11,11 +11,16 @@ import { Helmet } from 'react-helmet';
 import React from 'react';
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+import { Formik } from 'formik';
+
 const Home = () => {
     const [tagArticle, setTagArtcile] = React.useState([]);
     const [category, setCategory] = React.useState([]);
     const [article, setArticle] = React.useState([]);
     const [articleLatest, setArticleLatest] = React.useState([]);
+
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         async function getDataTagArticle() {
@@ -53,6 +58,11 @@ const Home = () => {
         getDataArticleLatest();
     }, []);
 
+    const onSearch = (values) => {
+        const qStrings = new URLSearchParams(values).toString()
+        navigate(`/search-result?${qStrings}`)
+    }
+
     return (
         <>
             {/* helmet */}
@@ -88,11 +98,20 @@ const Home = () => {
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
                             <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
-                                <form>
-                                    <div className="form-control w-full max-w-[500px]">
-                                        <input type="text" className="input input-bordered input-primary" />
-                                    </div>
-                                </form>
+                               <Formik 
+                                    initialValues={{
+                                    searchName: '',
+                                    }}
+                                    onSubmit={onSearch}
+                                >
+                                    {({ handleBlur, handleChange, handleSubmit }) => (
+                                        <form onSubmit={handleSubmit}>
+                                            <div className="form-control w-full max-w-[500px]">
+                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" />
+                                            </div>
+                                        </form>
+                                    )}
+                               </Formik>
                             </div>
                         </div>
                     </section>
