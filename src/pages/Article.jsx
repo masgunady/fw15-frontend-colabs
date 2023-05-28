@@ -265,7 +265,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -313,7 +313,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -361,7 +361,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -409,7 +409,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -457,7 +457,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -505,7 +505,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -553,7 +553,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -601,7 +601,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -649,7 +649,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -697,7 +697,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -745,7 +745,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -793,7 +793,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -841,7 +841,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -889,7 +889,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -937,7 +937,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -985,7 +985,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -1033,7 +1033,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -1081,7 +1081,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -1129,7 +1129,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -1177,7 +1177,7 @@ const Article = () => {
                                                 {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full" alt="" />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link to="/article-view">
+                                                        <Link to={`/article-view/${items.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
@@ -1208,850 +1208,6 @@ const Article = () => {
                             </div>
                         </div>
                     </section>
-
-                    {/* <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
-                                <div>Goverment</div>
-                                <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
-                                </div>
-                            </div>
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
-                                <div>Goverment</div>
-                                <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
-                                </div>
-                            </div>
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
-                                <div>Goverment</div>
-                                <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
-                                </div>
-                            </div>
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
-                                <div>Goverment</div>
-                                <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
-                                </div>
-                            </div>
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                        <img src={categoryPict} className="absolute bottom-24 w-full" alt="" />
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link>
-                                                    <div className="text-primary text-xl font-bold">COVID-19</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">Why corona never ends? Let’s see how its facts</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
-                                                        </div>
-                                                        <div>2.1K</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
-                                                        </div>
-                                                        <div>3m ago</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section> */}
 
                     <div className="w-full pb-16 flex items-center justify-center">
                         <div className="text-black text-xl font-semibold underline">Load another 30+ category</div>
