@@ -45,7 +45,8 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataArticle() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
+            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=10');
+            console.log(data.results)
             setArticle(data.results);
         }
         getDataArticle();
@@ -76,7 +77,7 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataArticleLatest() {
             const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
-            console.log(data)
+            
             setArticleLatest(data.results);
             setCreatedAt(data.results[0].createdAt);
         }
@@ -200,7 +201,7 @@ const Home = () => {
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div> {getLikesCount(items.id)}</div>
+                                                                <div> {items.likeCount}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>

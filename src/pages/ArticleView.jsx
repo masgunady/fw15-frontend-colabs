@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiFillLike, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -13,7 +13,11 @@ import { useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
 
 import defaultImage from '../assets/image/default.png'
-// import axios from 'axios';
+import ImageTemplate from '../components/ImageTemplate';
+
+
+
+
 
 const ArticleView = () => {
     const { id } = useParams()
@@ -24,11 +28,10 @@ const ArticleView = () => {
     const token = useSelector(state => state.auth.token)
     const [profile, setProfile] = React.useState({})
     const [comment, setComment] = React.useState([])
-    
-    // const dispatch = useDispatch()
-    // const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = React.useState('');
-    const [successMessage, setSuccessMessage] = React.useState('');
+
+    const [errorMessage, setErrorMessage] = React.useState('')
+    const [openModal, setOpenModal] = React.useState(false)
+
 
     React.useEffect(() => {
         const getProfile = async () => {
@@ -65,7 +68,8 @@ const ArticleView = () => {
 
     React.useEffect(() => {
         const getViewArticle = async (id) => {
-            const { data } = await http(token).get(`/article/${id}`)
+            const { data } = await http().get(`/article/${id}`)
+            console.log(data.results)
             setArticleView(data.results)
             const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
             setUpdatedAt(data.results.createdAt);
@@ -79,7 +83,9 @@ const ArticleView = () => {
     React.useEffect(() => {
         async function getDataComment() {
             try {
-                const { data } = await http().get(`/comments?articleId=${id}&sort=ASC`);
+                const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
+
+
                 setComment(data.results);
                 
             } catch (err) {
@@ -89,33 +95,48 @@ const ArticleView = () => {
         getDataComment();
     }, [id]);
 
-    const doSubmit = async (event) => {
-        // event.preventDefault()
-        setErrorMessage('')
-        try {
-            const {value: content} = event.target.content
-            const dataComment = {
-                articleId: id,
-                content: content
-            }
-            const body = new URLSearchParams(dataComment).toString()
-            console.log(body)
-            const {data} = await http(token).post("/comments", body)
-            console.log(data)
 
-            setSuccessMessage(data.message)
-        } catch (err) {
-           const message = err?.response?.data?.message 
-           setErrorMessage(message)
+    const updateComments = () => {
+        async function getDataComment() {
+            try {
+                const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
+                setComment(data.results);
+                
+            } catch (err) {
+                console.log(err)
+            }
         }
-        
-    }
+        getDataComment();
+    };
+
     
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
         
     };
+
+    const doComment = async(event) => {
+        event.preventDefault()
+        setErrorMessage('')
+        try {
+            
+            const {value : content} = event.target.content
+
+            const qs = new URLSearchParams({articleId: id, content}).toString()
+            const {data} = await http(token).post('comments', qs)
+            event.target.reset()
+            setOpenModal(true)
+            setTimeout(() => {
+                setOpenModal(false)
+                updateComments()
+            }, 1000)
+
+        } catch (error) {
+            const message = error?.response?.data?.message
+            setErrorMessage(message)
+        }
+    }
 
     
     return (
@@ -159,7 +180,7 @@ const ArticleView = () => {
                                         <Link>
                                             <div className="text-black text-4xl font-bold">{articleView?.title}</div>
                                         </Link>
-                                        <div className="text-black text-center text-lg">{articleView?.author} - {articleView.role}</div>
+                                        <Link to={`/profile-information/${articleView.authorId}`} className="text-black text-center text-lg hover:text-primary">{articleView?.author} - {articleView.role}</Link>
                                         <div className="text-black text-center text-sm">{moment(articleView?.createdAt).format('LLLL')}</div>
                                         <div className="flex justify-start gap-5 w-full text-sm text-black">
                                             <div className="flex gap-2 items-center">
@@ -205,6 +226,9 @@ const ArticleView = () => {
                     <section>
                         <div className="w-full py-16 flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Comments</div>
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">
+                                {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
+                            </div>
 
                             <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:px-56 w-full flex flex-col gap-7">
                                 {token ? 
@@ -217,11 +241,11 @@ const ArticleView = () => {
                                         }
                                         </div>
                                         <div className="w-full ">
-                                            <form  onSubmit={doSubmit} action="" className="flex gap-3 items-center ">
-                                                <div className="flex gap-8 w-full">
-                                                    <input type="text" name='content' placeholder='Write comment ...' className="input input-bordered input-primary w-full" />
-                                                    {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
-                                                    {successMessage && <div className='alert alert-success'>{successMessage}</div>}
+
+                                            <form onSubmit={doComment} className="flex gap-3 items-center ">
+                                                <div className="w-full">
+                                                    <input name='content' type="text" className="input input-bordered input-primary w-full text-black" />
+
                                                 </div>
                                                 <div>
                                                     <button type="submit" className="btn btn-ghost text-primary font-semibold capitalize">
@@ -242,12 +266,15 @@ const ArticleView = () => {
                                     {comment.map(items => {
                                         return (
                                             <div className="flex gap-5 items-center" key={`comment-article${items.id}`}>
-                                                <div className="overflow-hidden w-[55px] rounded-md">
-                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : items.picture.startsWith('http://local') ? `http://localhost:8888/uploads/${items.picture}` : {defaultImage}} alt={items.picture || defaultImage} />}
+
+                                                <div className="overflow-hidden w-[55px] h-[55px] rounded-md">
+                                                {/* {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />} */}
+                                                {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
                                                 </div>
                                                 <div>
                                                     <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
-                                                    <div className="text-frey-800 text-md">{items.comment}</div>
+                                                    <div className="text-black text-md">{items.comment}</div>
+
                                                 </div>
                                             </div>
                                         )
@@ -258,6 +285,14 @@ const ArticleView = () => {
                         </div>
                     </section>
                 </main>
+                <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
                 <div className="footer">
                     <Footer />
                 </div>
