@@ -10,10 +10,12 @@ import React from 'react';
 import http from '../helper/http';
 import { formatDistanceToNow } from 'date-fns';
 import ImageTemplate from '../components/ImageTemplate';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
     const [createdAt, setCreatedAt] = React.useState(null);
+    const [openModal, setOpenModal] = React.useState(false)
     
 
     React.useEffect(()=>{
@@ -37,12 +39,20 @@ const NotoficationAdmin = () => {
     const accRequestAuthor = async(reqData)=>{
         const qs = new URLSearchParams(reqData).toString()
         await http(token).post('/request/acc-author', qs)
-        updateNotifications()
+        setOpenModal(true)
+            setTimeout(() => {
+                setOpenModal(false)
+                updateNotifications()
+            }, 1000)
     }
     const rejectRequestAuthor = async(reqData)=>{
         const qs = new URLSearchParams(reqData).toString()
         await http(token).post('/request/reject-author', qs)
-        updateNotifications()
+        setOpenModal(true)
+        setTimeout(() => {
+            setOpenModal(false)
+            updateNotifications()
+        }, 1000)
     }
 
     const formatUpdatedAt = (createdAt) => {
@@ -141,6 +151,14 @@ const NotoficationAdmin = () => {
                     </div>
                 </section>
             </main>
+            <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
             <div className="footer">
                 <Footer />
             </div>
