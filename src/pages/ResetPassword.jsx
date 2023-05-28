@@ -91,11 +91,11 @@ export default function ForgotPassword() {
                         {successMessage && <div className='alert alert-success'>{successMessage}</div>}
                         <div className="flex flex-col gap-2">
                             <label htmlFor="code">Insert Code :</label>
-                            <input type="text" name="code" placeholder="Enter your Code" className="input input-bordered w-full" />
+                            <input type="text" name="code" placeholder="Enter your Code" className="input input-bordered border-primary w-full" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="email">Email Adress :</label>
-                            <input name="email" type="text" placeholder="Enter your email adress" className="input input-bordered w-full" />
+                            <input name="email" type="text" placeholder="Enter your email adress" className="input input-bordered border-primary w-full" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="password">Password :</label>
@@ -104,7 +104,7 @@ export default function ForgotPassword() {
                                     name="password"
                                     type={typePassword ? 'text' : 'password'}
                                     placeholder="Enter your password "
-                                    className="input input-bordered w-full"
+                                    className="input input-bordered border-primary w-full"
                                 />
                                 <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
                                     {iconEye ? (
@@ -126,7 +126,7 @@ export default function ForgotPassword() {
                                     type={typeConfirmPassword ? 'text' : 'password'}
                                     name="confirmPassword"
                                     placeholder="Enter your phone number"
-                                    className="input input-bordered w-full"
+                                    className="input input-bordered border-primary w-full"
                                 />
                                 <button type='button' onClick={handleInputConfirmPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
                                     {iconEyeCp ? (
@@ -141,7 +141,7 @@ export default function ForgotPassword() {
                                 </button>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary rounded-2xl mt-5 md:mt-5">Sign Up</button>
+                        <button type="submit" className="btn btn-primary text-white capitalize tracking-wider mt-5 md:mt-5">Reset password</button>
                     </form>
                 </section>
             </div>

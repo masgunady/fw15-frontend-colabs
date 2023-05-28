@@ -76,9 +76,9 @@ const WriteArticle = () => {
 
     return (
         <div className="bg-white md:bg-[#F4F7FF]">
-            <div>
-                <Header />
-            </div>
+                <div className="header pb-24">
+                    <Header />
+                </div>
             <section>
                 <div className="w-full pt-9  flex flex-col gap-5 bg-white">
                     <div className="flex justify-center lg:hidden pb-5 text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Notification</div>

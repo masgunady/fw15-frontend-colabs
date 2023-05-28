@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { clearMessage } from "../redux/reducers/auth";
 import Image from "../components/Image";
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 import { asyncLoginAction } from "../redux/actions/auth";
 
@@ -30,6 +31,14 @@ const validationSechema = Yup.object({
 const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
     const errorMessage = useSelector(state => state.auth.errorMessage)
     const warningMessage = useSelector(state => state.auth.warningMessage)
+
+    const [iconEye, setIconEye] = React.useState(false)
+    const [typePassword, setTypePassword] = React.useState(false)
+
+    const handleInputPassword = () => {
+        setIconEye(!typePassword)
+        setTypePassword(!iconEye)
+    }
 
     return (
         <form onSubmit={handleSubmit} action="submit" className="flex flex-col gap-5">
@@ -47,7 +56,7 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                     name="email"
                     type="text"
                     placeholder="Enter your email adress"
-                    className="input input-bordered w-full"
+                    className="input input-bordered border-primary w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
@@ -58,13 +67,13 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                     </label>
                     )}
             </div>
-            <div className="flex flex-col gap-2 form-control">
+            <div className="flex flex-col gap-2 form-control relative">
                 <label htmlFor="password">Password :</label>
                 <input
                     name="password"
-                    type="password"
+                    type={typePassword ? 'text' : 'password'}
                     placeholder="Enter your password "
-                    className="input input-bordered w-full"
+                    className="input input-bordered border-primary w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
@@ -74,13 +83,24 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                         <span className="label-text-left text-error text-xs ">{errors.password}</span>
                     </label>
                 )}
+                <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                    {iconEye ? (
+                        <i className=''>
+                            <FiEye size={20} />
+                        </i>
+                    ) : (
+                        <i className=''>
+                            <FiEyeOff size={20} />
+                        </i>
+                    )}
+                </button>
             </div>
             <div className="flex justify-end text-blue-600 font-semibold">
                 <Link to='/forgot-password'>
                     <div>Forgot Password?</div>
                 </Link>
             </div>
-            <button disabled={isSubmitting} type="submit" className="btn btn-primary rounded-2xl mt-5 md:mt-10">Login</button>
+            <button disabled={isSubmitting} type="submit" className="btn btn-primary capitalize text-white text-xl mt-5 md:mt-10">Login</button>
         </form>
     )
 }
@@ -100,6 +120,8 @@ export default function Login() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const formError = useSelector(state => state.auth.formError)
+
+    
 
     React.useEffect(() => {
         if (token) {
@@ -143,8 +165,8 @@ export default function Login() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                        <div>
-                            <img src={Image.logposeWhite} alt="" />
+                        <div className="h-[230px] flex flex-col items-center justify-end pb-7">
+                            <img src={Image.logposeWhite} alt="" className="w-[170px]" />
                         </div>
                         <span className="text-base">logpose@mail.com</span>
                     </div>
@@ -157,7 +179,7 @@ export default function Login() {
                             <hr className="md:w-20 lg:w-[25%]" />
                         </div>
                         <Link className="flex justify-center items-center" to="/auth/register">
-                            <button className="btn w-[83%] self-center rounded-2xl">Sign Up</button>
+                            <button className="btn w-[83%] btn-neutral text-white capitalize text-lg self-center">Register here</button>
                         </Link>
                     </div>
                     <section className="flex gap-10 w-[83%] m-10 self-center text-base justify-between">
@@ -171,7 +193,7 @@ export default function Login() {
                         </div>
                     </section>
                 </section>
-                <section className="flex flex-col pt-5 gap-2 md:pt-20 px-10 md:gap-5 font-normal text-black h-screen">
+                <section className="flex flex-col pt-24 gap-5 md:pt-28 px-10 md:gap-5 font-normal text-black h-screen">
                     <h1 className="font-bold text-2xl">Login</h1>
                     <span className="font-thin text-sm text-gray-600">Hey, welcome back to News Today!</span>
                     <div>
@@ -204,8 +226,8 @@ export default function Login() {
                             </span>
                             <hr className="md:w-20 lg:w-[23%]" />
                         </div>
-                        <button className="btn rounded-2xl">Sign Up</button>
-                        <Link to="/register" className="mt-5 self-center underline underline-offset-4 cursor-pointer">Back to Home Page</Link>
+                        <Link to='/auth/register' className="btn btn-primary text-white text-lg capitalize">Sign Up</Link>
+                        <Link to="/" className="mt-5 self-center underline underline-offset-4 cursor-pointer">Back to Home Page</Link>
                     </div>
                 </section>
             </div>

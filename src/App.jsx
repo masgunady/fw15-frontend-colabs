@@ -35,7 +35,7 @@ export default function App() {
                         <Route path="/search-result" element={<SearchResult />} />
                         <Route path="/article-view/:id" element={<ArticleView />} />
                         <Route path="/admin/article-view/:id" element={<ArticleViewAdmin />} />
-                        <Route path="/notification-admin" element={<NotificationAdmin />} />
+                        <Route path="/admin/notification-admin" element={<NotificationAdmin />} />
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />

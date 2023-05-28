@@ -52,15 +52,15 @@ const NotoficationAdmin = () => {
 
     return (
         <div className="bg-white">
-            <div className="header">
-                <Header />
-            </div>
+                <div className="header pb-24">
+                    <Header />
+                </div>
             <section>
-                <div className="w-full pt-9  flex flex-col gap-5 bg-white">
-                    <div className="flex justify-center lg:hidden pb-5 text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Notification</div>
-                    <div className="flex items-center justify-between gap-5 px-7 md:px-16 lg:px-20 xl:px-24 w-full">
+                <div className="w-full py-9  flex flex-col gap-5 bg-white">
+                    <div className="flex justify-center lg:hidden pb-5 text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Notification</div>
+                    <div className="flex items-center justify-between gap-5 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                         <div className="flex-1  flex items-center gap-5">
-                            <Link className="btn btn-ghost border-none">
+                            <Link className="border-none">
                                 <IoChevronBackOutline className="text-black" size={35} />
                             </Link>
                             <div className="text-black hidden md:block text-lg font-semibold">Home Page</div>
@@ -73,11 +73,11 @@ const NotoficationAdmin = () => {
             <main>
                 <section>
                     <div className="w-full pb-16 flex flex-col items-start gap-5 bg-white">
-                        <button className="btn btn-ghost text-2xl px-8 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
+                        <button className="btn btn-ghost text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">
                             <FaFilter />
                         </button>
 
-                        <div className="flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28  w-full">
+                        <div className="min-h-[400px] flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {
                                     requestAcc.map(item => {
                                         return(
@@ -117,8 +117,15 @@ const NotoficationAdmin = () => {
                                     })
                             }
                             
-                            
+                            {requestAcc.length<1 && (
+                                    <div className=' h-full flex flex-col items-center justify-center gap-7 '>
+                                        <div className='font-semibold text-2xl text-secondary'>No Notification Found</div>
+                                        <div className='font-medium text base max-w-[300px] text-center'>Notification arrived if you have inteacrted with anyone</div>
+                                    </div>
+                                )}
                         </div>
+
+                        
                     </div>
                 </section>
             </main>
