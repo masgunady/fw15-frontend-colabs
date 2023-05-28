@@ -14,8 +14,7 @@ import { AiOutlineLoading3Quarters, } from 'react-icons/ai'
 // icon
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import { Formik } from 'formik';
-
-
+import ImageTemplate from '../components/ImageTemplate';
 
 
 export default function EditProfile() {
@@ -32,12 +31,22 @@ export default function EditProfile() {
     React.useEffect(() => {
         async function getDataProfile() {
             const { data } = await http(token).get('/profile')
-            console.log(data)
+            // console.log(data)
             setProfile(data.results)
         }
         getDataProfile()
 
     }, [])
+
+    const updateDisplay = () => {
+        async function getDataProfile() {
+            const { data } = await http(token).get('/profile')
+            
+            setProfile(data.results)
+        }
+        getDataProfile()
+    };
+
 
 
     const handleShow = () => {
@@ -58,7 +67,7 @@ export default function EditProfile() {
     }
 
     React.useEffect(() => {
-        console.log(selectedPicture)
+        
     }, [selectedPicture])
 
     const editProfile = async (values) => {
@@ -80,17 +89,26 @@ export default function EditProfile() {
                 }
 
             })
-            console.log(data)
+            // console.log(data)
             setProfile(data.results)
         } catch (err) {
             console.log(err)
         }
         setOpenModal(false)
+        updateDisplay()
     }
 
     const doLogout = () => {
         dispatch(logoutAction()),
             navigate('/auth/login')
+    }
+
+    const requestAuthor = async() => {
+        try {
+            await http(token).post('/request')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -115,8 +133,8 @@ export default function EditProfile() {
                         <div className='flex md:flex-col lg:flex-col-2 gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                 <div className='bg-white h-full rounded-3xl p-2'>
-                                    <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} />
-
+                                    {/* <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} /> */}
+                                    <ImageTemplate className='rounded-2xl h-full w-full bg-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                 </div>
                             </div>
                             <div
@@ -213,7 +231,7 @@ export default function EditProfile() {
                     <Formik
                         initialValues={{
                             username: profile?.username,
-                            name: profile?.name,
+                            fullName: profile?.name,
                             email: profile?.email,
                             password: profile?.password,
                             job: profile?.job,
@@ -227,10 +245,13 @@ export default function EditProfile() {
                             <form onSubmit={handleSubmit} className='lg:grid-cols-2 py-5 px-10 md:justify-evenly w-full lg:pl-20 gap-5'>
                                 <div className='flex flex-col items-center gap-5 pt-10'>
                                     <div className='rounded-3xl w-32 h-32 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                        <div className='bg-white h-full rounded-3xl p-2'>
-                                            <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} />
-                                            {(console.log(profile?.picture))}
-                                        </div>
+                                            {!selectedPicture && <ImageTemplate className='bg-white h-full rounded-3xl p-2' src={profile?.picture || null} defaultImg={Image.profileAvatar} />}
+                                            {selectedPicture && (
+                                                <div className='bg-white h-full rounded-3xl p-2 relative'>
+                                                    <img className='rounded-2xl h-full w-full bg-cover' src={pictureURI} alt='profile' />
+                                                    <div className='absolute rounded-2xl bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
+                                                </div>
+                                            )}
                                     </div>
                                     <div>
                                         <label className='btn btn-ghost text-blue-500 normal-case text-lg'>
@@ -258,7 +279,7 @@ export default function EditProfile() {
                                                 Email:
                                             </label>
                                             <input
-                                                type="text"
+                                                type="email"
                                                 name="email"
                                                 className='input input-bordered w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
@@ -287,11 +308,11 @@ export default function EditProfile() {
                                             </label>
                                             <input
                                                 type="text"
-                                                name="name"
+                                                name="fullName"
                                                 className='input input-bordered w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.name}
+                                                value={values.fullName}
                                             />
                                         </div>
                                         <div className="form-control flex gap-2 mt-5 relative">
@@ -305,6 +326,7 @@ export default function EditProfile() {
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.password}
+                                                placeholder='********************'
                                             />
                                             <span
                                                 onClick={handleShow}
@@ -328,7 +350,7 @@ export default function EditProfile() {
                             </form>
                         )}
                     </Formik>
-                    <button className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>
+                    <button onClick={requestAuthor} className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>
                 </section>
             </div>
             <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
