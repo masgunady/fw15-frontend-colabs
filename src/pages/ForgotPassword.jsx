@@ -78,7 +78,7 @@ export default function ForgotPassword() {
                         {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
                         {successMessage && <div className='alert alert-success'>{successMessage}</div>}
                         <div className="flex flex-col gap-2">
-                            <input name="email" type="text" placeholder="Enter your email adress" className="input input-bordered w-full" />
+                            <input name="email" type="email" placeholder="Enter your email adress" className="input input-bordered w-full" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <button type="submit" className="btn btn-primary">Send Link</button>
@@ -93,13 +93,13 @@ export default function ForgotPassword() {
                             <div>FAQ</div>
                         </div>
                         <div className="text-end w-72 flex flex-col gap-2">
-                            <div>News Today</div>
+                            <div>Log Pose</div>
                             <div>
                                 Jendral Sudirman Street No. 23
                                 Jakarta, Indonesia
                             </div>
                             <div>(621)989898934</div>
-                            <div>newstoday@mail.com</div>
+                            <div>logpose@mail.com</div>
                         </div>
                     </div>
                 </section>
