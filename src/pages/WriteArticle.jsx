@@ -3,22 +3,23 @@ import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import React from "react";
 import http from "../helper/http";
 import { Formik } from "formik";
-import defaultProfile from '../assets/image/covid.jpeg'
+// import defaultProfile from '../assets/image/covid.jpeg'
 import { AiOutlineLoading3Quarters,  } from 'react-icons/ai'
 
 
 const WriteArticle = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const [article, setArticle] = React.useState({})
     const [category, setCategory] = React.useState([])
     const [selectedPicture, setSelectedPicture] = React.useState(false)
     const [openModal, setOpenModal] = React.useState(false)
+    const [pictureURI, setPictureURI] = React.useState('')
 
     React.useEffect(()=>{
         async function getDataArticle(){
@@ -42,9 +43,19 @@ const WriteArticle = () => {
         getDataCategory()
     }, [token])
 
-    React.useEffect(() => {
-        console.log(selectedPicture)
-    }, [selectedPicture])
+    const fileToDataUrl = (file) => {
+        const reader = new FileReader()
+        reader.addEventListener('load', () => {
+            setPictureURI(reader.result)
+        })
+        reader.readAsDataURL(file)
+    }
+
+    const changePicture = (e) => {
+        const file = e.target.files[0]
+        setSelectedPicture(file)
+        fileToDataUrl(file)
+    }
 
 
     const editArticle = async (values) => {
@@ -72,10 +83,11 @@ const WriteArticle = () => {
             console.log(err)
         }
         setOpenModal(false)
+        navigate('/article')
     }
 
     return (
-        <div className="bg-white md:bg-[#F4F7FF]">
+        <div className="bg-white">
                 <div className="header pb-24">
                     <Header />
                 </div>
@@ -89,60 +101,59 @@ const WriteArticle = () => {
                             </Link>
                             <div className="text-black hidden md:block text-lg font-semibold">Back</div>
                         </div>
-                        <div className="flex-1 hidden lg:flex justify-center text-black text-lg font-semibold">Write Article</div>
+                        <div className="flex-1 hidden lg:flex justify-end text-black text-lg font-semibold">Write Article</div>
                     </div>
                 </div>
             </section>
-            <main className="pl-[112px] pr-[134px] py-[75px]">
-                <div className="flex gap-[24px]">
-                    <div className="flex flex-col">
-                        <div className="w-[342px]">
-                            <div className="flex justify-center items-center border border-2 rounded-lg w-full h-[535px]">
-                                <div className="flex justify-center items-center border-dashed border-2 rounded-lg w-[299px] h-[469px]">
-                                    <img className='w-[299px] h-[469px] bg-cover rounded-lg' src={article?.picture?.startsWith('https') ? article.picture : (article?.picture === null ? defaultProfile : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${article?.picture}`)} />
-                                    {(console.log(defaultProfile))}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="mt-[60px]">
-                            <label className="btn btn-secondary w-full text-white">
-                                <span>Choose Cover Photo</span>
-                                <input name='picture'onChange={(e) => setSelectedPicture(e.target.files[0])} className='hidden' type='file' />
-                            </label>
-                        </div>
-                    </div>
-                    <Formik
-                        initialValues={{
-                            title: '',
-                            categoryId: '',
-                            content: ''
-                        }}
-                        onSubmit={editArticle}
-                        enableReinitialize
-                    >
-                        {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
-                            <form onSubmit={handleSubmit}>
-                                <div className="flex gap-[12px] ">
-                                    <div>
+            <main className="pt-11 px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
+
+            <Formik
+                initialValues={{
+                    title: '',
+                    categoryId: '',
+                    content: ''
+                }}
+                onSubmit={editArticle}
+                enableReinitialize
+            >
+
+                    {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
+                                <form onSubmit={handleSubmit} className="flex flex-col-reverse md:flex-row gap-7 items-center min-h-[500px] pb-16">
+                                    <div className="flex flex-col justify-center items-center w-[300px] h-[505px] gap-8">
+                                        <div className="w-[300px] h-full border-2 rounded-2xl p-3 border-primary">
+                                            <div className="border-2 w-full h-full rounded-2xl flex items-center justify-center">
+                                                {selectedPicture && (
+                                                    <div className='overflow-hidden relative'>
+                                                        <img className='object-cove' src={pictureURI} alt='profile' />
+                                                        <div className='absolute bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
+                                                    </div>
+                                                )}
+                                                
+                                            </div>
+                                        </div>
                                         <div>
-                                            <div className="form-control w-full max-w[408px]">
+                                            <label className='btn bg-[#fff] w-full rounded-xl border-2 border-primary text-primary text-sm font-semibold tracking-[1px]'>
+                                                <span>Choose Cover photo</span>
+                                                <input name='picture' onChange={changePicture} className='hidden' type='file' />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="w-full flex flex-col gap-9">
+                                        <div className="flex flex-col md:flex-row items-center gap-11">
+                                            <div className="form-control w-full flex-1">
                                                 <input
                                                     name="title"
                                                     type="text"
-                                                    className="input input-bordered input-primary"
+                                                    className="input input-bordered input-primary text-black"
                                                     placeholder="Article Tittle"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.title} />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <form>
-                                            <div className="form-control w-full max-w[408px]">
+                                            <div className="form-control w-full flex-1">
                                                 <select
                                                     name="categoryId"
-                                                    className="select select-primary"
+                                                    className="select select-primary text-black"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.categoryId}
@@ -160,46 +171,33 @@ const WriteArticle = () => {
                                                     })}
                                                 </select>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-primary mt-[43px]">Attachment :</div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                                <form>
-                                    <div className="form-control textarea overflow-hidden  w-[828px] h-[420px] ">
-                                        <textarea
-                                            className="textarea textarea-bordered resize-none w-[800px] h-[420px]"
-                                            placeholder="Type the article"
-                                            name="content"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.content}
+                                        </div>
+                                        <div>
+                                            <div className="form-control textarea overflow-hidden  w-full min-h-[320px] border-primary ">
+                                                <textarea
+                                                    className="textarea textarea-bordered resize-none w-full min-h-[320px] border-2 text-black"
+                                                    placeholder="Type the article"
+                                                    name="content"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.content}
 
-                                        />
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="submit" className="btn btn-primary w-full text-white text-lg capitalize">request publish article</button>
+                                        </div>
                                     </div>
                                 </form>
-                                <div className="mt-[60px]">
-                                    <label className="text-white">
-                                        <input
-                                            name='picture'
-                                            className='hidden'
-                                            type='file'
-                                        />
-                                    </label>
-                                </div>
-                                <button className="btn btn-primary w-[828px]">Request Publish Article</button>
-                            </form>
-                        )}
-                    </Formik>
-                </div>
-                <div>
-                    <div></div>
-                </div>
+                    )}
+
+            </Formik>
+
+
+
+
+
             </main>
             <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
                 <div className="modal">

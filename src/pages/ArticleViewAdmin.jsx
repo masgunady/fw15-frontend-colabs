@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiFillLike, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -18,6 +18,7 @@ const ArticleViewAdmin = () => {
     const [likesCount, setLikesCount] = React.useState(0)
     const [isLiked, setIsLiked] = React.useState(false);
     const [createdAt, setUpdatedAt] = React.useState(null);
+    const [openModal, setOpenModal] = React.useState(false)
     const token = useSelector(state => state.auth.token)
     const location = useLocation();
     const reqData = location.state;
@@ -72,13 +73,22 @@ const ArticleViewAdmin = () => {
     const accRequestArticle = async() => {
         const qs = new URLSearchParams(reqData).toString()
         const {data} = await http(token).post('/request/acc-article',qs)
-        navigate('/',  { replace: true })
+        
+        setOpenModal(true)
+        setTimeout(() => {
+            setOpenModal(false)
+            navigate('/',  { replace: true })
+        }, 1000)
     }
 
     const rejectRequestArticle = async() => {
         const qs = new URLSearchParams(reqData).toString()
         await http(token).post('/request/reject-article',qs)
-        navigate('/',  { replace: true })
+        setOpenModal(true)
+        setTimeout(() => {
+            setOpenModal(false)
+            navigate('/',  { replace: true })
+        }, 1000)
     }
 
     
@@ -123,7 +133,7 @@ const ArticleViewAdmin = () => {
                                         <Link>
                                             <div className="text-black text-4xl font-bold">{articleView?.title}</div>
                                         </Link>
-                                        <div className="text-black text-center text-lg">{articleView?.author} - {articleView.role}</div>
+                                        <Link to={`/profile-information/${articleView.authorId}`} className="text-black text-center text-lg hover:text-primary">{articleView?.author} - {articleView.role}</Link>
                                         <div className="text-black text-center text-sm">{moment(articleView?.createdAt).format('LLLL')}</div>
                                         <div className="flex justify-start gap-5 w-full text-sm text-black">
                                             <div className="flex gap-2 items-center">
@@ -173,6 +183,14 @@ const ArticleViewAdmin = () => {
                         </div>
                     </section>
                 </main>
+                <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
                 <div className="footer">
                     <Footer />
                 </div>

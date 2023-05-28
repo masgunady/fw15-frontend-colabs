@@ -41,7 +41,7 @@ export default function App() {
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
-                        <Route path="/profile-information" element={<ProfileInformation />} />
+                        <Route path="/profile-information/:id" element={<ProfileInformation />} />
                         <Route path="/profile/edit" element={<EditProfile />} />
                         <Route path="/profile/saved-post" element={<SavedPost />} />
                         <Route path="/write-article" element={<WriteArticle />} />
