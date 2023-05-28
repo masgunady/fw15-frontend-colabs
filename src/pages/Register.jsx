@@ -30,6 +30,7 @@ const validationSechema = Yup.object({
 const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
     const errorMessage = useSelector(state => state.auth.errorMessage)
     const warningMessage = useSelector(state => state.auth.warningMessage)
+    const successMessage = useSelector((state) => state.auth.successMessage)
 
 
     return (
@@ -42,6 +43,7 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                 (<div>
                     <div className="alert alert-warning danger text-[11px]">{warningMessage}</div>
                 </div>)}
+                {successMessage && <div className='alert alert-success'>{successMessage}</div>}
             <div className="flex flex-col gap-2">
                 <label htmlFor="email">Email Adress :</label>
                 <input
@@ -115,7 +117,8 @@ Form.propTypes = {
 export default function Register() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const token = useSelector(state => state.auth.token)
+    // const token = useSelector(state => state.auth.token)
+    const successMessage = useSelector((state) => state.auth.successMessage)
     const formError = useSelector(state => state.auth.formError)
 
     React.useEffect(() => {
@@ -139,6 +142,17 @@ export default function Register() {
 
     }
 
+
+    React.useEffect(() => {
+        if (successMessage) {
+            setTimeout(() => {
+                navigate('/auth/login')
+            }, 2000)
+            setTimeout(() => {
+                dispatch(clearMessage())
+            }, 2000)
+        }
+    }, [successMessage, navigate, dispatch])
 
 
     return (
