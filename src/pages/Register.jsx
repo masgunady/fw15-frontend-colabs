@@ -48,7 +48,7 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
                     name="email"
                     type="text"
                     placeholder="Enter your email adress"
-                    className="input input-bordered w-full" 
+                    className="input input-bordered w-full"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
@@ -118,9 +118,16 @@ export default function Register() {
     const token = useSelector(state => state.auth.token)
     const formError = useSelector(state => state.auth.formError)
 
+    React.useEffect(() => {
+        if (token) {
+            navigate('/auth/login')
+        }
+    }, [token, navigate])
+
     const doLogin = async (values, { setSubmitting, setErrors }) => {
         dispatch(clearMessage())
         dispatch(asyncRegisterAction(values))
+
         if (formError.length) {
             setErrors({
                 email: formError.filter(item => item.param === "email")[0].message,
@@ -128,13 +135,11 @@ export default function Register() {
             })
         }
         setSubmitting(false)
+
+
     }
 
-    React.useEffect(() => {
-        if (token) {
-            navigate('/')
-        }
-    }, [token, navigate])
+
 
     return (
         <>
@@ -142,7 +147,6 @@ export default function Register() {
             <div>
                 <Helmet>
                     <title>Register</title>
-                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
                 </Helmet>
             </div>
 
@@ -150,7 +154,9 @@ export default function Register() {
                 <section className="hidden md:flex md:flex-col bg-primary h-screen gap-5 p-5">
                     {/* <img src={Image.loginImage} alt="Hero image" className="h-[41rem] w-[40rem]" /> */}
                     <div className="flex items-center mb-5 gap-5">
-                        <MdArrowBackIos />
+                        <Link to="/">
+                            <MdArrowBackIos />
+                        </Link>
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
@@ -170,7 +176,7 @@ export default function Register() {
                             </span>
                             <hr className="md:w-20 lg:w-[23%]" />
                         </div>
-                        <Link className="flex justify-center items-center" to="/login">
+                        <Link className="flex justify-center items-center" to="/auth/login">
                             <button className="btn w-[83%] self-center rounded-2xl">Login Here</button>
                         </Link>
                     </div>

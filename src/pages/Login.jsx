@@ -24,6 +24,8 @@ const validationSechema = Yup.object({
     password: Yup.string().required('Password is invalid')
 })
 
+
+
 const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
     const errorMessage = useSelector(state => state.auth.errorMessage)
     const warningMessage = useSelector(state => state.auth.warningMessage)
@@ -72,6 +74,11 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                     </label>
                 )}
             </div>
+            <div className="flex justify-end text-blue-600 font-semibold">
+                <Link to='/forgot-password'>
+                    <div>Forgot Password?</div>
+                </Link>
+            </div>
             <button disabled={isSubmitting} type="submit" className="btn btn-primary rounded-2xl mt-5 md:mt-10">Login</button>
         </form>
     )
@@ -99,6 +106,8 @@ export default function Login() {
         }
     }, [token, navigate])
 
+
+
     const doLogin = async (values, { setSubmitting, setErrors }) => {
         dispatch(clearMessage())
         dispatch(asyncLoginAction(values))
@@ -111,6 +120,7 @@ export default function Login() {
         setSubmitting(false)
 
     }
+
 
     return (
         <>
@@ -126,7 +136,9 @@ export default function Login() {
                 <section className="hidden md:flex md:flex-col bg-primary h-screen gap-5 p-5">
                     {/* <img src={Image.loginImage} alt="Hero image" className="h-[41rem] w-[40rem]" /> */}
                     <div className="flex items-center mb-5 gap-5">
-                        <MdArrowBackIos />
+                        <Link to='/'>
+                            <MdArrowBackIos />
+                        </Link>
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
@@ -146,7 +158,7 @@ export default function Login() {
                             </span>
                             <hr className="md:w-20 lg:w-[25%]" />
                         </div>
-                        <Link className="flex justify-center items-center" to="/register">
+                        <Link className="flex justify-center items-center" to="/auth/register">
                             <button className="btn w-[83%] self-center rounded-2xl">Sign Up</button>
                         </Link>
                     </div>

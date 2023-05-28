@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Image from '../components/Image';
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { Helmet } from 'react-helmet';
 
 
 // icon
@@ -24,6 +25,14 @@ export default function EditProfile() {
 
     return (
         <>
+
+        {/* helmet */}
+        <div>
+                <Helmet>
+                    <title>Edit Profile</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
             <Header />
             <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
                 <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>

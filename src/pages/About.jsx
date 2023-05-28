@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Image from '../components/Image';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function About() {
     const navigate = useNavigate()
@@ -10,12 +11,20 @@ export default function About() {
 
     return (
         <>
+
+            {/* helmet */}
+            <div>
+                <Helmet>
+                    <title>About</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
             <Header />
             <main className='text-black'>
                 <section className='bg-primary py-20'>
                     <div className='flex flex-col md:flex-col-2 lg:grid lg:grid-cols-2 gap-10 p-14'>
                         <div className=' flex justify-center'>
-                        <img src={Image.logposeWhite} alt="" className='w-72 lg:w-[60%]  self-center' />
+                            <img src={Image.logposeWhite} alt="" className='w-72 lg:w-[60%]  self-center' />
                         </div>
                         <div className='flex flex-col text-secondary gap-10'>
                             <div className='font-black text-[2em]'>
@@ -34,7 +43,7 @@ export default function About() {
                 <section className='py-20 px-14 text-lg bg-secondary text-primary font-extrabold flex flex-col items-center gap-10'>
                     <div className='text-justify lg:mx-32'>
                         <q>
-                        Informasi adalah kunci untuk membuka pintu misteri dan mengungkap kebenaran. Mari terus berjuang untuk mengumpulkan dan membagikan informasi demi kemajuan umat manusia.
+                            Informasi adalah kunci untuk membuka pintu misteri dan mengungkap kebenaran. Mari terus berjuang untuk mengumpulkan dan membagikan informasi demi kemajuan umat manusia.
                         </q>
                         <br />
                         <span> - Professor Clover One Piece</span>
@@ -43,7 +52,7 @@ export default function About() {
                         <span>Ayo Bersama-sama, Menerangi Dunia dengan Informasi Akurat!</span>
                     </div>
                     <button
-                        onClick={()=> navigate('/auth/register')}
+                        onClick={() => navigate('/auth/register')}
                         className='btn btn-primary w-32'>
                         Join
                     </button>

@@ -147,10 +147,11 @@ const WriteArticle = () => {
                                                     onBlur={handleBlur}
                                                     value={values.categoryId}
                                                 >
-                                                    <option disabled selected>Article Category</option>
+                                                    {/* <option disabled selected>Article Category</option> */}
                                                     {category.map((item) => {
                                                         return (
                                                             <React.Fragment key={`category-${item.id}`} >
+                                                                <option className='hidden' >Article Category</option>
                                                                 <option value={item.id}>
                                                                     {item.name}
                                                                 </option>
