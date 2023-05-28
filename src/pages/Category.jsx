@@ -7,11 +7,11 @@ import { Helmet } from 'react-helmet';
 import { FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const Category = () => {
-    const [category, setCategory] = React.useState([])
+    const [category, setCategory] = React.useState([]);
 
     React.useEffect(() => {
         async function getDatacategory() {
-            const { data } = await axios.get('http://localhost:8888/categories')
+            const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=20')
             console.log(data)
             setCategory(data.results)
         }
@@ -51,7 +51,9 @@ const Category = () => {
                                     </button>
                                     <div className="text-black text-lg font-semibold">Sort By Last Added</div>
                                 </div>
-                                <div className=" text-grey-400 capitalize text-base font-semibold">18 Category</div>
+                                <>
+                                    <div className=" text-grey-400 capitalize text-base font-semibold">20 Category</div>
+                                </>
                             </div>
                         </div>
                     </section>

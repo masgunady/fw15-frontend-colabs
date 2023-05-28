@@ -15,6 +15,7 @@ import propTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { clearMessage } from "../redux/reducers/auth";
+import Image from "../components/Image";
 
 import { asyncLoginAction } from "../redux/actions/auth";
 
@@ -142,13 +143,10 @@ export default function Login() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                        <span className="font-bold text-4xl">
-                            News
-                        </span>
-                        <span className="font-bold text-4xl">
-                            Today
-                        </span>
-                        <span className="text-base">newstoday@mail.com</span>
+                        <div>
+                            <img src={Image.logposeWhite} alt="" />
+                        </div>
+                        <span className="text-base">logpose@mail.com</span>
                     </div>
                     <div className="flex flex-col">
                         <div className="flex justify-center items-center gap-3 mb-8">
@@ -164,7 +162,7 @@ export default function Login() {
                     </div>
                     <section className="flex gap-10 w-[83%] m-10 self-center text-base justify-between">
                         <div className="flex flex-col gap-6">
-                            <span>Why News Today</span>
+                            <span>Why Log Pose</span>
                             <span>Community</span>
                         </div>
                         <div className="flex flex-col gap-6">
