@@ -45,15 +45,19 @@ const Category = () => {
                     <section>
                         <div className="w-full py-16  flex flex-col gap-5 bg-white">
                             <div className="flex items-center justify-between gap-5 px-7 md:px-16 lg:px-24 xl:px-28 w-full">
-                                <div className="flex items-center gap-5">
-                                    <button className="btn btn-ghost border-none">
+                                <div className="dropdown">
+                                    <label tabIndex={0} className="btn btn-ghost m-1">
                                         <FaFilter className="text-black" size={30} />
-                                    </button>
-                                    <div className="text-black text-lg font-semibold">Sort By Last Added</div>
+                                    </label>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li><a>Name (A-Z)</a></li>
+                                        <li><a>Name (Z-A)</a></li>
+                                        <li><a>Category</a></li>
+                                        <li><a>Last Added</a></li>
+                                        <li><a>Last Modified</a></li>
+                                    </ul>
                                 </div>
-                                <>
-                                    <div className=" text-grey-400 capitalize text-base font-semibold">20 Category</div>
-                                </>
+                                <div className=" text-grey-400 capitalize text-base font-semibold">20 Category</div>
                             </div>
                         </div>
                     </section>

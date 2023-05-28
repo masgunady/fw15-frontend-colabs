@@ -21,6 +21,7 @@ import http from '../helper/http';
 import moment from 'moment/moment';
 import ImageTemplate from '../components/ImageTemplate';
 
+
 const Profile = () => {
     const { id } = useParams()
     const token = useSelector((state) => state.auth.token);

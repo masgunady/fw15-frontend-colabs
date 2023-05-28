@@ -11,8 +11,12 @@ import http from '../helper/http';
 import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
+
 import defaultImage from '../assets/image/default.png'
 import ImageTemplate from '../components/ImageTemplate';
+
+
+
 
 
 const ArticleView = () => {
@@ -24,8 +28,10 @@ const ArticleView = () => {
     const token = useSelector(state => state.auth.token)
     const [profile, setProfile] = React.useState({})
     const [comment, setComment] = React.useState([])
+
     const [errorMessage, setErrorMessage] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
+
 
     React.useEffect(() => {
         const getProfile = async () => {
@@ -78,6 +84,8 @@ const ArticleView = () => {
         async function getDataComment() {
             try {
                 const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
+
+
                 setComment(data.results);
                 
             } catch (err) {
@@ -86,6 +94,7 @@ const ArticleView = () => {
         }
         getDataComment();
     }, [id]);
+
 
     const updateComments = () => {
         async function getDataComment() {
@@ -99,6 +108,7 @@ const ArticleView = () => {
         }
         getDataComment();
     };
+
     
 
     const formatUpdatedAt = (createdAt) => {
@@ -224,12 +234,18 @@ const ArticleView = () => {
                                 {token ? 
                                     <div className="flex gap-5 items-center w-full lg:w-[50%]">
                                         <div className="overflow-hidden w-[55px] rounded-md">
-                                        {profile.picture && <img src={profile.picture.startsWith("https")? profile?.picture : `http://localhost:8888/uploads/${profile?.picture}`} alt={profile?.fullName}/>}
+                                        {profile.picture && <img src=
+                                            {profile.picture.startsWith("https")? profile?.picture : 
+                                                (profile.picture.startsWith("http://localhost")? `http://localhost:8888/uploads/${profile?.picture}` : {defaultImage})} 
+                                             alt={profile?.fullName}/>
+                                        }
                                         </div>
                                         <div className="w-full ">
+
                                             <form onSubmit={doComment} className="flex gap-3 items-center ">
                                                 <div className="w-full">
                                                     <input name='content' type="text" className="input input-bordered input-primary w-full text-black" />
+
                                                 </div>
                                                 <div>
                                                     <button type="submit" className="btn btn-ghost text-primary font-semibold capitalize">
@@ -250,6 +266,7 @@ const ArticleView = () => {
                                     {comment.map(items => {
                                         return (
                                             <div className="flex gap-5 items-center" key={`comment-article${items.id}`}>
+
                                                 <div className="overflow-hidden w-[55px] h-[55px] rounded-md">
                                                 {/* {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />} */}
                                                 {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
@@ -257,6 +274,7 @@ const ArticleView = () => {
                                                 <div>
                                                     <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
                                                     <div className="text-black text-md">{items.comment}</div>
+
                                                 </div>
                                             </div>
                                         )

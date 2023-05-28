@@ -44,7 +44,7 @@ const Footer = () => {
                                 </li>
                                 <li>
                                     <Link className="hover:text-[#373a42]" href="#">
-                                        newstoday@mail.com
+                                        logepose@mail.com
                                     </Link>
                                 </li>
                             </ul>

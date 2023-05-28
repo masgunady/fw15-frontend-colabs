@@ -41,7 +41,7 @@ export default function EditProfile() {
     const updateDisplay = () => {
         async function getDataProfile() {
             const { data } = await http(token).get('/profile')
-            
+
             setProfile(data.results)
         }
         getDataProfile()
@@ -67,7 +67,7 @@ export default function EditProfile() {
     }
 
     React.useEffect(() => {
-        
+
     }, [selectedPicture])
 
     const editProfile = async (values) => {
@@ -103,9 +103,13 @@ export default function EditProfile() {
             navigate('/auth/login')
     }
 
-    const requestAuthor = async() => {
+    const requestAuthor = async () => {
         try {
             await http(token).post('/request')
+            setOpenModal(true)
+            setTimeout(()=>{
+                setOpenModal(false)
+            },3000)
         } catch (error) {
             console.log(error)
         }
@@ -122,9 +126,9 @@ export default function EditProfile() {
                 </Helmet>
             </div>
 
-                <div className="header pb-24">
-                    <Header />
-                </div>
+            <div className="header pb-24">
+                <Header />
+            </div>
 
             <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
                 <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
@@ -185,7 +189,7 @@ export default function EditProfile() {
                     </div>
                     <div className='text-lg font-extrabold my-24'>
                         <ul>
-                            <Link className='bg-slate-200 text-primary'>
+                            <Link className='bg-slate-200 text-primary' to='/profile/edit'>
                                 <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
                                     <span>Edit Profile</span>
                                     <MdArrowForwardIos
@@ -193,12 +197,14 @@ export default function EditProfile() {
                                     />
                                 </li>
                             </Link>
-                            <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
-                                <span>Saved Post</span>
-                                <MdArrowForwardIos
-                                    className='text-3xl font-bold transition-colors duration-100'
-                                />
-                            </li>
+                            <Link to='/profile/saved-post'>
+                                <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
+                                    <span>Saved Post</span>
+                                    <MdArrowForwardIos
+                                        className='text-3xl font-bold transition-colors duration-100'
+                                    />
+                                </li>
+                            </Link>
                             <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
                                 <span>FAQ</span>
                                 <MdArrowForwardIos
@@ -245,13 +251,13 @@ export default function EditProfile() {
                             <form onSubmit={handleSubmit} className='lg:grid-cols-2 py-5 px-10 md:justify-evenly w-full lg:pl-20 gap-5'>
                                 <div className='flex flex-col items-center gap-5 pt-10'>
                                     <div className='rounded-3xl w-32 h-32 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                            {!selectedPicture && <ImageTemplate className='bg-white h-full rounded-3xl p-2' src={profile?.picture || null} defaultImg={Image.profileAvatar} />}
-                                            {selectedPicture && (
-                                                <div className='bg-white h-full rounded-3xl p-2 relative'>
-                                                    <img className='rounded-2xl h-full w-full bg-cover' src={pictureURI} alt='profile' />
-                                                    <div className='absolute rounded-2xl bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
-                                                </div>
-                                            )}
+                                        {!selectedPicture && <ImageTemplate className='bg-white h-full rounded-3xl p-2' src={profile?.picture || null} defaultImg={Image.profileAvatar} />}
+                                        {selectedPicture && (
+                                            <div className='bg-white h-full rounded-3xl p-2 relative'>
+                                                <img className='rounded-2xl h-full w-full bg-cover' src={pictureURI} alt='profile' />
+                                                <div className='absolute rounded-2xl bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
                                         <label className='btn btn-ghost text-blue-500 normal-case text-lg'>
@@ -350,7 +356,9 @@ export default function EditProfile() {
                             </form>
                         )}
                     </Formik>
+
                     {profile?.role === "standard" && <button onClick={requestAuthor} className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>}
+
                 </section>
             </div>
             <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
