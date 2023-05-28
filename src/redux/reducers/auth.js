@@ -6,6 +6,7 @@ const initialState = {
     token: "",
     errorMessage: "",
     warningMessage: "",
+    successMessage:'',
     formError: [],
 };
 
@@ -23,7 +24,10 @@ const authSlice = createSlice({
             state.warningMessage = action.payload;
         },
         clearMessage: (state) => {
-            (state.errorMessage = ""), (state.warningMessage = "");
+            state.errorMessage = "",
+            state.warningMessage = "",
+            state.successMessage = "",
+            state.formError= []
         },
         logout: () => {
             return initialState;
@@ -50,7 +54,8 @@ const authSlice = createSlice({
             }
         });
         builder.addCase(asyncRegisterAction.fulfilled, (state, action) => {
-            state.token = action.payload;
+            // state.token = action.payload;
+            state.successMessage = action.payload
             console.log('ok')
         });
     },

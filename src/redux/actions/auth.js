@@ -28,7 +28,7 @@ export const asyncRegisterAction = createAsyncThunk(
         try {
             const body = new URLSearchParams(payload).toString();
             const { data } = await http().post("/auth/sign-up", body);
-            return data.results.token;
+            return data.message
         } catch (err) {
             const results = err.response?.data?.results;
             const message = err?.response?.data?.message;
