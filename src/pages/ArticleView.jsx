@@ -140,7 +140,6 @@ const ArticleView = () => {
                                                     <button onClick={HandleLikes} className={`btn btn-ghost ${isLiked ? 'text-blue-500' : ''}`}>
                                                         {isLiked ? <AiFillLike size={40} /> : <AiOutlineLike size={40} />}
                                                     </button>
-
                                                 </div>
                                                 {likesCount !== null && !isNaN(likesCount) && (
                                                     <div className="text-lg">{formatLikesCount(likesCount)}</div>

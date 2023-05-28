@@ -6,14 +6,13 @@ import Image from '../components/Image';
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet';
-
+import moment from 'moment'
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline } from 'react-icons/io5';
-
-
+import { articleLike } from '../redux/actions/articleLike';
 
 // icon
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiFillLike } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import http from '../helper/http';
@@ -23,14 +22,18 @@ import { fetchUserArticles } from 'actions';
 
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = React.useState({});
-    const [article, setArticle] = React.useState({});
+    const [articles, setArticle] = React.useState([]);
+    const [isLiked, like] = React.useState(false);
 
-    
 
 
-   
+
+
+
+
 
     React.useEffect(() => {
         async function getDataProfile() {
@@ -46,7 +49,7 @@ const Profile = () => {
         async function getDataArticle() {
             try {
                 const { data } = await http(token).get('/article/manage?page=1&limit=4');
-                console.log(data);
+                console.log(data.results);
                 setArticle(data.results);
             } catch (error) {
                 console.log(error);
@@ -54,6 +57,24 @@ const Profile = () => {
         }
         getDataArticle();
     }, [token]);
+
+
+
+    // Fungsi like count tinggal mengambil data article.likeCount lalu dikirim ke backend
+
+
+    const likeArticle = (e, article) => {
+        const id = e.target.id;
+        const likeCount = article.likeCount;
+        // console.log(likeCount, id);
+        like(!isLiked);
+        const data = {
+            articelId: id,
+            likeCount: isLiked ? likeCount + 1 : (likeCount > 0 ? likeCount - 1 : 0),
+        }
+        console.log(data)
+        dispatch(articleLike(data))
+    }
 
 
     return (
@@ -152,7 +173,66 @@ const Profile = () => {
                         <div className='font-extrabold text-xl ml-10'>Post</div>
                         <div className='relative'>
                             <div className='grid p-10 lg:grid-cols-2 gap-5'>
-                                <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
+                                {articles ? articles.map((article) => {
+                                    return (
+                                        <div
+                                            key={article.id}
+                                            className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
+                                            <img src={article.picture} className="absolute bottom-24 w-full" alt="" />
+                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                    <Link>
+                                                        <div className="text-primary text-center text-xl font-bold">{article.title}</div>
+                                                    </Link>
+                                                    {/* <div className="text-black text-center text-sm">{article.content}</div> */}
+                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                        <div
+                                                            className="flex gap-2 items-center">
+                                                            <div
+                                                                onClick={(e) => likeArticle(e, article)}
+                                                                className='cursor-pointer'>
+                                                                <AiOutlineLike
+                                                                    id={article.id}
+                                                                    className='text-blue-600' />
+                                                            </div>
+                                                            <div>
+                                                                {isLiked ? (article.likeCount > 0 ? article.likeCount - 1 : article.likeCount = 0) : article.likeCount + 1}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineFieldTime className='text-blue-600' />
+                                                            </div>
+                                                            <div>{moment(article.cratedAt).startOf('hour').fromNow()}</div>
+                                                        </div>
+                                                        <div>
+                                                            <RiBookmarkFill className='text-blue-600' />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }) :
+                                    (<div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
+                                        <div className="animate-pulse flex flex-col">
+                                            <div className=" bg-slate-700 h-10 w-full"></div>
+                                            <div className="flex-1 space-y-6 py-1">
+                                                <div className="h-2 bg-slate-700 rounded"></div>
+                                                <div className="space-y-3">
+                                                    <div className="h-2 bg-slate-700 rounded"></div>
+                                                    <div className="grid grid-cols-3 gap-4">
+                                                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                                                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                                                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>)
+                                }
+
+                                {/* <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
                                     <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
                                     <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                         <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
@@ -264,7 +344,7 @@ const Profile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </section>
