@@ -11,6 +11,8 @@ import http from '../helper/http';
 import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
+
+import defaultImage from '../assets/image/default.png'
 // import axios from 'axios';
 
 const ArticleView = () => {
@@ -22,11 +24,15 @@ const ArticleView = () => {
     const token = useSelector(state => state.auth.token)
     const [profile, setProfile] = React.useState({})
     const [comment, setComment] = React.useState([])
+    
+    // const dispatch = useDispatch()
+    // const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const [successMessage, setSuccessMessage] = React.useState('');
 
     React.useEffect(() => {
         const getProfile = async () => {
             const { data } = await http(token).get(`/profile`)
-            console.log(data.results)
             setProfile(data.results)
         }
         getProfile()
@@ -73,8 +79,7 @@ const ArticleView = () => {
     React.useEffect(() => {
         async function getDataComment() {
             try {
-                const { data } = await http().get(`/comments?articleId=${id}`);
-                console.log(data.results);
+                const { data } = await http().get(`/comments?articleId=${id}&sort=ASC`);
                 setComment(data.results);
                 
             } catch (err) {
@@ -83,6 +88,28 @@ const ArticleView = () => {
         }
         getDataComment();
     }, [id]);
+
+    const doSubmit = async (event) => {
+        // event.preventDefault()
+        setErrorMessage('')
+        try {
+            const {value: content} = event.target.content
+            const dataComment = {
+                articleId: id,
+                content: content
+            }
+            const body = new URLSearchParams(dataComment).toString()
+            console.log(body)
+            const {data} = await http(token).post("/comments", body)
+            console.log(data)
+
+            setSuccessMessage(data.message)
+        } catch (err) {
+           const message = err?.response?.data?.message 
+           setErrorMessage(message)
+        }
+        
+    }
     
 
     const formatUpdatedAt = (createdAt) => {
@@ -183,12 +210,18 @@ const ArticleView = () => {
                                 {token ? 
                                     <div className="flex gap-5 items-center w-full lg:w-[50%]">
                                         <div className="overflow-hidden w-[55px] rounded-md">
-                                        {profile.picture && <img src={profile.picture.startsWith("https")? profile?.picture : `http://localhost:8888/uploads/${profile?.picture}`} alt={profile?.fullName}/>}
+                                        {profile.picture && <img src=
+                                            {profile.picture.startsWith("https")? profile?.picture : 
+                                                (profile.picture.startsWith("http://localhost")? `http://localhost:8888/uploads/${profile?.picture}` : {defaultImage})} 
+                                             alt={profile?.fullName}/>
+                                        }
                                         </div>
                                         <div className="w-full ">
-                                            <form className="flex gap-3 items-center ">
-                                                <div className="w-full">
-                                                    <input type="text" className="input input-bordered input-primary w-full" />
+                                            <form  onSubmit={doSubmit} action="" className="flex gap-3 items-center ">
+                                                <div className="flex gap-8 w-full">
+                                                    <input type="text" name='content' placeholder='Write comment ...' className="input input-bordered input-primary w-full" />
+                                                    {errorMessage && <div className='alert alert-error'>{errorMessage}</div>}
+                                                    {successMessage && <div className='alert alert-success'>{successMessage}</div>}
                                                 </div>
                                                 <div>
                                                     <button type="submit" className="btn btn-ghost text-primary font-semibold capitalize">
@@ -210,11 +243,11 @@ const ArticleView = () => {
                                         return (
                                             <div className="flex gap-5 items-center" key={`comment-article${items.id}`}>
                                                 <div className="overflow-hidden w-[55px] rounded-md">
-                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />}
+                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : items.picture.startsWith('http://local') ? `http://localhost:8888/uploads/${items.picture}` : {defaultImage}} alt={items.picture || defaultImage} />}
                                                 </div>
                                                 <div>
-                                                    <div className="text-primary text-md font-semibold">{items.name} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
-                                                    <div className="text-frey-800 text-md">{items.content}</div>
+                                                    <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                    <div className="text-frey-800 text-md">{items.comment}</div>
                                                 </div>
                                             </div>
                                         )
