@@ -70,15 +70,15 @@ const SearchResult = () => {
                                     <label tabIndex={0} className="btn btn-ghost m-1">
                                         <FaFilter className="text-black" size={30} />
                                     </label>
-                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                            <li><a>Name (A-Z)</a></li>
-                                            <li><a>Name (Z-A)</a></li>
-                                            <li><a>Category</a></li>
-                                            <li><a>Last Added</a></li>
-                                            <li><a>Last Modified</a></li>
-                                        </ul>
-                                    </div>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li><a>Name (A-Z)</a></li>
+                                        <li><a>Name (Z-A)</a></li>
+                                        <li><a>Category</a></li>
+                                        <li><a>Last Added</a></li>
+                                        <li><a>Last Modified</a></li>
+                                    </ul>
                                 </div>
+                            </div>
                         </div>
                         {/* {article.map((items) => {
                             return(
@@ -142,35 +142,33 @@ const SearchResult = () => {
                                     return (
                                         <div key={`article-${article.id}`}>
                                             <Link to={`/article-view/${items.id}`}>
-                                            <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                                <img src={items.picture.startsWith('https') ? items.picture : `${import.meta.env.VITE_BACKEND_URL}/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />
-                                                <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                                    <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link>
+                                                <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
+                                                    <img src={items.picture.startsWith('https') ? items.picture : `${import.meta.env.VITE_BACKEND_URL}/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />
+                                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                             <div className="text-primary text-xl font-bold">{items.title}</div>
-                                                        </Link>
-                                                        <div className="text-black text-center text-sm">{items.left}</div>
-                                                        <div className="flex justify-between w-full text-sm text-black">
-                                                            <div className="flex gap-2 items-center">
-                                                                <div>
-                                                                    <AiOutlineLike />
+                                                            <div className="text-black text-center text-sm">{items.left}</div>
+                                                            <div className="flex justify-between w-full text-sm text-black">
+                                                                <div className="flex gap-2 items-center">
+                                                                    <div>
+                                                                        <AiOutlineLike />
+                                                                    </div>
+                                                                    <div>2.1K</div>
                                                                 </div>
-                                                                <div>2.1K</div>
-                                                            </div>
-                                                            <div className="flex gap-2 items-center">
-                                                                <div>
-                                                                    <AiOutlineFieldTime />
+                                                                <div className="flex gap-2 items-center">
+                                                                    <div>
+                                                                        <AiOutlineFieldTime />
+                                                                    </div>
+                                                                    <div>3m ago</div>
                                                                 </div>
-                                                                <div>3m ago</div>
-                                                            </div>
-                                                            <div>
-                                                                <RiBookmarkFill />
+                                                                <div>
+                                                                    <RiBookmarkFill />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </Link>
+                                            </Link>
                                         </div>
                                     )
                                 })}

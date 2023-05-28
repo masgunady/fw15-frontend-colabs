@@ -236,9 +236,18 @@ const Article = () => {
                         <div className="w-full py-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
                             <div className="flex items-center gap-5 pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
-                                <button className="btn bg-[#03999e5f] border-none">
-                                    <FaFilter className="text-black" size={30} />
-                                </button>
+                                <div className="dropdown">
+                                    <label tabIndex={0} className="btn btn-ghost m-1">
+                                        <FaFilter className="text-black" size={30} />
+                                    </label>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li><a>Name (A-Z)</a></li>
+                                        <li><a>Name (Z-A)</a></li>
+                                        <li><a>Category</a></li>
+                                        <li><a>Last Added</a></li>
+                                        <li><a>Last Modified</a></li>
+                                    </ul>
+                                </div>
                                 <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
                                     <Link className='flex gap-1 justify-center items-center' to='/write-article'>
                                         <AiOutlinePlus className="text-black" size={15} /> Write an article

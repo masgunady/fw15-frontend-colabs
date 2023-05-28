@@ -37,6 +37,12 @@ export default function SavedPost() {
                 </Helmet>
             </div>
             <Header />
+            {/* <section>
+                <div className="w-full pt-9 flex flex-col gap-5 bg-white">
+                    <div className="text-black hidden md:block text-lg font-semibold">Profile</div>
+                    <div className="flex text-primary hidden lg:flex justify-end text-lg font-semibold">Saved Post</div>
+                </div>
+            </section> */}
             <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
                 <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
                     <span className='md:text-2xl font-extrabold pl-14'>Profile</span>
@@ -101,18 +107,22 @@ export default function SavedPost() {
                     </div>
                     <div className='text-lg font-extrabold my-24'>
                         <ul>
-                            <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
-                                <span>Edit Profile</span>
-                                <MdArrowForwardIos
-                                    className='text-3xl font-bold transition-colors duration-100'
-                                />
-                            </li>
-                            <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
-                                <span>Saved Post</span>
-                                <MdArrowForwardIos
-                                    className='text-3xl font-bold transition-colors duration-100'
-                                />
-                            </li>
+                            <Link to='/profile/edit'>
+                                <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
+                                    <span>Edit Profile</span>
+                                    <MdArrowForwardIos
+                                        className='text-3xl font-bold transition-colors duration-100'
+                                    />
+                                </li>
+                            </Link>
+                            <Link to='/profile/saved-post'>
+                                <li className='flex justify-between text-primary px-14 py-5 hover:bg-slate-200 hover:text-primary'>
+                                    <span>Saved Post</span>
+                                    <MdArrowForwardIos
+                                        className='text-3xl font-bold transition-colors duration-100'
+                                    />
+                                </li>
+                            </Link>
                             <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
                                 <span>FAQ</span>
                                 <MdArrowForwardIos
@@ -125,7 +135,7 @@ export default function SavedPost() {
                                     className='text-3xl font-bold transition-colors duration-100'
                                 />
                             </li>
-                            <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
+                            <li className='flex justify-between px-14 py-5 hover:bg-red-200 hover:text-red-600'>
                                 <span>Logout</span>
                                 <MdArrowForwardIos
                                     className='text-3xl font-bold transition-colors duration-100'
