@@ -123,7 +123,7 @@ const ArticleViewAdmin = () => {
                                         <Link>
                                             <div className="text-black text-4xl font-bold">{articleView?.title}</div>
                                         </Link>
-                                        <div className="text-black text-center text-lg">{articleView?.author} - {articleView.role}</div>
+                                        <Link to={`/profile-information/${articleView.authorId}`} className="text-black text-center text-lg hover:text-primary">{articleView?.author} - {articleView.role}</Link>
                                         <div className="text-black text-center text-sm">{moment(articleView?.createdAt).format('LLLL')}</div>
                                         <div className="flex justify-start gap-5 w-full text-sm text-black">
                                             <div className="flex gap-2 items-center">

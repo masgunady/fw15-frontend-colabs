@@ -29,7 +29,7 @@ export default function EditProfile() {
 
 
     React.useEffect(() => {
-        async function getDataProfile() {
+        async function getDataProfile() { 
             const { data } = await http(token).get('/profile')
             // console.log(data)
             setProfile(data.results)
@@ -350,7 +350,7 @@ export default function EditProfile() {
                             </form>
                         )}
                     </Formik>
-                    <button onClick={requestAuthor} className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>
+                    {profile?.role === "standard" && <button onClick={requestAuthor} className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>}
                 </section>
             </div>
             <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />

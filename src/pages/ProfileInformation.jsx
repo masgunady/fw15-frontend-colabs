@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 
 import Image from '../components/Image';
 import Header from '../components/Header'
@@ -9,23 +9,23 @@ import { Helmet } from 'react-helmet';
 
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline } from 'react-icons/io5';
+import defaultImage from '../assets/image/default.png'
 
 
 
 // icon
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import http from '../helper/http';
-import { fetchUserArticles } from 'actions';
-
-
-
+import moment from 'moment/moment';
+import ImageTemplate from '../components/ImageTemplate';
 
 const Profile = () => {
+    const { id } = useParams()
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = React.useState({});
-    const [article, setArticle] = React.useState({});
+    const [article, setArticle] = React.useState([]);
 
     
 
@@ -34,8 +34,7 @@ const Profile = () => {
 
     React.useEffect(() => {
         async function getDataProfile() {
-            const { data } = await http(token).get('/profile')
-            console.log(data)
+            const { data } = await http(token).get(`/profile/${id}`)
             setProfile(data.results)
         }
         getDataProfile()
@@ -45,8 +44,7 @@ const Profile = () => {
     React.useEffect(() => {
         async function getDataArticle() {
             try {
-                const { data } = await http(token).get('/article/manage?page=1&limit=4');
-                console.log(data);
+                const { data } = await http(token).get(`/article/by-user/${id}?page=1&limit=4`);
                 setArticle(data.results);
             } catch (error) {
                 console.log(error);
@@ -54,6 +52,22 @@ const Profile = () => {
         }
         getDataArticle();
     }, [token]);
+
+    const getLikesCount = (articleId) => {
+        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
+        if (storedLikesCount) {
+            const likesCount = parseInt(storedLikesCount);
+            if (likesCount < 1000) {
+                return likesCount.toString();
+            } else {
+                const formattedCount = (likesCount / 1000).toFixed(1);
+                return formattedCount.toString() + 'k';
+            }
+        } else {
+            return '0';
+        }
+    };
+
 
 
     return (
@@ -69,8 +83,8 @@ const Profile = () => {
             <Header />
             <main className="bg-[#E5E5E5]">
                 <div className="w-full pt-9  flex flex-col gap-5">
-                    <div className="flex justify-center lg:hidden pb-5 text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Notification</div>
-                    <div className="flex items-center px-7 md:px-16 lg:px-20 xl:px-24 w-full">
+                    <div className="flex justify-center lg:hidden pb-5 text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Notification</div>
+                    <div className="flex items-center px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                         <div className="flex-1  flex items-center gap-5">
                             <Link to='/article' className="btn btn-ghost border-none">
                                 <IoChevronBackOutline className="text-black" size={35} />
@@ -80,14 +94,15 @@ const Profile = () => {
                         <div className="flex-1 hidden lg:flex justify-center text-black text-lg font-semibold">Joe Daniel</div>
                     </div>
                 </div>
-                <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
+                <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px] px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56'>
                     <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
                         <div className='flex w-[67%] p-10 my-10 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)] ml-14'>
                             <div className='flex flex-col'>
                                 <div className='flex gap-[24px]'>
                                     <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                         <div className='bg-white h-full rounded-3xl p-2'>
-                                            <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} />
+                                            {/* <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} /> */}
+                                            <ImageTemplate className='rounded-2xl h-full w-full bg-cover' src={profile?.picture || null} defaultImg={defaultImage} />
                                         </div>
                                     </div>
                                     <div
@@ -152,119 +167,46 @@ const Profile = () => {
                         <div className='font-extrabold text-xl ml-10'>Post</div>
                         <div className='relative'>
                             <div className='grid p-10 lg:grid-cols-2 gap-5'>
-                                <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                    <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
-                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                            <Link>
-                                                <div className="text-primary text-xl font-bold">COVID 19</div>
-                                            </Link>
-                                            <div className="text-black text-center text-sm">Why corona never ends? Let's see how its facts</div>
-                                            <div className="flex justify-between w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike className='text-blue-600' />
+                                
+                            {article.map(items => {
+                                        return (
+                                            <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-category-${items.id}`}>
+                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
+                                                <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                    <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                        <Link to={`/article-view/${items.id}`}>
+                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
+                                                        </Link>
+                                                        <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
+                                                        <div className="flex justify-between w-full text-sm text-black">
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineLike />
+                                                                </div>
+                                                                <div> {getLikesCount(items.id)}</div>
+                                                            </div>
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineFieldTime />
+                                                                </div>
+                                                                <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                            </div>
+                                                            <div>
+                                                                <RiBookmarkFill />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime className='text-blue-600' />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill className='text-blue-600' />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                    <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
-                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                            <Link>
-                                                <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            </Link>
-                                            <div className="text-black text-center text-sm">Why corona never ends? Let's see how its facts</div>
-                                            <div className="flex justify-between w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike className='text-blue-600' />
-                                                    </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime className='text-blue-600' />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill className='text-blue-600' />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                    <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
-                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                            <Link>
-                                                <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            </Link>
-                                            <div className="text-black text-center text-sm">Why corona never ends? Let&apos;s see how its facts</div>
-                                            <div className="flex justify-between w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike className='text-blue-600' />
-                                                    </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime className='text-blue-600' />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill className='text-blue-600' />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                    <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
-                                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                            <Link>
-                                                <div className="text-primary text-xl font-bold">COVID-19</div>
-                                            </Link>
-                                            <div className="text-black text-center text-sm">Why corona never ends? Let's see how its facts</div>
-                                            <div className="flex justify-between w-full text-sm text-black">
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineLike className='text-blue-600' />
-                                                    </div>
-                                                    <div>2.1K</div>
-                                                </div>
-                                                <div className="flex gap-2 items-center">
-                                                    <div>
-                                                        <AiOutlineFieldTime className='text-blue-600' />
-                                                    </div>
-                                                    <div>3m ago</div>
-                                                </div>
-                                                <div>
-                                                    <RiBookmarkFill className='text-blue-600' />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        )
+                                    })}
+
+                                        
+                                
+                                
+
+
                             </div>
                         </div>
                     </section>
