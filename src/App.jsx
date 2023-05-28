@@ -12,8 +12,9 @@ import NotificationAdmin from './pages/NotificationAdmin';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ProfileInformation from './pages/ProfileInformation';
 import EditProfile from './pages/EditProfile';
-import ProfileInformation from './pages/ProfileInformation'
+import SavedPost from './pages/SavedPost'
 import WriteArticle from './pages/WriteArticle';
 import About from './pages/About'
 
@@ -40,8 +41,9 @@ export default function App() {
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
+                        <Route path="/profile-information" element={<ProfileInformation />} />
                         <Route path="/profile/edit" element={<EditProfile />} />
-                        <Route path="/profile/information" element={<ProfileInformation />} />
+                        <Route path="/profile/saved-post" element={<SavedPost />} />
                         <Route path="/write-article" element={<WriteArticle />} />
                         <Route path="/about" element={<About />} />
                     </Routes>
