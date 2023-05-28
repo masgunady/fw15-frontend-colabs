@@ -73,9 +73,21 @@ const NotoficationAdmin = () => {
             <main>
                 <section>
                     <div className="w-full pb-16 flex flex-col items-start gap-5 bg-white">
-                        <button className="btn btn-ghost text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">
+                        {/* <button className="btn btn-ghost text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">
                             <FaFilter />
-                        </button>
+                        </button> */}
+                        <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
+                            <label tabIndex={0} className="btn btn-ghost m-1">
+                                <FaFilter className="text-black" size={30} />
+                            </label>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li><a>Name (A-Z)</a></li>
+                                <li><a>Name (Z-A)</a></li>
+                                <li><a>Category</a></li>
+                                <li><a>Last Added</a></li>
+                                <li><a>Last Modified</a></li>
+                            </ul>
+                        </div>
 
                         <div className="min-h-[400px] flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {

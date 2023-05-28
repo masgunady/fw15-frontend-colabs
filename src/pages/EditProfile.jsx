@@ -185,7 +185,7 @@ export default function EditProfile() {
                     </div>
                     <div className='text-lg font-extrabold my-24'>
                         <ul>
-                            <Link className='bg-slate-200 text-primary'>
+                            <Link className='bg-slate-200 text-primary' to='/profile/edit'>
                                 <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
                                     <span>Edit Profile</span>
                                     <MdArrowForwardIos
@@ -193,12 +193,14 @@ export default function EditProfile() {
                                     />
                                 </li>
                             </Link>
-                            <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
-                                <span>Saved Post</span>
-                                <MdArrowForwardIos
-                                    className='text-3xl font-bold transition-colors duration-100'
-                                />
-                            </li>
+                            <Link to='/profile/saved-post'>
+                                <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
+                                    <span>Saved Post</span>
+                                    <MdArrowForwardIos
+                                        className='text-3xl font-bold transition-colors duration-100'
+                                    />
+                                </li>
+                            </Link>
                             <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
                                 <span>FAQ</span>
                                 <MdArrowForwardIos
