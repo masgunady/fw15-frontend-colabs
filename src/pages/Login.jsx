@@ -100,7 +100,7 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
                     <div>Forgot Password?</div>
                 </Link>
             </div>
-            <button disabled={isSubmitting} type="submit" className="btn btn-primary capitalize text-white text-xl mt-5 md:mt-10">Login</button>
+            <button disabled={isSubmitting} type="submit" className="btn btn-primary capitalize text-white text-xl mt-5 md:mt-1">Login</button>
         </form>
     )
 }
@@ -165,7 +165,7 @@ export default function Login() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                        <div className="h-[230px] flex flex-col items-center justify-end pb-7">
+                        <div className="h-[200px] flex flex-col items-center justify-end pb-7">
                             <img src={Image.logposeWhite} alt="" className="w-[170px]" />
                         </div>
                         <span className="text-base">logpose@mail.com</span>
@@ -193,7 +193,7 @@ export default function Login() {
                         </div>
                     </section>
                 </section>
-                <section className="flex flex-col pt-24 gap-5 md:pt-28 px-10 md:gap-5 font-normal text-black h-screen">
+                <section className="flex flex-col gap-5 md:pt-16 px-10 md:gap-5 font-normal text-black h-screen">
                     <h1 className="font-bold text-2xl">Login</h1>
                     <span className="font-thin text-sm text-gray-600">Hey, welcome back to News Today!</span>
                     <div>
@@ -210,7 +210,7 @@ export default function Login() {
                             )}
                         </Formik>
                     </div>
-                    <div className="flex flex-col md:gap-5 self-center items-center mt-5 md:mt-10">
+                    <div className="flex flex-col md:gap-5 self-center items-center mt-1">
                         <span>OR LOGIN WITH</span>
                         <div className="flex md:gap-5 justify-center mt-2">
                             <FcGoogle className="text-4xl" />
@@ -218,16 +218,15 @@ export default function Login() {
                             <AiFillTwitterCircle className="text-[39px] text-sky-300" />
                         </div>
                     </div>
-                    <div className="flex flex-col mt-5 md:hidden">
+                    <div className="flex flex-col md:hidden">
                         <div className="flex justify-center items-center gap-3 mb-4 md:mb-8">
                             <hr className="md:w-20 lg:w-[23%]" />
                             <span className="text-center">
                                 Don't have an account?
                             </span>
+                            <Link to='/auth/register' className="text-primary text-lg capitalize">Sign Up</Link>
                             <hr className="md:w-20 lg:w-[23%]" />
                         </div>
-                        <Link to='/auth/register' className="btn btn-primary text-white text-lg capitalize">Sign Up</Link>
-                        <Link to="/" className="mt-5 self-center underline underline-offset-4 cursor-pointer">Back to Home Page</Link>
                     </div>
                 </section>
             </div>
