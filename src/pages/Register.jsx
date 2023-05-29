@@ -160,7 +160,7 @@ export default function Register() {
     React.useEffect(() => {
         if (successMessage) {
             setTimeout(() => {
-                navigate('/auth/login')
+                navigate('/')
             }, 2000)
             setTimeout(() => {
                 dispatch(clearMessage())
