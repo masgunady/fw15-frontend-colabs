@@ -148,7 +148,7 @@ const Header = () => {
                     <div className="absolute flex flex-col items-center gap-7 z-40 bg-white w-full overflow-scroll left-0 top-0 py-7 rounded-b-2xl shadow-xl">
                             <div className="w-[85%] pt-5 flex justify-center border-b-2 py-3 relative">
                                 <div className='inline-block rounded-full p-[2px] bg-gradient-to-tr from-[#3366FF] to-[#884DFF]'>
-                                    {<ImageTemplate className='w-36 h-36 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
+                                    {<ImageTemplate onClick={() => navigate("/profile/edit")}  className='w-36 h-36 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
                                 </div>
                                 <div className='absolute w-full top-3 flex items-center justify-end md:gap-11'>
                                     <Link to='/admin/notification-admin'>
@@ -159,6 +159,12 @@ const Header = () => {
                             <div className="w-full px-7">
                                 <div className="flex justify-start items-center gap-[1px]">
                                     <ul className="flex flex-col justify-center items-start gap-7 w-full text-sm text-[#373a42] font-semibold tracking-[1px] capitalize">
+                                        <li className="flex items-center justify-start gap-3.5">
+                                            <i className="">
+                                                <FiHome />
+                                            </i>
+                                            <Link to="/">Profile</Link>
+                                        </li>
                                         <li className="flex items-center justify-start gap-3.5">
                                             <i className="">
                                                 <FiHome />
