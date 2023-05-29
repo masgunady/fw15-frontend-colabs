@@ -14,6 +14,7 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
+import http from '../helper/http';
 
 const Home = () => {
     const { id } = useParams()
@@ -28,7 +29,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataTagArticle() {
-            const { data } = await axios.get('http://localhost:8888/tags?page=1&limit=15');
+            const { data } = await http().get('/tags?page=1&limit=15');
             setTagArtcile(data.results);
 
         }
@@ -37,7 +38,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataCategory() {
-            const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=10');
+            const { data } = await http().get('/categories?page=1&limit=10');
             setCategory(data.results);
         }
         getDataCategory();
@@ -45,7 +46,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataArticle() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=10');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=10');
             console.log(data.results)
             setArticle(data.results);
         }
@@ -76,8 +77,7 @@ const Home = () => {
 
     React.useEffect(() => {
         async function getDataArticleLatest() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
-            
+            const { data } = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
             setArticleLatest(data.results);
             setCreatedAt(data.results[0].createdAt);
         }
