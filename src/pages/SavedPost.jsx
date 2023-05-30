@@ -32,9 +32,9 @@ export default function SavedPost() {
 
     React.useEffect(() => {
         async function getDataBookmarks() {
-            const { data } = await http(token).get('/bookmarks?page=1&limit=9')
-            const sortedBookmarks = data.results.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) });
-            setBookmarks(sortedBookmarks);
+            const { data } = await http(token).get('/bookmarks')
+            console.log(data)
+            setBookmarks(data.results);
         }
         getDataBookmarks()
     }, [token])
@@ -204,7 +204,7 @@ export default function SavedPost() {
                         <span className='font-semibold'>Saved Post</span>
                     </div>
                     <div className='relative mt-10'>
-                        <div className='grid my-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center items-center'>
+                        <div className='overflow-auto h-[870px] grid my-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center items-center'>
                             {bookmarks.map((items) => {
                                 return (
                                     <>
@@ -214,9 +214,9 @@ export default function SavedPost() {
                                             <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                 <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                     <Link to={`/article-view/${items?.articleId}`}>
-                                                        <div className="text-primary text-xl font-bold">{items?.title}</div>
+                                                        <div className="text-primary text-xl font-bold">{(items.title).slice(0, 15) + `...`}</div>
                                                     </Link>
-                                                    <div className="text-black text-center text-sm">{items?.content}</div>
+                                                    <div className="text-black text-center text-sm">{(items.content).slice(0, 50) + `...`}</div>
                                                     <div className="flex justify-between w-full text-sm text-black">
                                                         <div className="flex gap-2 items-center">
                                                             <div>
@@ -228,7 +228,7 @@ export default function SavedPost() {
                                                             <div>
                                                                 <AiOutlineFieldTime className='text-blue-600' />
                                                             </div>
-                                                            <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                            <div>{moment(items.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
                                                         </div>
                                                         <div>
                                                             <RiBookmarkFill className='text-blue-600' />

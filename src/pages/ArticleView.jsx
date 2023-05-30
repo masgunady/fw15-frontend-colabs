@@ -49,7 +49,7 @@ const ArticleView = () => {
             const updatedLikesCount = likesCount + 1;
             setLikesCount(updatedLikesCount);
             setIsLiked(true);
-            localStorage.setItem(`likesCount_${id}`, updatedLikesCount.toString());
+            // localStorage.setItem(`likesCount_${id}`, updatedLikesCount.toString());
             console.log(data)
         } catch (err) {
             console.log(err)
@@ -72,9 +72,10 @@ const ArticleView = () => {
             const { data } = await http().get(`/article/${id}`)
             console.log(data.results)
             setArticleView(data.results)
-            const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
+            // const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
+            const storedLikesCount = data.results.likeCount
             setUpdatedAt(data.results.createdAt);
-            setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : data.results.likesCount || 0);
+            setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : 0);
         }
         if (id) {
             getViewArticle(id)

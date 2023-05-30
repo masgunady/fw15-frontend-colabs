@@ -99,7 +99,7 @@ const NotoficationAdmin = () => {
                             </ul>
                         </div>
 
-                        <div className="min-h-[400px] flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
+                        <div className="overflow-auto min-h-[400px] flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {
                                     requestAcc.map(item => {
                                         return(
