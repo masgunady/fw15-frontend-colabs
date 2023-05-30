@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Article from './pages/Article';
 import Category from './pages/Category';
+import ArticleByCategory from './pages/ArticleByCategory';
 import SearchResult from './pages/SearchResult';
 import ArticleView from './pages/ArticleView';
 import ArticleViewAdmin from './pages/ArticleViewAdmin';
@@ -33,6 +34,7 @@ export default function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/article" element={<Article />} />
                         <Route path="/category" element={<Category />} />
+                        <Route path="/article-by-category" element={<ArticleByCategory />} />
                         <Route path="/search-result" element={<SearchResult />} />
                         <Route path="/article-view/:id" element={<ArticleView />} />
                         <Route path="/admin/article-view/:id" element={<ArticleViewAdmin />} />

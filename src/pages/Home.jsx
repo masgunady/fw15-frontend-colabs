@@ -133,7 +133,7 @@ const Home = () => {
                                     {({ handleBlur, handleChange, handleSubmit }) => (
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-control w-full max-w-[500px]">
-                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" />
+                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" placeholder="Search" />
                                             </div>
                                         </form>
                                     )}
