@@ -8,13 +8,14 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import http from '../helper/http';
-import { formatDistanceToNow } from 'date-fns';
+import moment from 'moment';
+// import { formatDistanceToNow } from 'date-fns';
 import ImageTemplate from '../components/ImageTemplate';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
-    const [createdAt, setCreatedAt] = React.useState(null);
+    // const [createdAt, setCreatedAt] = React.useState(null);
     const [openModal, setOpenModal] = React.useState(false)
     
 
@@ -22,7 +23,7 @@ const NotoficationAdmin = () => {
         const getDataRequest = async() => {
             const {data} = await http(token).get('/request')
             setRequestAcc(data.results)
-            setCreatedAt(data.results[0].createdAt);
+            // setCreatedAt(data.results[0].createdAt);
         }
         getDataRequest()
     },[])
@@ -31,7 +32,7 @@ const NotoficationAdmin = () => {
         const getDataRequest = async() => {
             const {data} = await http(token).get('/request')
             setRequestAcc(data.results)
-            setCreatedAt(data.results[0].createdAt);
+            // setCreatedAt(data.results[0].createdAt);
         }
         getDataRequest()
     };
@@ -55,10 +56,10 @@ const NotoficationAdmin = () => {
         }, 1000)
     }
 
-    const formatUpdatedAt = (createdAt) => {
-        return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
+    // const formatUpdatedAt = (createdAt) => {
+    //     return moment(createdAt).add(7, 'hour').startOf('hour').fromNow();
         
-    };
+    // };
 
     return (
         <div className="bg-white">
@@ -111,7 +112,7 @@ const NotoficationAdmin = () => {
 
                                                     <div className="">
                                                         <div className="text-black text-xl font-semibold">{item?.fullName === null ? "New user" : item.fullName} sent you a {item.message}</div>
-                                                        <div className="text-lg text-grey-800">{createdAt && formatUpdatedAt(createdAt)}</div>
+                                                        <div className="text-lg text-grey-800">{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
                                                     </div>
                                                 </div>
 
