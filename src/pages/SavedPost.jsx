@@ -204,7 +204,7 @@ export default function SavedPost() {
                         <span className='font-semibold'>Saved Post</span>
                     </div>
                     <div className='relative mt-10'>
-                        <div className='overflow-auto h-[870px] grid my-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center items-center'>
+                        <div className='overflow-auto scrollbar-hidden h-[870px] grid my-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center items-center'>
                             {bookmarks.map((items) => {
                                 return (
                                     <>
