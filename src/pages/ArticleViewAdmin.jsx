@@ -78,7 +78,7 @@ const ArticleViewAdmin = () => {
         setTimeout(() => {
             setOpenModal(false)
             navigate('/',  { replace: true })
-        }, 1000)
+        }, 1000) 
     }
 
     const rejectRequestArticle = async() => {

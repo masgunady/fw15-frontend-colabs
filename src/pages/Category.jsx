@@ -1,7 +1,8 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import http from '../helper/http';
 import { Helmet } from 'react-helmet';
 
 import { FaFilter } from 'react-icons/fa';
@@ -11,7 +12,7 @@ const Category = () => {
 
     React.useEffect(() => {
         async function getDatacategory() {
-            const { data } = await axios.get('http://localhost:8888/categories?page=1&limit=20')
+            const { data } = await http().get('/categories?page=1&limit=20')
             console.log(data)
             setCategory(data.results)
         }
