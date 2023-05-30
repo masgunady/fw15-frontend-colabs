@@ -18,7 +18,7 @@ const SearchResult = () => {
 
     React.useEffect(() => {
         async function getDataArticle() {
-            const { data } = await http().get('http://localhost:8888/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
+            const { data } = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=10');
             console.log(data);
             setArticle(data.results);
         }

@@ -6,7 +6,9 @@ import { AiOutlineLike, AiOutlineFieldTime, AiOutlinePlus } from 'react-icons/ai
 import { RiBookmarkFill } from 'react-icons/ri';
 import { FaFilter } from 'react-icons/fa';
 import { Helmet } from 'react-helmet';
-import axios from 'axios';
+// import axios from 'axios';
+
+import http from '../helper/http';
 import React from 'react';
 import moment from 'moment';
 
@@ -34,7 +36,7 @@ const Article = () => {
 
     React.useEffect(() => {
         async function getDataMaritim() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=maritim');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=maritim');
             console.log(data);
             setArticleMaritim(data.results);
         }
@@ -42,7 +44,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataEntertainment() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=entertainment');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=entertainment');
             console.log(data);
             setArticleEntertainment(data.results);
         }
@@ -50,7 +52,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataCoffee() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=coffee');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=coffee');
             console.log(data);
             setArticleCoffee(data.results);
         }
@@ -58,7 +60,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataStudies() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=studies');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=studies');
             console.log(data);
             setArticleStudies(data.results);
         }
@@ -66,7 +68,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataPokemons() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=Pokémon');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=Pokémon');
             console.log(data);
             setArticlePokemons(data.results);
         }
@@ -74,7 +76,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataIndonesians() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=indonesians');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=indonesians');
             console.log(data);
             setArticleIndonesians(data.results);
         }
@@ -82,7 +84,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataEconomy() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=economy');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=economy');
             console.log(data);
             setArticleEconomy(data.results);
         }
@@ -90,7 +92,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataSports() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=sports');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=sports');
             console.log(data);
             setArticleSports(data.results);
         }
@@ -98,7 +100,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataFestivals() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=festival');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=festival');
             console.log(data);
             setArticleFestivals(data.results);
         }
@@ -106,7 +108,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataMusic() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=music');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=music');
             console.log(data);
             setArticleMusic(data.results);
         }
@@ -114,7 +116,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataTransportation() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=transportation');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=transportation');
             console.log(data);
             setArticleTransportation(data.results);
         }
@@ -122,7 +124,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataForest() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=forest');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=forest');
             console.log(data);
             setArticleForest(data.results);
         }
@@ -130,7 +132,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataJourney() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=journey');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=journey');
             console.log(data);
             setArticleJourney(data.results);
         }
@@ -138,7 +140,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataInnovation() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=innovation');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=innovation');
             console.log(data);
             setArticleInnovation(data.results);
         }
@@ -146,7 +148,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataHistory() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=history');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=history');
             console.log(data);
             setArticleHistory(data.results);
         }
@@ -154,7 +156,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataAccident() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=accident');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=accident');
             console.log(data);
             setArticleAccident(data.results);
         }
@@ -162,7 +164,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataMaestro() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=maestro');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=maestro');
             console.log(data);
             setArticleMaestro(data.results);
         }
@@ -170,7 +172,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataAnimals() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=animal');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=animal');
             console.log(data);
             setArticleAnimals(data.results);
         }
@@ -178,7 +180,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataNarcotics() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=narcotics');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=narcotics');
             console.log(data);
             setArticleNarcotics(data.results);
         }
@@ -186,7 +188,7 @@ const Article = () => {
     }, []);
     React.useEffect(() => {
         async function getDataSea() {
-            const { data } = await axios.get('http://localhost:8888/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=sea');
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=sea');
             console.log(data);
             setArticleSea(data.results);
         }
