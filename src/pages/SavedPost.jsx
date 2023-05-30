@@ -7,20 +7,71 @@ import Image from '../components/Image';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet';
+import { logout as logoutAction } from '../redux/reducers/auth';
 
 
 // icon
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
-
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import http from '../helper/http';
+import moment from 'moment';
 
 
 
 
 export default function SavedPost() {
     // const [show, setShow] = React.useState(false)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const token = useSelector((state) => state.auth.token);
+    const [profile, setProfile] = React.useState({})
+    const [bookmarks, setBookmarks] = React.useState([])
+
+    React.useEffect(() => {
+        async function getDataBookmarks() {
+            const { data } = await http(token).get('/bookmarks?page=1&limit=9')
+            const sortedBookmarks = data.results.sort((a, b) => { return new Date(b.createdAt) - new Date(a.createdAt) });
+            setBookmarks(sortedBookmarks);
+        }
+        getDataBookmarks()
+    }, [token])
+
+    React.useEffect(() => {
+        async function getDataProfile() {
+            const { data } = await http(token).get('/profile')
+            setProfile(data.results)
+        }
+        getDataProfile()
+
+    }, [token])
+
+
+    const formatLikesCount = (count) => {
+        if (count < 1000) {
+            return count.toString(); 
+        } else {
+            const formattedCount = (count / 1000).toFixed(1); 
+            return formattedCount.toString() + 'k'; 
+        }
+    };
+
+
+    // React.useEffect(() => {
+    //     async function getDataArticle() {
+    //         const { data } = await http().get(`/article/${id}`);
+    //         setArticle(data.results);
+    //     }
+    //     getDataArticle();
+    // }, [id]);
+
+
+    const doLogout = () => {
+        dispatch(logoutAction()),
+            navigate('/auth/login')
+    }
 
 
     // const handleShow = () => {
@@ -31,7 +82,7 @@ export default function SavedPost() {
     return (
         <>
             <div>
-            <Helmet>
+                <Helmet>
                     <title>Profile | Saved Post</title>
                     <meta name="description" content="Ini adalah deskripsi halaman saya" />
                 </Helmet>
@@ -50,29 +101,30 @@ export default function SavedPost() {
                         <div className='flex md:flex-col lg:flex-col-2 gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                 <div className='bg-white h-full rounded-3xl p-2'>
-                                    <img
+                                    {/* <img
                                         className='rounded-3xl h-full object-contain'
                                         src={Image.profileAvatar}
-                                        alt="" />
+                                        alt="" /> */}
+                                    <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} />
                                 </div>
                             </div>
                             <div
                                 className='flex flex-col items-center'>
                                 <span className='lg:text-lg text-primary'>
-                                    @jonathan
+                                    {profile?.username}
                                 </span>
                                 <span className='lg:text-2xl font-extrabold'>
-                                    Joe Daniel
+                                    {profile?.name}
                                 </span>
-                                <span className='lg:text-lg text-primary'>
-                                    Member
+                                <span className='lg:text-lg text-blue-500'>
+                                    {profile?.role}
                                 </span>
                             </div>
                         </div>
                         <div className='flex flex-col my-5'>
                             <span className='font-extrabold text-base'>About me</span>
                             <span className='text-sm'>
-                                Madison Blackstone is a director of publisher, with experience managing global teams.
+                                {profile?.about}
                             </span>
                         </div>
                         <div
@@ -135,7 +187,7 @@ export default function SavedPost() {
                                     className='text-3xl font-bold transition-colors duration-100'
                                 />
                             </li>
-                            <li className='flex justify-between px-14 py-5 hover:bg-red-200 hover:text-red-600'>
+                            <li onClick={doLogout} className='flex justify-between px-14 py-5 hover:bg-red-200 hover:text-red-600'>
                                 <span>Logout</span>
                                 <MdArrowForwardIos
                                     className='text-3xl font-bold transition-colors duration-100'
@@ -144,16 +196,51 @@ export default function SavedPost() {
                         </ul>
                     </div>
                 </section>
-                <section className='text-lg flex flex-col items-center relative gap-10 pt-10 px-10 md:px-0'>
+                <section className='text-lg flex flex-col items-center relative gap-10 mt-20 md:px-0'>
                     <div
                         onClick={() => navigate(-1)}
-                        className='flex justify-center items-center self-start absolute top-5 left-10 gap-4 cursor-pointer md:hidden'>
+                        className='flex justify-center items-center self-start absolute top-10 left-10 gap-4 cursor-pointer md:hidden'>
                         <MdArrowBackIos className="font-bold" />
-                        <span>Saved Post</span>
+                        <span className='font-semibold'>Saved Post</span>
                     </div>
-                    <div className='relative'>
-                        <div className='grid my-14 grid-cols-2 lg:grid-cols-3 gap-5'>
-                            <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
+                    <div className='relative mt-10'>
+                        <div className='grid my-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center items-center'>
+                            {bookmarks.map((items) => {
+                                return (
+                                    <>
+                                        <div key={`bookmarks-${items.id}`} className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
+                                            {/* <img src={Image.covid} className="absolute bottom-24 w-full" alt="" /> */}
+                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
+                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                    <Link to={`/article-view/${items?.articleId}`}>
+                                                        <div className="text-primary text-xl font-bold">{items?.title}</div>
+                                                    </Link>
+                                                    <div className="text-black text-center text-sm">{items?.content}</div>
+                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineLike className='text-blue-600' />
+                                                            </div>
+                                                            <div>{formatLikesCount(items?.likeCount)}</div>
+                                                        </div>
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineFieldTime className='text-blue-600' />
+                                                            </div>
+                                                            <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                        </div>
+                                                        <div>
+                                                            <RiBookmarkFill className='text-blue-600' />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                            })}
+                            {/* <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
                                 <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
@@ -292,35 +379,7 @@ export default function SavedPost() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="relative overflow-hidden min-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                <img src={Image.covid} className="absolute bottom-24 w-full" alt="" />
-                                <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                    <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                        <Link>
-                                            <div className="text-primary text-xl font-bold">COVID-19</div>
-                                        </Link>
-                                        <div className="text-black text-center text-sm">Why corona never ends? Let's see how its facts</div>
-                                        <div className="flex justify-between w-full text-sm text-black">
-                                            <div className="flex gap-2 items-center">
-                                                <div>
-                                                    <AiOutlineLike className='text-blue-600' />
-                                                </div>
-                                                <div>2.1K</div>
-                                            </div>
-                                            <div className="flex gap-2 items-center">
-                                                <div>
-                                                    <AiOutlineFieldTime className='text-blue-600' />
-                                                </div>
-                                                <div>3m ago</div>
-                                            </div>
-                                            <div>
-                                                <RiBookmarkFill className='text-blue-600' />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> */}
                             <span className='hidden md:flex absolute top-0 right-[50%] cursor-pointer hover:text-primary'>Saved Post</span>
                         </div>
                     </div>

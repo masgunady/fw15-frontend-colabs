@@ -1,12 +1,12 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import React from 'react';
-// import axios from 'axios';
-import http from '../helper/http';
+
 import { Helmet } from 'react-helmet';
 
 import { FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import http from '../helper/http';
 const Category = () => {
     const [category, setCategory] = React.useState([]);
 
