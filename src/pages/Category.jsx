@@ -70,7 +70,7 @@ const Category = () => {
                                     {category.map(category => {
                                         return (
                                             <>
-                                                <Link to="" key={category.id}>
+                                                <Link  key={category.id}>
                                                     <div className="flex flex-col gap-7 justify-center items-center">
                                                         <div className="relative w-[165px] h-[215px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             <div className="absolute flex justify-center items-center w-full h-full bg-black opacity-30">
@@ -82,7 +82,10 @@ const Category = () => {
                                                             {category.picture && <img src={category.picture.startsWith('https') ? category.picture :
                                                                 `http://localhost:8888/uploads/${category.picture}`} className="object-cover w-full h-full " alt="" />}
                                                         </div>
-                                                        <div className="text-black text-xl font-semibold hover:border-red-500  hover:text-red-500">{category.name}</div>
+                                                        <div className="text-black text-xl font-semibold hover:border-red-500  hover:text-red-500">
+                                                            <Link to='/article-by-category'>{category.name}</Link>
+                                                            {/* <Link to="/article-by-category">{category.name}</Link> */}
+                                                        </div>
                                                     </div>
                                                 </Link>
                                             </>
