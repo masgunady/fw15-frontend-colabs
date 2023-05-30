@@ -39,17 +39,18 @@ const ArticleView = () => {
             setProfile(data.results)
         }
         getProfile()
-     }, [])
+    }, [])
 
     const HandleLikes = async () => {
         try {
             const articleId = { articleId: id }
             const qs = new URLSearchParams(articleId).toString()
-            await http(token).post('/likes', qs)
+            const { data } = await http(token).post('/likes', qs)
             const updatedLikesCount = likesCount + 1;
             setLikesCount(updatedLikesCount);
             setIsLiked(true);
             localStorage.setItem(`likesCount_${id}`, updatedLikesCount.toString());
+            console.log(data)
         } catch (err) {
             console.log(err)
         }
@@ -57,10 +58,10 @@ const ArticleView = () => {
 
     const formatLikesCount = (count) => {
         if (count < 1000) {
-            return count.toString(); 
+            return count.toString();
         } else {
-            const formattedCount = (count / 1000).toFixed(1); 
-            return formattedCount.toString() + 'k'; 
+            const formattedCount = (count / 1000).toFixed(1);
+            return formattedCount.toString() + 'k';
         }
     };
 
@@ -87,7 +88,7 @@ const ArticleView = () => {
 
 
                 setComment(data.results);
-                
+
             } catch (err) {
                 console.log(err)
             }
@@ -101,7 +102,7 @@ const ArticleView = () => {
             try {
                 const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
                 setComment(data.results);
-                
+
             } catch (err) {
                 console.log(err)
             }
@@ -109,22 +110,22 @@ const ArticleView = () => {
         getDataComment();
     };
 
-    
+
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
-        
+
     };
 
-    const doComment = async(event) => {
+    const doComment = async (event) => {
         event.preventDefault()
         setErrorMessage('')
         try {
-            
-            const {value : content} = event.target.content
 
-            const qs = new URLSearchParams({articleId: id, content}).toString()
-            const {data} = await http(token).post('comments', qs)
+            const { value: content } = event.target.content
+
+            const qs = new URLSearchParams({ articleId: id, content }).toString()
+            await http(token).post('comments', qs)
             event.target.reset()
             setOpenModal(true)
             setTimeout(() => {
@@ -138,7 +139,7 @@ const ArticleView = () => {
         }
     }
 
-    
+
     return (
         <>
 
@@ -230,14 +231,14 @@ const ArticleView = () => {
                             </div>
 
                             <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:px-56 w-full flex flex-col gap-7">
-                                {token ? 
+                                {token ?
                                     <div className="flex gap-5 items-center w-full lg:w-[50%]">
                                         <div className="overflow-hidden w-[55px] rounded-md">
-                                        {profile.picture && <img src=
-                                            {profile.picture.startsWith("https")? profile?.picture : 
-                                                (profile.picture.startsWith("http://localhost")? `http://localhost:8888/uploads/${profile?.picture}` : {defaultImage})} 
-                                             alt={profile?.fullName}/>
-                                        }
+                                            {profile.picture && <img src=
+                                                {profile.picture.startsWith("https") ? profile?.picture :
+                                                    (profile.picture.startsWith("http://localhost") ? `http://localhost:8888/uploads/${profile?.picture}` : { defaultImage })}
+                                                alt={profile?.fullName} />
+                                            }
                                         </div>
                                         <div className="w-full ">
 
@@ -259,7 +260,7 @@ const ArticleView = () => {
                                         Please <Link to={"/auth/login"} className='font-bold text-[#03989E] hover:text-[#286090]'>login</Link> to comment
                                     </div>
                                 }
-                                
+
 
                                 <div className="flex flex-col gap-5">
                                     {comment.map(items => {
@@ -267,8 +268,8 @@ const ArticleView = () => {
                                             <div className="flex gap-5 items-center" key={`comment-article${items.id}`}>
 
                                                 <div className="overflow-hidden w-[55px] h-[55px] rounded-md">
-                                                {/* {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />} */}
-                                                {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
+                                                    {/* {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />} */}
+                                                    {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
                                                 </div>
                                                 <div>
                                                     <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
@@ -278,7 +279,7 @@ const ArticleView = () => {
                                             </div>
                                         )
                                     })}
-                                    
+
                                 </div>
                             </div>
                         </div>
