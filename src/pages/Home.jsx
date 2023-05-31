@@ -261,7 +261,7 @@ const Home = () => {
                                                                 <div>
                                                                     <AiOutlineLike />
                                                                 </div>
-                                                                <div> {getLikesCount(item.id)}</div>
+                                                                <div> {item.likeCount}</div>
                                                             </div>
                                                             <div className="flex gap-2 items-center">
                                                                 <div>

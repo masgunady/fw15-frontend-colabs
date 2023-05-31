@@ -20,8 +20,6 @@ import http from '../helper/http';
 import moment from 'moment';
 
 
-
-
 export default function SavedPost() {
     // const [show, setShow] = React.useState(false)
     const dispatch = useDispatch()
@@ -59,24 +57,10 @@ export default function SavedPost() {
     };
 
 
-    // React.useEffect(() => {
-    //     async function getDataArticle() {
-    //         const { data } = await http().get(`/article/${id}`);
-    //         setArticle(data.results);
-    //     }
-    //     getDataArticle();
-    // }, [id]);
-
-
     const doLogout = () => {
         dispatch(logoutAction()),
             navigate('/auth/login')
     }
-
-
-    // const handleShow = () => {
-    //     setShow(!show)
-    // }
 
 
     return (
@@ -94,8 +78,8 @@ export default function SavedPost() {
                     <div className="flex text-primary hidden lg:flex justify-end text-lg font-semibold">Saved Post</div>
                 </div>
             </section> */}
-            <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
-                <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
+            <div className='px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 flex'>
+                <section className='hidden basis-2/5 md:flex flex-col pt-10 border-r-[1px]'>
                     <span className='md:text-2xl font-extrabold pl-14'>Profile</span>
                     <div className='w-[67%] p-10 my-10 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)] ml-14'>
                         <div className='flex md:flex-col lg:flex-col-2 gap-10 items-center'>

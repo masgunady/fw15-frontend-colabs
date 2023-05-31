@@ -36,12 +36,14 @@ export default function EditProfile() {
         }
         getDataProfile()
 
-    }, [])
+    }, [token])
+
+
+
 
     const updateDisplay = () => {
         async function getDataProfile() {
             const { data } = await http(token).get('/profile')
-
             setProfile(data.results)
         }
         getDataProfile()

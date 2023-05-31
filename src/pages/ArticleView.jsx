@@ -1,21 +1,20 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { AiOutlineLike, AiOutlineFieldTime, AiFillLike, AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { RiBookmarkFill } from 'react-icons/ri';
-import { Link, useParams } from 'react-router-dom';
+import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { setWarningMessage } from '../redux/reducers/auth'
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment/moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
 
 import defaultImage from '../assets/image/default.png'
 import ImageTemplate from '../components/ImageTemplate';
-
-
 
 
 
@@ -28,9 +27,12 @@ const ArticleView = () => {
     const token = useSelector(state => state.auth.token)
     const [profile, setProfile] = React.useState({})
     const [comment, setComment] = React.useState([])
+    const [bookmarkButton, setBookmarkButton] = React.useState(false)
 
     const [errorMessage, setErrorMessage] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
     React.useEffect(() => {
@@ -70,7 +72,6 @@ const ArticleView = () => {
     React.useEffect(() => {
         const getViewArticle = async (id) => {
             const { data } = await http().get(`/article/${id}`)
-            console.log(data.results)
             setArticleView(data.results)
             // const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
             const storedLikesCount = data.results.likeCount
@@ -86,10 +87,7 @@ const ArticleView = () => {
         async function getDataComment() {
             try {
                 const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
-
-
                 setComment(data.results);
-
             } catch (err) {
                 console.log(err)
             }
@@ -98,7 +96,7 @@ const ArticleView = () => {
     }, [id]);
 
 
-    const updateComments = () => {
+    const updateStateComments = () => {
         async function getDataComment() {
             try {
                 const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
@@ -110,6 +108,56 @@ const ArticleView = () => {
         }
         getDataComment();
     };
+
+
+    React.useEffect(() => {
+        const checkBookmarks = async () => {
+            const { data } = await http(token).get(`/bookmarks/check/${id}`)
+            const btnStatus = data.results
+            if (btnStatus) {
+                setBookmarkButton(true)
+            }else{
+                setBookmarkButton()
+            }
+        }
+        checkBookmarks()
+    }, [id]);
+
+    const updateStateBookmarks = () => {
+        const checkBookmarks = async () => {
+            const { data } = await http(token).get(`/bookmarks/check/${id}`)
+            const btnStatus = data.results
+            if (btnStatus) {
+                setBookmarkButton(true)
+            }else{
+                setBookmarkButton()
+            }
+        }
+        checkBookmarks()
+    }
+
+
+    const addRemoveBookmark = async(event) => {
+        event.preventDefault()
+        if(!token){
+            dispatch(setWarningMessage('You have to login first'))
+            navigate('/auth/login')
+        }
+
+        try {
+            const qs = new URLSearchParams({articleId:id}).toString()
+            await http(token).post('/bookmarks/manage', qs)
+            updateStateBookmarks()
+
+        } catch (err) {
+            const message = err?.response?.data?.message
+            if (message) {
+                console.log(message)
+            }
+        }
+
+        
+    }
 
 
 
@@ -126,12 +174,12 @@ const ArticleView = () => {
             const { value: content } = event.target.content
 
             const qs = new URLSearchParams({ articleId: id, content }).toString()
-            await http(token).post('comments', qs)
+            await http(token).post('/comments', qs)
             event.target.reset()
             setOpenModal(true)
             setTimeout(() => {
                 setOpenModal(false)
-                updateComments()
+                updateStateComments()
             }, 1000)
 
         } catch (error) {
@@ -157,6 +205,7 @@ const ArticleView = () => {
                     <Header />
                 </div>
                 <section>
+                
                     <div className="w-full pt-5 pb-7 md:pt-11 md:pb-16  flex flex-col gap-5 bg-white">
                         <div className="flex items-center justify-between gap-5 px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                             <div className="flex-1  flex items-center gap-5">
@@ -202,7 +251,13 @@ const ArticleView = () => {
                                                 <p>{createdAt && formatUpdatedAt(createdAt)}</p>
                                             </div>
                                             <div>
-                                                <RiBookmarkFill size={40} />
+                                                <button type='button' onClick={addRemoveBookmark}>
+                                                    {bookmarkButton ? (
+                                                        <RiBookmarkFill size={40} /> 
+                                                    ): (
+                                                        <RiBookmarkLine size={40} /> 
+                                                    )}
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="w-full">
