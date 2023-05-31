@@ -18,7 +18,6 @@ const NotoficationAdmin = () => {
     // const [createdAt, setCreatedAt] = React.useState(null);
     const [openModal, setOpenModal] = React.useState(false)
     
-
     React.useEffect(()=>{
         const getDataRequest = async() => {
             const {data} = await http(token).get('/request')

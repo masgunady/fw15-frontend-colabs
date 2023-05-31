@@ -47,27 +47,11 @@ const Home = () => {
     React.useEffect(() => {
         async function getDataArticle() {
             const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=10');
-            console.log(data.results)
             setArticle(data.results);
         }
         getDataArticle();
     }, [id]);
 
-
-    const getLikesCount = (articleId) => {
-        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
-        if (storedLikesCount) {
-            const likesCount = parseInt(storedLikesCount);
-            if (likesCount < 1000) {
-              return likesCount.toString();
-            } else {
-              const formattedCount = (likesCount / 1000).toFixed(1); 
-              return formattedCount.toString() + 'k'; 
-            }
-          } else {
-            return '0';
-          }
-    };
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
@@ -122,8 +106,8 @@ const Home = () => {
                 <main>
                     <section>
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
-                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Search Article</div>
+                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
                                <Formik 
                                     initialValues={{
                                     searchName: '',
@@ -143,8 +127,8 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full py-16  flex flex-col gap-5 bg-white">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Popular Tags</div>
-                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Popular Tags</div>
+                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
                                 <div className="w-full  scrollbar-hide overflow-scroll">
                                     <div className="flex items-center gap-5">
                                         {tagArticle.map((item) => {
@@ -163,8 +147,8 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full bg-white pb-7 flex flex-col gap-5">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28  text-black font-bold">Category</div>
-                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28  h-[260px]">
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40  text-black font-bold">Category</div>
+                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40  h-[260px]">
                                 <div className="flex items-center gap-5 scrollbar-hide overflow-scroll h-full">
                                     {category.map((items) => {
                                         return (
@@ -182,8 +166,8 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Recomended</div>
-                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 h-[310px]">
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Recomended</div>
+                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
                                 <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                     {article.map((items) => {
                                         return (
@@ -241,7 +225,7 @@ const Home = () => {
                         </div>
                     </section>
                     <section>
-                        <div className="w-full bg-white py-16 px-7 md:px-16 lg:px-24 xl:px-28 flex flex-col gap-5 border-b-2 border-primary ">
+                        <div className="w-full bg-white py-16 px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 flex flex-col gap-5 border-b-2 border-primary ">
                             <div className="text-2xl text-black font-bold">Latest News</div>
                             {
                                 articleLatest.map(item => {
