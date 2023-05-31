@@ -13,7 +13,7 @@ export default function ArticleComponent() {
 
 
 
-    const arr = ['maritim', 'entertainment', 'coffee', 'studies', 'pokemons', 'indonesians', 'economy', 'eports', 'festivals', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'animals', 'narcotics', 'sea']
+    const arr = ['maritim', 'entertainment', 'coffee', 'studies', 'indonesians', 'economy', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'narcotics', 'sea']
 
 
 

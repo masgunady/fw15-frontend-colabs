@@ -20,7 +20,6 @@ const ArticleByCategory = () => {
     const [articleCategory, setArticleCategory] = React.useState([])
     const [activeTabCategory, setActiveTabCategory] = React.useState('maritim')
     const [tabArticle, setTabArticle] = React.useState(1)
-    // const [totalPage, setTotalPage] = React.useState()
     const Categories = ['maritim', 'entertainment', 'coffee', 'studies', 'pokemons', 'indonesians', 'economy', 'eports', 'festivals', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'animals', 'narcotics', 'sea']
 
 
@@ -45,11 +44,6 @@ const ArticleByCategory = () => {
     };
 
 
-    // const navigate = useNavigate()
-    // const onSearch = (values) => {
-    //     const qStrings = new URLSearchParams(values).toString()
-    //     navigate(`/search-result?${qStrings}`)
-    // }
     return (
         <div className="bg-white">
             <div className="header pb-24">

@@ -27,12 +27,6 @@ const Profile = () => {
     const [profile, setProfile] = React.useState({});
     const [article, setArticle] = React.useState([]);
 
-
-
-    
-
-
-
     React.useEffect(() => {
         async function getDataProfile() {
             const { data } = await http(token).get(`/profile/${id}`)
@@ -46,6 +40,7 @@ const Profile = () => {
         async function getDataArticle() {
             try {
                 const { data } = await http(token).get(`/article/by-user/${id}?page=1&limit=4`);
+                console.log(data.results);
                 setArticle(data.results);
             } catch (error) {
                 console.log(error);

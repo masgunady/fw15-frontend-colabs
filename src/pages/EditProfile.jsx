@@ -129,17 +129,16 @@ export default function EditProfile() {
             </div>
 
             <div className="header pb-24">
-                <Header />
+                <Header /> 
             </div>
 
-            <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px]'>
-                <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
-                    <span className='md:text-2xl font-extrabold pl-14'>Profile</span>
-                    <div className='w-[67%] p-10 my-10 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)] ml-14'>
-                        <div className='flex md:flex-col lg:flex-col-2 gap-10 items-center'>
+            <div className='flex flex-col-reverse md:flex-row text-black border-t-[1px] px-2 md:px-16 lg:px-24 xl:px-28 2xl:px-56'>
+                <section className='basis-1/3 flex flex-col justify-center items-center pt-16 px-7 border-t-2 lg:border-t-0 lg:border-r-[1px] w-full min-w-[400px]'>
+                    <span className='lg:text-2xl font-extrabold'>Profile</span>
+                    <div className='w-full p-10 my-12 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)]'>
+                        <div className='flex flex-col gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                 <div className='bg-white h-full rounded-3xl p-2'>
-                                    {/* <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} /> */}
                                     <ImageTemplate className='rounded-2xl h-full w-full bg-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                 </div>
                             </div>
@@ -189,7 +188,7 @@ export default function EditProfile() {
                             </div>
                         </div>
                     </div>
-                    <div className='text-lg font-extrabold my-24'>
+                    <div className='text-base md:text-lg font-extrabold my-24 w-full'>
                         <ul>
                             <Link className='bg-slate-200 text-primary' to='/profile/edit'>
                                 <li className='flex justify-between px-14 py-5 hover:bg-slate-200 hover:text-primary'>
@@ -228,7 +227,7 @@ export default function EditProfile() {
                         </ul>
                     </div>
                 </section>
-                <section className='text-lg flex flex-col items-center relative gap-10 pt-10 px-10 md:px-0'>
+                <section className='basis-2/3 text-lg flex flex-col items-center relative gap-10 pt-10 px-10 md:px-0'>
                     <div
                         onClick={() => navigate(-1)}
                         className='flex justify-center items-center self-start absolute top-5 left-10 gap-4 cursor-pointer md:hidden'>
@@ -354,7 +353,7 @@ export default function EditProfile() {
                                         </div>
                                     </div>
                                 </div>
-                                <button className='absolute right-10 top-5 text-cyan-600 cursor-pointer hover:text-cyan-700'>Save Change</button>
+                                <button className='absolute btn btn-ghost right-10 top-5 text-primary font-bold cursor-pointer capitalize hover:text-cyan-700'>Save Change</button>
                             </form>
                         )}
                     </Formik>
