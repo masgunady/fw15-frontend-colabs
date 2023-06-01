@@ -93,7 +93,7 @@ const Header = () => {
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="m-1 cursor-pointer">
                                     <div className='inline-block rounded-full p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                        {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
+                                        {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full object-cover' src={profile?.picture || null} defaultImg={defaultImage} />}
                                     </div>
                                     </label>
                                     <ul tabIndex={0} className='dropdown-content menu p-4 mt-5 shadow bg-base-100 rounded-box w-52'>

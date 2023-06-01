@@ -19,6 +19,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import http from '../helper/http';
 import moment from 'moment';
+import ImageTemplate from '../components/ImageTemplate';
 
 
 export default function SavedPost() {
@@ -115,7 +116,8 @@ export default function SavedPost() {
                         <div className='flex flex-col gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                 <div className='bg-white h-full rounded-3xl p-2'>
-                                    <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} />
+                                    {/* <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} /> */}
+                                    <ImageTemplate className='rounded-2xl h-full w-full object-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                 </div>
                             </div>
                             <div
