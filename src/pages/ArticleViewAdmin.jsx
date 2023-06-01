@@ -72,8 +72,7 @@ const ArticleViewAdmin = () => {
 
     const accRequestArticle = async() => {
         const qs = new URLSearchParams(reqData).toString()
-        const {data} = await http(token).post('/request/acc-article',qs)
-        
+        await http(token).post('/request/acc-article',qs)
         setOpenModal(true)
         setTimeout(() => {
             setOpenModal(false)
@@ -104,7 +103,7 @@ const ArticleViewAdmin = () => {
             </div>
 
             <div className="bg-white">
-            <div className="header pb-24">
+                <div className="header pb-24">
                     <Header />
                 </div>
                 <section>

@@ -51,8 +51,6 @@ export default function EditProfile() {
         getDataProfile()
     };
 
-
-
     const handleShow = () => {
         setShow(!show)
     }
@@ -125,8 +123,6 @@ export default function EditProfile() {
 
     return (
         <>
-
-            {/* helmet */}
             <div>
                 <Helmet>
                     <title>Edit Profile</title>

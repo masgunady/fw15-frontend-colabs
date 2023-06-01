@@ -117,80 +117,80 @@ const WriteArticle = () => {
                 enableReinitialize
             >
 
-                    {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
-                                <form onSubmit={handleSubmit} className="flex flex-col-reverse md:flex-row gap-7 items-center min-h-[500px] pb-16">
-                                    <div className="flex flex-col justify-center items-center w-[300px] h-[505px] gap-8">
-                                        <div className="w-[300px] h-full border-2 rounded-2xl p-3 border-primary">
-                                            <div className="border-2 w-full h-full rounded-2xl flex items-center justify-center">
-                                                {selectedPicture && (
-                                                    <div className='overflow-hidden relative'>
-                                                        <img className='object-cove' src={pictureURI} alt='profile' />
-                                                        <div className='absolute bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
-                                                    </div>
-                                                )}
-                                                
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className='btn bg-[#fff] w-full rounded-xl border-2 border-primary text-primary text-sm font-semibold tracking-[1px]'>
-                                                <span>Choose Cover photo</span>
-                                                <input name='picture' onChange={changePicture} className='hidden' type='file' />
-                                            </label>
+                {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
+                            <form onSubmit={handleSubmit} className="flex flex-col-reverse md:flex-row gap-7 items-center min-h-[500px] pb-16">
+                                <div className="flex flex-col justify-center items-center w-[300px] h-[505px] gap-8">
+                                    <div className="w-[300px] h-full border-2 rounded-2xl p-3 border-primary">
+                                        <div className="border-2 w-full h-full rounded-2xl flex items-center justify-center">
+                                            {selectedPicture && (
+                                                <div className='overflow-hidden relative'>
+                                                    <img className='object-cove' src={pictureURI} alt='profile' />
+                                                    <div className='absolute bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
+                                                </div>
+                                            )}
+                                            
                                         </div>
                                     </div>
-                                    <div className="w-full flex flex-col gap-9">
-                                        <div className="flex flex-col md:flex-row items-center gap-11">
-                                            <div className="form-control w-full flex-1">
-                                                <input
-                                                    name="title"
-                                                    type="text"
-                                                    className="input input-bordered input-primary text-black"
-                                                    placeholder="Article Tittle"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.title} />
-                                            </div>
-                                            <div className="form-control w-full flex-1">
-                                                <select
-                                                    name="categoryId"
-                                                    className="select select-primary text-black"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.categoryId}
-                                                >
-                                                    {/* <option disabled selected>Article Category</option> */}
-                                                    {category.map((item) => {
-                                                        return (
-                                                            <React.Fragment key={`category-${item.id}`} >
-                                                                <option className='hidden' >Article Category</option>
-                                                                <option value={item.id}>
-                                                                    {item.name}
-                                                                </option>
-                                                            </React.Fragment>
-                                                        )
-                                                    })}
-                                                </select>
-                                            </div>
+                                    <div>
+                                        <label className='btn bg-[#fff] w-full rounded-xl border-2 border-primary text-primary text-sm font-semibold tracking-[1px]'>
+                                            <span>Choose Cover photo</span>
+                                            <input name='picture' onChange={changePicture} className='hidden' type='file' />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="w-full flex flex-col gap-9">
+                                    <div className="flex flex-col md:flex-row items-center gap-11">
+                                        <div className="form-control w-full flex-1">
+                                            <input
+                                                name="title"
+                                                type="text"
+                                                className="input input-bordered input-primary text-black"
+                                                placeholder="Article Tittle"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.title} />
                                         </div>
-                                        <div>
-                                            <div className="form-control textarea overflow-hidden  w-full min-h-[320px] border-primary ">
-                                                <textarea
-                                                    className="textarea textarea-bordered resize-none w-full min-h-[320px] border-2 text-black"
-                                                    placeholder="Type the article"
-                                                    name="content"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.content}
+                                        <div className="form-control w-full flex-1">
+                                            <select
+                                                name="categoryId"
+                                                className="select select-primary text-black"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.categoryId}
+                                            >
+                                                {/* <option disabled selected>Article Category</option> */}
+                                                {category.map((item) => {
+                                                    return (
+                                                        <React.Fragment key={`category-${item.id}`} >
+                                                            <option className='hidden' >Article Category</option>
+                                                            <option value={item.id}>
+                                                                {item.name}
+                                                            </option>
+                                                        </React.Fragment>
+                                                    )
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="form-control textarea overflow-hidden  w-full min-h-[320px] border-primary ">
+                                            <textarea
+                                                className="textarea textarea-bordered resize-none w-full min-h-[320px] border-2 text-black"
+                                                placeholder="Type the article"
+                                                name="content"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.content}
 
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <button type="submit" className="btn btn-primary w-full text-white text-lg capitalize">request publish article</button>
+                                            />
                                         </div>
                                     </div>
-                                </form>
-                    )}
+                                    <div>
+                                        <button type="submit" className="btn btn-primary w-full text-white text-lg capitalize">request publish article</button>
+                                    </div>
+                                </div>
+                            </form>
+                )}
 
             </Formik>
 

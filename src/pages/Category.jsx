@@ -30,7 +30,7 @@ const Category = () => {
             </div>
 
             <div className="className='bg-white md:bg-[#F4F7FF]'">
-            <div className="header pb-24">
+                <div className="header pb-24">
                     <Header />
                 </div>
                 <section>
