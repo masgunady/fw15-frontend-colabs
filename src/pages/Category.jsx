@@ -13,7 +13,6 @@ const Category = () => {
     React.useEffect(() => {
         async function getDatacategory() {
             const { data } = await http().get('/categories?page=1&limit=20')
-            console.log(data)
             setCategory(data.results)
         }
         getDatacategory()
@@ -62,15 +61,14 @@ const Category = () => {
                             </div>
                         </div>
                     </section>
-
                     <section>
                         <div className="w-full bg-white pb-7 flex flex-col gap-5">
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28">
                                 <div className="flex flex-wrap items-center justify-center gap-7 h-full ">
-                                    {category.map(category => {
+                                    {category.map(item => {
                                         return (
-                                            <>
-                                                <Link  key={category.id}>
+                                            
+                                                <Link  key={`item-cat-list-${item.id}`}>
                                                     <div className="flex flex-col gap-7 justify-center items-center">
                                                         <div className="relative w-[165px] h-[215px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             <div className="absolute flex justify-center items-center w-full h-full bg-black opacity-30">
@@ -79,16 +77,16 @@ const Category = () => {
                                                                 <div className="w-[60%] font-semibold text-center text-white">+200 artticle</div>
                                                             </div>
                                                             
-                                                            {category.picture && <img src={category.picture.startsWith('https') ? category.picture :
-                                                                `http://localhost:8888/uploads/${category.picture}`} className="object-cover w-full h-full " alt="" />}
+                                                            {item.picture && <img src={item.picture.startsWith('https') ? item.picture :
+                                                                `http://localhost:8888/uploads/${item.picture}`} className="object-cover w-full h-full " alt="" />}
                                                         </div>
                                                         <div className="text-black text-xl font-semibold hover:border-red-500  hover:text-red-500">
-                                                            <Link to='/article-by-category'>{category.name}</Link>
+                                                            <Link to='/article-by-category'>{item.name}</Link>
                                                             {/* <Link to="/article-by-category">{category.name}</Link> */}
                                                         </div>
                                                     </div>
                                                 </Link>
-                                            </>
+                                            
                                         )
                                     })}
                                 </div>
