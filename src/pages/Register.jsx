@@ -20,9 +20,6 @@ import Image from '../components/Image';
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 
-
-
-
 const validationSechema = Yup.object({
     email: Yup.string().email('Email is invalid'),
     password: Yup.string().required('Password is invalid')
@@ -130,9 +127,6 @@ Form.propTypes = {
 }
 
 
-
-
-
 export default function Register() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -160,7 +154,7 @@ export default function Register() {
     React.useEffect(() => {
         if (successMessage) {
             setTimeout(() => {
-                navigate('/')
+                navigate('/auth/login')
             }, 2000)
             setTimeout(() => {
                 dispatch(clearMessage())
