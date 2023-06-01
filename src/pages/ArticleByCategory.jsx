@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { FaFilter } from 'react-icons/fa';
@@ -14,29 +14,45 @@ import { RiBookmarkFill } from 'react-icons/ri';
 import moment from "moment";
 import React from "react";
 import http from "../helper/http";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 
 
 const ArticleByCategory = () => {
     const [articleCategory, setArticleCategory] = React.useState([])
     const [activeTabCategory, setActiveTabCategory] = React.useState('maritim')
     const [tabArticle, setTabArticle] = React.useState(1)
+    const [totalPage, setTotalPage] = React.useState()
     const Categories = ['maritim', 'entertainment', 'coffee', 'studies', 'pokemons', 'indonesians', 'economy', 'eports', 'festivals', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'animals', 'narcotics', 'sea']
-
 
 
     React.useEffect(() => {
         async function getArticleCategory() {
             try {
-                const { data } = await http().get(`/article?category=${activeTabCategory}&page=${tabArticle}&limit=9`)
-                // setTotalPage(data.totalPage)
-                console.log(data)
+                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&page=${tabArticle}&limit=5`)
+                setTotalPage(data.pageInfo?.totalPage)
                 setArticleCategory(data.results)
+                console.log(activeTabCategory)
             } catch (error) {
                 console.error(error);
             }
         }
         getArticleCategory();
     }, [activeTabCategory, tabArticle]);
+
+
+
+
+    const handlePrevPage = () => {
+        if (tabArticle >= 1) {
+            setTabArticle(tabArticle - 1);
+        }
+    }
+
+    const handleNextPage = () => {
+        if (tabArticle < totalPage) {
+            setTabArticle(tabArticle + 1);
+        }
+    };
 
     const handleTabClick = (category) => {
         setActiveTabCategory(category)
@@ -96,12 +112,10 @@ const ArticleByCategory = () => {
                                     <div className="flex justify-center items-center">
                                         <button
                                             key={category}
-                                            className={`font-semibold px-4 py-2 hover:border-red-500  hover:text-red-500 ${activeTabCategory === category ? 'flex gap-10 activ border-b-2 border-red-500 text-red-600 ' : 'opacity-60'} px-4 py-2`}
+                                            className={`font-semibold px-4 py-2 hover:bg-[#03989e]/50 rounded-lg  hover:text-[#03989e] ${activeTabCategory === category ? 'flex gap-10 activ  bg-[#03989e]/50 text-[#03989e]' : 'opacity-80'} px-4 py-2`}
                                             onClick={() => handleTabClick(category)}
                                         >
                                             {category}
-
-                                            {console.log(category)}
                                         </button>
                                     </div>
 
@@ -183,6 +197,18 @@ const ArticleByCategory = () => {
                         })}
                     </div>
                 </section>
+                <div className="flex justify-center items-center gap-9 mb-10">
+                    <div className="flex justify-center items-center">
+                        <div>
+                            <button className="btn btn-base-100 shadow-lg shadow-black-500/70" disabled={tabArticle === 1} onClick={handlePrevPage}><AiOutlineArrowLeft size={20} color="white" /></button>
+                        </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                        <div>
+                            <button className="btn btn-primary shadow-lg shadow-black-500/70" disabled={tabArticle > totalPage} onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
+                        </div>
+                    </div>
+                </div>
             </main>
             <div>
                 <Footer />

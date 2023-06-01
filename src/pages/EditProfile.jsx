@@ -15,6 +15,8 @@ import { AiOutlineLoading3Quarters, } from 'react-icons/ai'
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import { Formik } from 'formik';
 import ImageTemplate from '../components/ImageTemplate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function EditProfile() {
@@ -48,8 +50,6 @@ export default function EditProfile() {
         }
         getDataProfile()
     };
-
-
 
     const handleShow = () => {
         setShow(!show)
@@ -87,11 +87,8 @@ export default function EditProfile() {
             const { data } = await http(token).patch('/profile', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-
                 }
-
             })
-            // console.log(data)
             setProfile(data.results)
         } catch (err) {
             console.log(err)
@@ -105,29 +102,33 @@ export default function EditProfile() {
             navigate('/auth/login')
     }
 
+    const notifyErrorReq = (data) => toast.error(data);
+    const notifySuccessReq = (data) => toast.success(data);
     const requestAuthor = async () => {
         try {
-            await http(token).post('/request')
+            const {data} = await http(token).post('/request')
             setOpenModal(true)
             setTimeout(()=>{
                 setOpenModal(false)
-            },3000)
+                notifySuccessReq(data?.message)
+            },1500)
         } catch (error) {
-            console.log(error)
+            setOpenModal(true)
+            setTimeout(()=>{
+                setOpenModal(false)
+                notifyErrorReq(error?.response?.data?.message)
+            },1000)
         }
     }
 
     return (
         <>
-
-            {/* helmet */}
             <div>
                 <Helmet>
                     <title>Edit Profile</title>
                     <meta name="description" content="Ini adalah deskripsi halaman saya" />
                 </Helmet>
             </div>
-
             <div className="header pb-24">
                 <Header /> 
             </div>
@@ -138,8 +139,8 @@ export default function EditProfile() {
                     <div className='w-full p-10 my-12 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)]'>
                         <div className='flex flex-col gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                <div className='bg-white h-full rounded-3xl p-2'>
-                                    <ImageTemplate className='rounded-2xl h-full w-full bg-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
+                                <div className='bg-white w-full h-full rounded-3xl p-2'>
+                                    <ImageTemplate className='rounded-2xl h-full w-full onject-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                 </div>
                             </div>
                             <div
@@ -249,13 +250,13 @@ export default function EditProfile() {
 
 
                         {({ handleSubmit, handleChange, handleBlur, values }) => (
-                            <form onSubmit={handleSubmit} className='lg:grid-cols-2 py-5 px-10 md:justify-evenly w-full lg:pl-20 gap-5'>
+                            <form onSubmit={handleSubmit} className='lg:grid-cols-2 py-5 md:justify-evenly w-full lg:pl-20 gap-5'>
                                 <div className='flex flex-col items-center gap-5 pt-10'>
                                     <div className='rounded-3xl w-32 h-32 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                        {!selectedPicture && <ImageTemplate className='bg-white h-full rounded-3xl p-2' src={profile?.picture || null} defaultImg={Image.profileAvatar} />}
+                                        {!selectedPicture && <ImageTemplate className='bg-white w-full h-full object-cover rounded-3xl p-2' src={profile?.picture || null} defaultImg={Image.profileAvatar} />}
                                         {selectedPicture && (
-                                            <div className='bg-white h-full rounded-3xl p-2 relative'>
-                                                <img className='rounded-2xl h-full w-full bg-cover' src={pictureURI} alt='profile' />
+                                            <div className='bg-white w-full h-full rounded-3xl p-2 relative'>
+                                                <img className='rounded-2xl h-full w-full object-cover' src={pictureURI} alt='profile' />
                                                 <div className='absolute rounded-2xl bg-gray-400 w-full h-full top-0 left-0 opacity-50 text-white flex justify-center items-center'></div>
                                             </div>
                                         )}
@@ -276,7 +277,7 @@ export default function EditProfile() {
                                             <input
                                                 type="text"
                                                 name="username"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%]'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.username} />
@@ -288,7 +289,7 @@ export default function EditProfile() {
                                             <input
                                                 type="email"
                                                 name="email"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%]'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.email}
@@ -301,7 +302,7 @@ export default function EditProfile() {
                                             <input
                                                 type="text"
                                                 name="job"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%]'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.job}
@@ -316,7 +317,7 @@ export default function EditProfile() {
                                             <input
                                                 type="text"
                                                 name="fullName"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%]'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.fullName}
@@ -329,7 +330,7 @@ export default function EditProfile() {
                                             <input
                                                 type={show ? "text" : "password"}
                                                 name="password"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%]'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%]'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.password}
@@ -345,7 +346,7 @@ export default function EditProfile() {
                                             </label>
                                             <textarea
                                                 name="about"
-                                                className='input input-bordered w-full md:w-96 lg:w-[90%] h-40 p-2'
+                                                className='input input-bordered border-primary w-full md:w-96 lg:w-[90%] h-40 p-2'
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.about}
@@ -357,8 +358,9 @@ export default function EditProfile() {
                             </form>
                         )}
                     </Formik>
-
-                    {profile?.role === "standard" && <button onClick={requestAuthor} className='hidden md:flex btn btn-primary h-14 w-full m-5 md:w-96 md:m-5'>Request to be an author</button>}
+                        <div className='py-7 w-full flex justify-center'>
+                            {profile?.role === "standard" && <button onClick={requestAuthor} className='btn btn-primary text-white normal-case h-14 w-full max-w-[400px]'>Request to be an author</button>}
+                        </div>
 
                 </section>
             </div>
@@ -369,6 +371,20 @@ export default function EditProfile() {
                         <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
                     </div>
                 </div>
+            </div>
+            <div className='pt-24'>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    />
             </div>
             <Footer />
         </>

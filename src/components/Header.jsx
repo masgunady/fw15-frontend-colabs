@@ -15,16 +15,13 @@ import { FiHome, FiInfo, FiList, FiUnlock, FiSettings, FiLogOut, FiAlignJustify 
 import {MdNotificationsNone} from 'react-icons/md'
 
 
-// import { IoIosNotificationsOutline } from "react-icons/io";
-
-
-
 const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [profile, setProfile] = React.useState({})
     const [menuMobile, setMenuMobile] = React.useState(false)
     const token = useSelector((state) => state.auth.token)
+    
     React.useEffect(() => {
         async function getProfileData() {
             const fallback = (message) => {
@@ -33,13 +30,13 @@ const Header = () => {
                 navigate('/auth/login')
             }
             const { data } = await http(token, fallback).get('/profile')
-            // console.log(data.results.picture)
             setProfile(data.results)
         }
         if (token) {
             getProfileData()
         }
     }, [token, dispatch, navigate])
+
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile)
@@ -82,14 +79,20 @@ const Header = () => {
                         <div className='hidden md:block'>
                             <div className='flex justify-start items-center gap-[10px] lg:gap-[15px]'>
                                 <div>
-                                    <Link to='/admin/notification-admin'>
-                                        <MdNotificationsNone size={25} className='text-black'/>
-                                    </Link>
+                                    {profile?.role === "superadmin" ? 
+                                        (<Link to='/admin/notification-admin'>
+                                            <MdNotificationsNone size={25} className='text-black'/>
+                                        </Link>)
+                                    :
+                                        (<Link to='/user/notification-user'>
+                                            <MdNotificationsNone size={25} className='text-black'/>
+                                        </Link>)
+                                    }
                                 </div>
 
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="m-1 cursor-pointer">
-                                    <div className='inline-block rounded-full p-[2px] bg-gradient-to-tr from-[#3366FF] to-[#884DFF]'>
+                                    <div className='inline-block rounded-full p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                         {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
                                     </div>
                                     </label>
