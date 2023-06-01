@@ -140,7 +140,7 @@ export default function EditProfile() {
                         <div className='flex flex-col gap-10 items-center'>
                             <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
                                 <div className='bg-white w-full h-full rounded-3xl p-2'>
-                                    <ImageTemplate className='rounded-2xl h-full w-full onject-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
+                                    <ImageTemplate className='rounded-2xl h-full w-full object-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                 </div>
                             </div>
                             <div
