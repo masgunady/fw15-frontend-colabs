@@ -98,7 +98,6 @@ const NotoficationAdmin = () => {
                                                     <Link to={`/profile-information/${item.senderId}`} className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
                                                         {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={item?.picture || null} defaultImg={defaultImage} />}
                                                     </Link>
-
                                                     <div className="">
                                                         <div className="text-black text-xl font-semibold">{item?.fullName === null ? "Anonimous user" : item.fullName} {item.message}</div>
                                                         <div className="text-lg text-grey-800">{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
@@ -106,7 +105,6 @@ const NotoficationAdmin = () => {
                                                 </div>
 
                                                 <div className='flex items-center gap-9'>
-
                                                     {
                                                         item?.typeRequest === "author" ? 
                                                         (
