@@ -26,12 +26,13 @@ export default function EditProfile() {
     const [selectedPicture, setSelectedPicture] = React.useState(false)
     const [openModal, setOpenModal] = React.useState(false)
     const [pictureURI, setPictureURI] = React.useState('')
-
+    const [totalPosts, setTotalPosts] = React.useState(0);
+    const [totalComments, setTotalComments] = React.useState(0);
 
     React.useEffect(() => {
-        async function getDataProfile() { 
+        async function getDataProfile() {
             const { data } = await http(token).get('/profile')
-            // console.log(data)
+            console.log(data)
             setProfile(data.results)
         }
         getDataProfile()
@@ -39,6 +40,39 @@ export default function EditProfile() {
     }, [token])
 
 
+    React.useEffect(() => {
+        async function getTotalPosts() {
+            try {
+                const { data } = await http(token).get(`/article/by-user/${profile.id}`);
+                setTotalPosts(data.results.length);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        if (profile.id) {
+            getTotalPosts();
+        }
+    }, [profile, token]);
+
+    React.useEffect(() => {
+        async function getTotalComments() {
+            try {
+                const { data } = await http(token).get(`/article/by-user/${profile.id}/comments`);
+                let count = 0;
+                data.results.forEach(article => {
+                    count += article.comments.length;
+                });
+                setTotalComments(count);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        if (profile.id) {
+            getTotalComments();
+        }
+    }, [profile, token]);
 
 
     const updateDisplay = () => {
@@ -109,9 +143,9 @@ export default function EditProfile() {
         try {
             await http(token).post('/request')
             setOpenModal(true)
-            setTimeout(()=>{
+            setTimeout(() => {
                 setOpenModal(false)
-            },3000)
+            }, 3000)
         } catch (error) {
             console.log(error)
         }
@@ -129,7 +163,7 @@ export default function EditProfile() {
             </div>
 
             <div className="header pb-24">
-                <Header /> 
+                <Header />
             </div>
 
             <div className='flex flex-col-reverse md:flex-row text-black border-t-[1px] px-2 md:px-16 lg:px-24 xl:px-28 2xl:px-56'>
@@ -165,7 +199,7 @@ export default function EditProfile() {
                             className='flex flex-col-3 justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[79%] left-[10%]'
                         >
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                <span>52</span>
+                                <span>{totalPosts}</span>
                                 <span>
                                     Post
                                 </span>
@@ -180,7 +214,7 @@ export default function EditProfile() {
                             </div>
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
                                 <span>
-                                    4.5K
+                                    {totalComments}
                                 </span>
                                 <span>
                                     Comment
