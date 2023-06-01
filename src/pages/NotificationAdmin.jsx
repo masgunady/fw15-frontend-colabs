@@ -51,8 +51,6 @@ const NotoficationAdmin = () => {
             updateNotifications()
         }, 1000)
     }
-
-
     return (
         <div className="bg-white">
                 <div className="header pb-24">
@@ -81,11 +79,11 @@ const NotoficationAdmin = () => {
                                 <FaFilter className="text-black" size={30} />
                             </label>
                             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a>Name (A-Z)</a></li>
-                                <li><a>Name (Z-A)</a></li>
+                                <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                 <li><a>Category</a></li>
-                                <li><a>Last Added</a></li>
-                                <li><a>Last Modified</a></li>
+                                <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                <li onClick={handleLastModify}><a>Last Modified</a></li>
                             </ul>
                         </div>
 

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import http from '../helper/http';
 const Category = () => {
     const [category, setCategory] = React.useState([]);
+    const [filterResults, setFilterReasults] = React.useState([])
 
     React.useEffect(() => {
         async function getDatacategory() {
@@ -17,6 +18,42 @@ const Category = () => {
         }
         getDatacategory()
     }, [])
+
+    React.useEffect(() => {
+        const getCategoryByFilter = async () => {
+            const {data} = await http().get('/categories?sortASC&page=1&limit100', {
+                
+            })
+        }
+    })
+
+    const handleSortByAsc = async () => {
+        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleSortByDesc = async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastAdd= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastModify= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
 
     return (
         <>
@@ -50,11 +87,11 @@ const Category = () => {
                                         <FaFilter className="text-black" size={30} />
                                     </label>
                                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li><a>Name (A-Z)</a></li>
-                                        <li><a>Name (Z-A)</a></li>
+                                        <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                        <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                         <li><a>Category</a></li>
-                                        <li><a>Last Added</a></li>
-                                        <li><a>Last Modified</a></li>
+                                        <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                        <li onClick={handleLastModify}><a>Last Modified</a></li>
                                     </ul>
                                 </div>
                                 <div className=" text-grey-400 capitalize text-base font-semibold">20 Category</div>
