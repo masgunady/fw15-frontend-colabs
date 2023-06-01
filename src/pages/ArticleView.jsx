@@ -5,16 +5,17 @@ import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { setWarningMessage } from '../redux/reducers/auth'
-
 import { IoChevronBackOutline } from 'react-icons/io5';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment/moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
-
 import defaultImage from '../assets/image/default.png'
+import defaultImagePost from '../assets/image/article-image.png'
 import ImageTemplate from '../components/ImageTemplate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -41,20 +42,18 @@ const ArticleView = () => {
             setProfile(data.results)
         }
         getProfile()
-    }, [])
-
+    }, [token])
+    const notifySuccessReq = (data) => toast.success(data);
     const HandleLikes = async () => {
         try {
             const articleId = { articleId: id }
             const qs = new URLSearchParams(articleId).toString()
-            const { data } = await http(token).post('/likes', qs)
+            await http(token).post('/likes', qs)
             const updatedLikesCount = likesCount + 1;
             setLikesCount(updatedLikesCount);
             setIsLiked(true);
-            // localStorage.setItem(`likesCount_${id}`, updatedLikesCount.toString());
-            console.log(data)
         } catch (err) {
-            console.log(err)
+            notifySuccessReq(err?.response?.data?.message)
         }
     }
 
@@ -66,8 +65,6 @@ const ArticleView = () => {
             return formattedCount.toString() + 'k';
         }
     };
-
-
 
     React.useEffect(() => {
         const getViewArticle = async (id) => {
@@ -120,8 +117,18 @@ const ArticleView = () => {
                 setBookmarkButton()
             }
         }
+        const checLikes = async () => {
+            const { data } = await http(token).get(`/likes/check/${id}`)
+            const btnStatus = data.results
+            if (btnStatus) {
+                setIsLiked(true);
+            }else{
+                setIsLiked();
+            }
+        }
         checkBookmarks()
-    }, [id]);
+        checLikes()
+    }, [id, token]);
 
     const updateStateBookmarks = () => {
         const checkBookmarks = async () => {
@@ -155,11 +162,7 @@ const ArticleView = () => {
                 console.log(message)
             }
         }
-
-        
     }
-
-
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
@@ -170,9 +173,7 @@ const ArticleView = () => {
         event.preventDefault()
         setErrorMessage('')
         try {
-
             const { value: content } = event.target.content
-
             const qs = new URLSearchParams({ articleId: id, content }).toString()
             await http(token).post('/comments', qs)
             event.target.reset()
@@ -187,8 +188,6 @@ const ArticleView = () => {
             setErrorMessage(message)
         }
     }
-
-
     return (
         <>
 
@@ -223,8 +222,7 @@ const ArticleView = () => {
                         <div className="w-full min-h-[370px] flex flex-col gap-5 ">
                             <div className="flex flex-col lg:flex-row items-start justify-center gap-5 px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                                 <div className="flex-1 min-h-[370px]  flex items-start overflow-hidden object-cover gap-5">
-                                    {/* <img className="min-h-[370px] object-cover" src={articleImage} alt="" /> */}
-                                    {articleView.picture && <img src={articleView.picture.startsWith('https') ? articleView.picture : `http://localhost:8888/uploads/${articleView.picture}`} className="h-[370px] w-full object-cover" alt="" />}
+                                    {<ImageTemplate className="h-[370px] w-full object-cover" src={articleView?.picture || null} defaultImg={defaultImagePost} />}
                                 </div>
                                 <div className="flex-1  h-full min-h-[370px]  text-black text-lg font-semibold">
                                     <div className="px-6  h-full min-h-[370px] flex flex-col gap-7 items-start justify-between">
@@ -290,11 +288,7 @@ const ArticleView = () => {
                                 {token ?
                                     <div className="flex gap-5 items-center w-full lg:w-[50%]">
                                         <div className="overflow-hidden w-[55px] rounded-md">
-                                            {profile.picture && <img src=
-                                                {profile.picture.startsWith("https") ? profile?.picture :
-                                                    (profile.picture.startsWith("http://localhost") ? `http://localhost:8888/uploads/${profile?.picture}` : { defaultImage })}
-                                                alt={profile?.fullName} />
-                                            }
+                                            {<ImageTemplate className="w-full h-full object-cover" src={profile?.picture || null} defaultImg={defaultImage} />}
                                         </div>
                                         <div className="w-full ">
 
@@ -316,15 +310,12 @@ const ArticleView = () => {
                                         Please <Link to={"/auth/login"} className='font-bold text-[#03989E] hover:text-[#286090]'>login</Link> to comment
                                     </div>
                                 }
-
-
                                 <div className="flex flex-col gap-5">
                                     {comment.map(items => {
                                         return (
                                             <div className="flex gap-5 items-center" key={`comment-article${items.id}`}>
 
                                                 <div className="overflow-hidden w-[55px] h-[55px] rounded-md">
-                                                    {/* {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} alt={items.picture} />} */}
                                                     {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
                                                 </div>
                                                 <div>
@@ -348,6 +339,20 @@ const ArticleView = () => {
                             <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
                         </div>
                     </div>
+                </div>
+                <div className='pt-24'>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                        />
                 </div>
                 <div className="footer">
                     <Footer />

@@ -89,11 +89,8 @@ export default function EditProfile() {
             const { data } = await http(token).patch('/profile', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-
                 }
-
             })
-            // console.log(data)
             setProfile(data.results)
         } catch (err) {
             console.log(err)
@@ -366,7 +363,7 @@ export default function EditProfile() {
                         )}
                     </Formik>
                         <div className='py-7 w-full flex justify-center'>
-                            {profile?.role === "standard" && <button onClick={requestAuthor} className='btn btn-primary h-14 w-full max-w-[400px]'>Request to be an author</button>}
+                            {profile?.role === "standard" && <button onClick={requestAuthor} className='btn btn-primary text-white normal-case h-14 w-full max-w-[400px]'>Request to be an author</button>}
                         </div>
 
                 </section>
@@ -379,7 +376,7 @@ export default function EditProfile() {
                     </div>
                 </div>
             </div>
-           <div className='mt-24'>
+            <div className='pt-24'>
                 <ToastContainer
                     position="top-right"
                     autoClose={2000}
@@ -392,7 +389,7 @@ export default function EditProfile() {
                     pauseOnHover
                     theme="colored"
                     />
-           </div>
+            </div>
             <Footer />
         </>
     )

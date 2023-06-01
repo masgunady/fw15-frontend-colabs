@@ -3,37 +3,25 @@ import Footer from '../components/Footer';
 import { FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import defaultImage from '../assets/image/default.png'
-
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment';
-// import { formatDistanceToNow } from 'date-fns';
 import ImageTemplate from '../components/ImageTemplate';
-// import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
-    // const [createdAt, setCreatedAt] = React.useState(null);
-    // const [openModal, setOpenModal] = React.useState(false)
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
             const {data} = await http(token).get('/request/user')
+            console.log(data.results)
             setRequestAcc(data.results)
         }
         getDataRequest()
     },[token])
-
-    // const updateNotifications = () => {
-    //     const getDataRequest = async() => {
-    //         const {data} = await http(token).get('/request/user')
-    //         setRequestAcc(data.results)
-    //     }
-    //     getDataRequest()
-    // };
-
 
     return (
         <div className="bg-white">
@@ -45,7 +33,7 @@ const NotoficationAdmin = () => {
                     <div className="flex justify-center lg:hidden pb-5 text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Notification</div>
                     <div className="flex items-center justify-between gap-5 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                         <div className="flex-1  flex items-center gap-5">
-                            <Link className="border-none">
+                            <Link to="/" className="border-none">
                                 <IoChevronBackOutline className="text-black" size={35} />
                             </Link>
                             <div className="text-black hidden md:block text-lg font-semibold">Home Page</div>
@@ -70,32 +58,46 @@ const NotoficationAdmin = () => {
                                 <li><a>Last Modified</a></li>
                             </ul>
                         </div>
-
                         <div className="overflow-auto min-h-screen flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {
                                     requestAcc.map(item => {
                                         return(
                                             <div className="flex items-center justify-between" key={`request-acc-${item.id}`}>
                                                 <div className="flex gap-4">
-                                                    <div className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
+                                                    <Link to={`/profile-information/${item.senderId}`} className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
                                                         {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={item?.picture || null} defaultImg={defaultImage} />}
-                                                    </div>
-
+                                                    </Link>
                                                     <div className="">
-                                                        <div className="text-black text-xl font-semibold">{item?.fullName === null ? "New user" : item.fullName} {item.message}</div>
+                                                        {item?.typeRequest === "acc_article" ?
+                                                        <div className="text-black text-xl font-semibold">
+                                                            <Link to={`/article-view/${item.articleId}`}>
+                                                                {item.message}
+                                                            </Link>
+                                                        </div>
+                                                        : item?.typeRequest === "acc_author" ?
+                                                        <div className="text-black text-xl font-semibold flex items-center gap-2">
+                                                            <Link to={`/profile-information/${item.senderId}`}>
+                                                                {item?.fullName === null ? "Anonimous user" : item.fullName}
+                                                            </Link>
+                                                            <Link to="/profile/edit">
+                                                                {item.message}
+                                                            </Link>
+                                                        </div>
+                                                        :
+                                                        <div className="text-black text-xl font-semibold flex items-center gap-2">
+                                                            <Link to={`/profile-information/${item.senderId}`}>
+                                                                {item?.fullName === null ? "Anonimous user" : item.fullName}
+                                                            </Link>
+                                                            <Link to={`/article-view/${item.articleId}`}>
+                                                                {item.message}
+                                                            </Link>
+                                                        </div>
+                                                    }
                                                         <div className="text-lg text-grey-800">{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
                                                     </div>
                                                 </div>
-
                                                 <div className='flex items-center gap-9'>
-                                                    {item?.typeRequest === "acc_author" || item?.typeRequest === "reject_author" ?
-                                                        <div className='flex items-center gap-7'>
-                                                        </div>
-                                                        :    
-                                                        <div>
-                                                        <Link to={`/article-view/${item.articleId}`} state={{ requestId:item.id, articleId: item.articleId }} className="btn btn-primary capitalize text-white">View</Link>
-                                                        </div>
-                                                    }
+                                                    <div></div>
                                                     <div>
                                                         <div className="form-control">
                                                             <label className="label cursor-pointer">

@@ -12,7 +12,7 @@ import defaultImage from '../assets/image/default.png'
 import {GrArticle} from 'react-icons/gr'
 
 import { FiHome, FiInfo, FiList, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
-import {MdNotificationsNone, MdOutlineNotificationsActive} from 'react-icons/md'
+import {MdNotificationsNone} from 'react-icons/md'
 
 
 const Header = () => {
@@ -22,7 +22,6 @@ const Header = () => {
     const [menuMobile, setMenuMobile] = React.useState(false)
     const token = useSelector((state) => state.auth.token)
     
-    // const [iconNotification, setIconNotification] = React.useState(false)
     React.useEffect(() => {
         async function getProfileData() {
             const fallback = (message) => {
@@ -38,25 +37,6 @@ const Header = () => {
         }
     }, [token, dispatch, navigate])
 
-    // React.useEffect(()=>{
-    //     const getDataRequest = async() => {
-    //         if(profile.role === "superadmin"){
-    //             const {data} = await http(token).get('/request')
-    //             if(data.results.length <= 0 ){
-    //                 setIconNotification(false)
-    //             }else(
-    //                 setIconNotification(true)
-    //             )
-    //         }
-    //         const {data} = await http(token).get('/request/user')
-    //             if(data.results.length <= 0 ){
-    //                 setIconNotification(false)
-    //             }else(
-    //                 setIconNotification(true)
-    //             )
-    //     }
-    //     getDataRequest()
-    // },[token])
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile)

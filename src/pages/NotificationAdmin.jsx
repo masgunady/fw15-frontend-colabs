@@ -63,7 +63,7 @@ const NotoficationAdmin = () => {
                     <div className="flex justify-center lg:hidden pb-5 text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Notification</div>
                     <div className="flex items-center justify-between gap-5 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
                         <div className="flex-1  flex items-center gap-5">
-                            <Link className="border-none">
+                            <Link to='/' className="border-none">
                                 <IoChevronBackOutline className="text-black" size={35} />
                             </Link>
                             <div className="text-black hidden md:block text-lg font-semibold">Home Page</div>
@@ -95,25 +95,36 @@ const NotoficationAdmin = () => {
                                         return(
                                             <div className="flex items-center justify-between" key={`request-acc-${item.id}`}>
                                                 <div className="flex gap-4">
-                                                    <div className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
+                                                    <Link to={`/profile-information/${item.senderId}`} className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
                                                         {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={item?.picture || null} defaultImg={defaultImage} />}
-                                                    </div>
+                                                    </Link>
 
                                                     <div className="">
-                                                        <div className="text-black text-xl font-semibold">{item?.fullName === null ? "New user" : item.fullName} sent you a {item.message}</div>
+                                                        <div className="text-black text-xl font-semibold">{item?.fullName === null ? "Anonimous user" : item.fullName} {item.message}</div>
                                                         <div className="text-lg text-grey-800">{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
                                                     </div>
                                                 </div>
 
                                                 <div className='flex items-center gap-9'>
-                                                    {item?.typeRequest === "author" ?
-                                                        <div className='flex items-center gap-7'>
-                                                        <button onClick={() => accRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn btn-primary capitalize text-white">Accept</button>
-                                                        <button onClick={() => rejectRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn bg-[#03999e5f] border-0 capitalize text-white">Ignore</button>
-                                                        </div>
-                                                        :    
+
+                                                    {
+                                                        item?.typeRequest === "author" ? 
+                                                        (
+                                                            <div className='flex items-center gap-7'>
+                                                                <button onClick={() => accRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn btn-primary capitalize text-white">Accept</button>
+                                                                <button onClick={() => rejectRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn bg-[#03999e5f] border-0 capitalize text-white">Ignore</button>
+                                                            </div>
+                                                        )
+                                                        :
+                                                        item?.typeRequest === "article" ? 
+                                                        (
+                                                            <div>
+                                                                <Link to={`/admin/article-view/${item.articleId}`} state={{ requestId:item.id, articleId: item.articleId }} className="btn btn-primary capitalize text-white">View</Link>
+                                                            </div>
+                                                        )
+                                                        :
                                                         <div>
-                                                        <Link to={`/admin/article-view/${item.articleId}`} state={{ requestId:item.id, articleId: item.articleId }} className="btn btn-primary capitalize text-white">View</Link>
+                                                        
                                                         </div>
                                                     }
                                                     <div>
