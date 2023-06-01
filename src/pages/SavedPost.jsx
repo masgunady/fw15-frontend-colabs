@@ -7,6 +7,7 @@ import Image from '../components/Image';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { logout as logoutAction } from '../redux/reducers/auth';
 
 
@@ -27,15 +28,32 @@ export default function SavedPost() {
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = React.useState({})
     const [bookmarks, setBookmarks] = React.useState([])
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [totalPages, setTotalPages] = React.useState(0);
+    const [totalPosts, setTotalPosts] = React.useState(0);
+
 
     React.useEffect(() => {
         async function getDataBookmarks() {
-            const { data } = await http(token).get('/bookmarks')
+            const { data } = await http(token).get(`/bookmarks?page=${currentPage}&limit=3`)
             console.log(data)
             setBookmarks(data.results);
+            setTotalPages(data.pageInfo?.totalPage);
         }
         getDataBookmarks()
     }, [token])
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     React.useEffect(() => {
         async function getDataProfile() {
@@ -45,6 +63,21 @@ export default function SavedPost() {
         getDataProfile()
 
     }, [token])
+
+    React.useEffect(() => {
+        async function getTotalPosts() {
+          try {
+            const { data } = await http(token).get(`/article/by-user/${profile.id}`);
+            setTotalPosts(data.results.length);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        
+        if (profile.id) {
+          getTotalPosts();
+        }
+      }, [profile, token]);
 
 
     const formatLikesCount = (count) => {
@@ -108,7 +141,7 @@ export default function SavedPost() {
                             className='flex flex-col-3 justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[79%] left-[10%]'
                         >
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                <span>52</span>
+                                <span>{totalPosts}</span>
                                 <span>
                                     Post
                                 </span>
@@ -220,6 +253,19 @@ export default function SavedPost() {
                             <span className='hidden md:flex absolute top-0 right-[50%] cursor-pointer hover:text-primary'>Saved Post</span>
                         </div>
                     </div>
+                    
+                    <div className="flex justify-center items-center gap-9 mb-10">
+                                <div className="flex justify-center items-center">
+                                    <div>
+                                        <button className="btn btn-base-100 shadow-lg shadow-black-500/70"  onClick={handlePrevPage}><AiOutlineArrowLeft size={20} color="white" /></button>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center items-center">
+                                    <div>
+                                        <button className="btn btn-primary shadow-lg shadow-black-500/70"  onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
+                                    </div>
+                                </div>
+                            </div>
                 </section>
             </div>
             <Footer />

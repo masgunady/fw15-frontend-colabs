@@ -30,7 +30,7 @@ const Category = () => {
             </div>
 
             <div className="className='bg-white md:bg-[#F4F7FF]'">
-            <div className="header pb-24">
+                <div className="header pb-24">
                     <Header />
                 </div>
                 <section>
@@ -67,8 +67,13 @@ const Category = () => {
                                 <div className="flex flex-wrap items-center justify-center gap-7 h-full ">
                                     {category.map(item => {
                                         return (
+
+                                            <>
+                                                <Link key={category.id}>
+
                                             
                                                 <Link  key={`item-cat-list-${item.id}`}>
+
                                                     <div className="flex flex-col gap-7 justify-center items-center">
                                                         <div className="relative w-[165px] h-[215px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             <div className="absolute flex justify-center items-center w-full h-full bg-black opacity-30">
@@ -76,12 +81,23 @@ const Category = () => {
                                                             <div className="absolute flex justify-center items-center w-full h-full text-xl">
                                                                 <div className="w-[60%] font-semibold text-center text-white">+200 artticle</div>
                                                             </div>
+
+
+                                                            {category.picture && <img src={category.picture.startsWith('https') ? category.picture :
+                                                                `http://localhost:8888/uploads/${category.picture}`} className="object-cover w-full h-full " alt="" />}
+                                                        </div>
+                                                        <div className="text-black text-xl font-semibold hover:border-red-500  hover:text-red-500">
+                                                            <Link to={`/article-by-category?category=${encodeURIComponent(category.name)}`}>
+                                                                <div>
+                                                                    {category.name}
+                                                                </div>
+                                                            </Link>
                                                             
                                                             {item.picture && <img src={item.picture.startsWith('https') ? item.picture :
                                                                 `http://localhost:8888/uploads/${item.picture}`} className="object-cover w-full h-full " alt="" />}
                                                         </div>
                                                         <div className="text-black text-xl font-semibold hover:border-red-500  hover:text-red-500">
-                                                            <Link to='/article-by-category'>{item.name}</Link>
+
                                                             {/* <Link to="/article-by-category">{category.name}</Link> */}
                                                         </div>
                                                     </div>

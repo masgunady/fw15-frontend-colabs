@@ -21,18 +21,17 @@ const ArticleByCategory = () => {
     const [articleCategory, setArticleCategory] = React.useState([])
     const [activeTabCategory, setActiveTabCategory] = React.useState('maritim')
     const [tabArticle, setTabArticle] = React.useState(1)
-
     const [totalPage, setTotalPage] = React.useState()
-
     const Categories = ['maritim', 'entertainment', 'coffee', 'studies', 'pokemons', 'indonesians', 'economy', 'eports', 'festivals', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'animals', 'narcotics', 'sea']
 
 
     React.useEffect(() => {
         async function getArticleCategory() {
             try {
-                const { data } = await http().get(`/article?category=${activeTabCategory}&page=${tabArticle}&limit=5`)
+                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&page=${tabArticle}&limit=5`)
                 setTotalPage(data.pageInfo?.totalPage)
                 setArticleCategory(data.results)
+                console.log(activeTabCategory)
             } catch (error) {
                 console.error(error);
             }
@@ -50,10 +49,10 @@ const ArticleByCategory = () => {
     }
 
     const handleNextPage = () => {
-        if (tabArticle  < totalPage) {
-          setTabArticle(tabArticle + 1);
-        } 
-      };
+        if (tabArticle < totalPage) {
+            setTabArticle(tabArticle + 1);
+        }
+    };
 
     const handleTabClick = (category) => {
         setActiveTabCategory(category)
@@ -85,7 +84,7 @@ const ArticleByCategory = () => {
                                     <div className="flex justify-center items-center">
                                         <button
                                             key={category}
-                                            className={`font-semibold px-4 py-2 hover:border-[#03989e]  hover:text-[#03989e] ${activeTabCategory === category ? 'flex gap-10 activ border-b-2 border-[#03989e] text-[#03989e]' : 'opacity-60'} px-4 py-2`}
+                                            className={`font-semibold px-4 py-2 hover:bg-[#03989e]/50 rounded-lg  hover:text-[#03989e] ${activeTabCategory === category ? 'flex gap-10 activ  bg-[#03989e]/50 text-[#03989e]' : 'opacity-80'} px-4 py-2`}
                                             onClick={() => handleTabClick(category)}
                                         >
                                             {category}
