@@ -9,6 +9,7 @@ import { FaFilter } from 'react-icons/fa';
 
 import React from 'react';
 import { Formik } from 'formik';
+import moment from 'moment';
 
 const SearchResult = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -26,10 +27,47 @@ const SearchResult = () => {
         getArticleBySearch()
     }, [searchParams])
 
+    const handleSortByAsc = async () => {
+        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleSortByDesc = async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastAdd= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastModify= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
+            params: searchParams,
+        })
+        setSearchResults(data.results)
+    }
+
 
     const onSearch = (values) => {
         setSearchParams(values, '/article/search')
     }
+
+    const formatLikesCount = (count) => {
+        if (count < 1000) {
+            return count.toString(); 
+        } else {
+            const formattedCount = (count / 1000).toFixed(1); 
+            return formattedCount.toString() + 'k'; 
+        }
+    };
 
     return (
         <div className="className='bg-white md:bg-[#F4F7FF]'">
@@ -61,20 +99,15 @@ const SearchResult = () => {
                                         <FaFilter className="text-black" size={30} />
                                     </label>
                                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li><a>Name (A-Z)</a></li>
-                                        <li><a>Name (Z-A)</a></li>
+                                        <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                        <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                         <li><a>Category</a></li>
-                                        <li><a>Last Added</a></li>
-                                        <li><a>Last Modified</a></li>
+                                        <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                        <li onClick={handleLastModify}><a>Last Modified</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        {/* {article.map((items) => {
-                            return(
-                                <div key={`article-${items.id}`} className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search result for {items.title}</div>
-                            )
-                        })} */}
                     </div>
                 </section>
                 <section>
@@ -143,13 +176,13 @@ const SearchResult = () => {
                                                                     <div>
                                                                         <AiOutlineLike />
                                                                     </div>
-                                                                    <div>2.1K</div>
+                                                                    <div>{formatLikesCount(items?.likeCount)}</div>
                                                                 </div>
                                                                 <div className="flex gap-2 items-center">
                                                                     <div>
                                                                         <AiOutlineFieldTime />
                                                                     </div>
-                                                                    <div>3m ago</div>
+                                                                    <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
                                                                 </div>
                                                                 <div>
                                                                     <RiBookmarkFill />
@@ -162,7 +195,6 @@ const SearchResult = () => {
                                         </div>
                                     )
                                 })}
-                                
                                 <div>
                                     {searchResults.length < 1 && (
                                         <div className='flex items-center justify-center font-semibold text-2xl '>

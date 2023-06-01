@@ -7,7 +7,41 @@ import { Helmet } from 'react-helmet';
 
 import ArticleComponent from '../components/ArticleComponents';
 
+
+import http from '../helper/http';
+import React from 'react';
+
 const Article = () => {
+    const [searchResults, setSearchResults] = React.useState([])
+
+
+    const handleSortByAsc = async () => {
+        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
+            params: searchResults,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleSortByDesc = async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
+            params: searchResults,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastAdd= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
+            params: searchResults,
+        })
+        setSearchResults(data.results)
+    }
+
+    const handleLastModify= async () => {
+        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
+            params: searchResults,
+        })
+        setSearchResults(data.results)
+    }
 
     return (
         <>
@@ -41,11 +75,11 @@ const Article = () => {
                                         <FaFilter className="text-black" size={30} />
                                     </label>
                                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li><a>Name (A-Z)</a></li>
-                                        <li><a>Name (Z-A)</a></li>
+                                        <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                        <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                         <li><a>Category</a></li>
-                                        <li><a>Last Added</a></li>
-                                        <li><a>Last Modified</a></li>
+                                        <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                        <li onClick={handleLastModify}><a>Last Modified</a></li>
                                     </ul>
                                 </div>
                                 <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">

@@ -35,18 +35,12 @@ export default function ArticleComponent() {
 
 
 
-    const getLikesCount = (articleId) => {
-        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
-        if (storedLikesCount) {
-            const likesCount = parseInt(storedLikesCount);
-            if (likesCount < 1000) {
-                return likesCount.toString();
-            } else {
-                const formattedCount = (likesCount / 1000).toFixed(1);
-                return formattedCount.toString() + 'k';
-            }
+    const formatLikesCount = (count) => {
+        if (count < 1000) {
+            return count.toString(); 
         } else {
-            return '0';
+            const formattedCount = (count / 1000).toFixed(1); 
+            return formattedCount.toString() + 'k'; 
         }
     };
 
@@ -82,7 +76,7 @@ export default function ArticleComponent() {
                                                             <div>
                                                                 <AiOutlineLike />
                                                             </div>
-                                                            <div> {getLikesCount(result.id)}</div>
+                                                            <div>{formatLikesCount(result?.likeCount)}</div>
                                                         </div>
                                                         <div className="flex gap-2 items-center">
                                                             <div>
