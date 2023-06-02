@@ -89,22 +89,25 @@ const SearchResult = () => {
                                     {({  handleBlur, handleChange, handleSubmit }) => (
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-control w-full max-w-[500px]">
-                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" />
+                                                <input className="input input-bordered input-primary" type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search'/>
                                             </div>
                                         </form>
                                     )}
                             </Formik>
-                                <div className="dropdown dropdown-end">
-                                    <label tabIndex={0} className="btn btn-ghost m-1">
-                                        <FaFilter className="text-black" size={30} />
-                                    </label>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                                        <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                                        <li><a>Category</a></li>
-                                        <li onClick={handleLastAdd}><a>Last Added</a></li>
-                                        <li onClick={handleLastModify}><a>Last Modified</a></li>
-                                    </ul>
+                                <div className='flex items-center gap-2'>
+                                    <div className="dropdown dropdown-end">
+                                        <label tabIndex={0} className="btn btn-ghost m-1">
+                                            <FaFilter className="text-black" size={30} />
+                                        </label>
+                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                            <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                            <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
+                                            <li><a>Category</a></li>
+                                            <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                            <li onClick={handleLastModify}><a>Last Modified</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>Filter</div>
                                 </div>
                             </div>
                         </div>

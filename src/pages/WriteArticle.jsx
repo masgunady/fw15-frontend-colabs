@@ -7,36 +7,24 @@ import { useSelector } from "react-redux";
 import React from "react";
 import http from "../helper/http";
 import { Field, Formik } from "formik";
-// import defaultProfile from '../assets/image/covid.jpeg'
 import { AiOutlineLoading3Quarters,  } from 'react-icons/ai'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ToastContainer, toast } from "react-toastify";
 
 
 const WriteArticle = () => {
     const navigate = useNavigate()
-    // const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
-    const [article, setArticle] = React.useState({})
     const [category, setCategory] = React.useState([])
     const [selectedPicture, setSelectedPicture] = React.useState(false)
     const [openModal, setOpenModal] = React.useState(false)
     const [pictureURI, setPictureURI] = React.useState('')
 
-    React.useEffect(()=>{
-        async function getDataArticle(){
-            const {data} =await http().get('/article')
-            console.log(data)
-            setArticle(data.results)
-        }
-        getDataArticle()
-    },[])
-
     React.useEffect(() => {
         async function getDataCategory() {
             try {
                 const { data } = await http(token).get('/categories')
-                console.log(data)
                 setCategory(data.results)
             } catch (err) {
                 console.log(err)
@@ -59,8 +47,9 @@ const WriteArticle = () => {
         fileToDataUrl(file)
     }
 
-
-    const editArticle = async (values) => {
+    const notifyErrorReq = (data) => toast.error(data);
+    const notifySuccessReq = (data) => toast.success(data);
+    const createArticle = async (values) => {
         setOpenModal(true)
         const form = new FormData()
         Object.keys(values).forEach((key) => {
@@ -72,20 +61,23 @@ const WriteArticle = () => {
             form.append('picture', selectedPicture)
         }
         try {
-            const { data } = await http(token).post('/article/manage', form, {
+            const {data} = await http(token).post('/article/manage', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                    
                 }
-                
+
             })
             console.log(data)
-            setArticle(data.results)
+            setOpenModal(false)
+            notifySuccessReq(data?.message)
+            setTimeout(()=>{
+                navigate('/article')
+            },3000)
         } catch (err) {
-            console.log(err)
+            setOpenModal(false)
+            notifyErrorReq(err?.response?.data?.message)
         }
-        setOpenModal(false)
-        navigate('/article')
+
     }
 
     return (
@@ -115,11 +107,11 @@ const WriteArticle = () => {
                     categoryId: '',
                     content: ''
                 }}
-                onSubmit={editArticle}
+                onSubmit={createArticle}
                 enableReinitialize
             >
 
-                {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
+                {({ handleSubmit, handleChange, handleBlur, values }) => (
                             <form onSubmit={handleSubmit} className="flex flex-col-reverse md:flex-row gap-7 items-center min-h-[500px] pb-16">
                                 <div className="flex flex-col justify-center items-center w-[300px] h-[505px] gap-8">
                                     <div className="w-[300px] h-full border-2 rounded-2xl p-3 border-primary">
@@ -192,10 +184,8 @@ const WriteArticle = () => {
                                                 config={{
                                                     toolbar: {
                                                         items: [
-                                                        'bold', // Add the bold option to the toolbar
+                                                        'bold', 
                                                         'italic',
-                                                        'underline',
-                                                        'alignment',
                                                         'undo',
                                                         'redo',
                                                         ],
@@ -204,7 +194,7 @@ const WriteArticle = () => {
                                                 data={field.value}
                                                 onChange={(event, editor) => {
                                                     const data = editor.getData();
-                                                    form.setFieldValue(field.name, data); // Set the field value using form.setFieldValue
+                                                    form.setFieldValue(field.name, data); 
                                                 }}
                                                 />
                                             )}
@@ -220,10 +210,6 @@ const WriteArticle = () => {
 
             </Formik>
 
-
-
-
-
             </main>
             <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
                 <div className="modal">
@@ -233,6 +219,20 @@ const WriteArticle = () => {
                         </div>
                     </div>
                 </div>
+                <div className='pt-24'>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    />
+            </div>
             <div>
                 <Footer />
             </div>
