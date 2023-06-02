@@ -7,9 +7,9 @@ import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet';
 import http from '../helper/http';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout as logoutAction } from '../redux/reducers/auth';
+import { logout as logoutAction,setWarningMessage } from '../redux/reducers/auth';
 import { AiOutlineLoading3Quarters, } from 'react-icons/ai'
-
+import { getProfileAction } from '../redux/actions/profile';
 
 // icon
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
@@ -24,31 +24,31 @@ export default function EditProfile() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
-    const [profile, setProfile] = React.useState({})
+    const  profile = useSelector((state) =>state.profile.data)
+
     const [selectedPicture, setSelectedPicture] = React.useState(false)
     const [openModal, setOpenModal] = React.useState(false)
     const [pictureURI, setPictureURI] = React.useState('')
 
 
     React.useEffect(() => {
-        async function getDataProfile() { 
-            const { data } = await http(token).get('/profile')
-            // console.log(data)
-            setProfile(data.results)
+        async function getProfileData() {
+            const fallback = (message) => {
+                dispatch(logoutAction())
+                dispatch(setWarningMessage(message))
+                navigate('/auth/login')
+            }
+            dispatch(getProfileAction(token, fallback))
         }
-        getDataProfile()
-
-    }, [token])
-
-
-
+        if (token) {
+            getProfileData()
+        }else(
+            navigate('/auth/login')
+        )
+    }, [token, dispatch, navigate])
 
     const updateDisplay = () => {
-        async function getDataProfile() {
-            const { data } = await http(token).get('/profile')
-            setProfile(data.results)
-        }
-        getDataProfile()
+        dispatch(getProfileAction(token))
     };
 
     const handleShow = () => {
@@ -84,12 +84,11 @@ export default function EditProfile() {
             form.append('picture', selectedPicture)
         }
         try {
-            const { data } = await http(token).patch('/profile', form, {
+            await http(token).patch('/profile', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            setProfile(data.results)
         } catch (err) {
             console.log(err)
         }

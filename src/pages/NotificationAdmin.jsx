@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment';
-// import { formatDistanceToNow } from 'date-fns';
 import ImageTemplate from '../components/ImageTemplate';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 const NotoficationAdmin = () => {
@@ -78,13 +77,13 @@ const NotoficationAdmin = () => {
                             <label tabIndex={0} className="btn btn-ghost m-1">
                                 <FaFilter className="text-black" size={30} />
                             </label>
-                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            {/* <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                                 <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
                                 <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                 <li><a>Category</a></li>
                                 <li onClick={handleLastAdd}><a>Last Added</a></li>
                                 <li onClick={handleLastModify}><a>Last Modified</a></li>
-                            </ul>
+                            </ul> */}
                         </div>
 
                         <div className="overflow-auto min-h-screen flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
