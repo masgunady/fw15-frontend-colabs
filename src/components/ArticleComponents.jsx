@@ -67,6 +67,7 @@ export default function ArticleComponent() {
 
 
     return (
+
     <>
         <section>
             <div className="w-full py-16  flex flex-col gap-5 bg-white">
