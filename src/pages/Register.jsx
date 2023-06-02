@@ -68,31 +68,33 @@ const Form = ({ values, errors, touched, handleChange, handleBlur, handleSubmit,
             </div>
             <div className="flex flex-col gap-2 relative">
                 <label htmlFor="password">Password :</label>
-                <input
-                    name="password"
-                    type={typePassword ? 'text' : 'password'}
-                    placeholder="Enter your password "
-                    className="input input-bordered border-primary w-full"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                />
+                <div className='relative'>
+                    <input
+                        name="password"
+                        type={typePassword ? 'text' : 'password'}
+                        placeholder="Enter your password "
+                        className="input input-bordered border-primary w-full"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                    />
+                    <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                        {iconEye ? (
+                            <i className=''>
+                                <FiEye size={20} />
+                            </i>
+                        ) : (
+                            <i className=''>
+                                <FiEyeOff size={20} />
+                            </i>
+                        )}
+                    </button>
+                </div>
                 {errors.password && touched.password && (
                     <label className="label">
                         <span className="label-text-left text-error text-xs ">{errors.password}</span>
                     </label>
                 )}
-                <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
-                    {iconEye ? (
-                        <i className=''>
-                            <FiEye size={20} />
-                        </i>
-                    ) : (
-                        <i className=''>
-                            <FiEyeOff size={20} />
-                        </i>
-                    )}
-                </button>
             </div>
             <div className="flex flex-col gap-2">
                 <label htmlFor="phoneNumber">Phone Number :</label>
@@ -182,7 +184,7 @@ export default function Register() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                    <div className="h-[230px] flex flex-col items-center justify-end pb-7">
+                        <div className="h-[230px] flex flex-col items-center justify-end pb-7">
                             <img src={Image.logposeWhite} alt="" className="w-[170px]" />
                         </div>
                         <span className="text-base">logpose@mail.com</span>
