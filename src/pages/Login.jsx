@@ -69,31 +69,33 @@ const FormLogin = ({ values, errors, touched, handleChange, handleBlur, handleSu
             </div>
             <div className="flex flex-col gap-2 form-control relative">
                 <label htmlFor="password">Password :</label>
-                <input
-                    name="password"
-                    type={typePassword ? 'text' : 'password'}
-                    placeholder="Enter your password "
-                    className="input input-bordered border-primary w-full"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                />
+                <div className="relative">
+                    <input
+                        name="password"
+                        type={typePassword ? 'text' : 'password'}
+                        placeholder="Enter your password "
+                        className="input input-bordered border-primary w-full"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                    />
+                    <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
+                        {iconEye ? (
+                            <i className=''>
+                                <FiEye size={20} />
+                            </i>
+                        ) : (
+                            <i className=''>
+                                <FiEyeOff size={20} />
+                            </i>
+                        )}
+                    </button>
+                </div>
                 {errors.password && touched.password && (
                     <label className="label">
                         <span className="label-text-left text-error text-xs ">{errors.password}</span>
                     </label>
                 )}
-                <button type='button' onClick={handleInputPassword} className='absolute bottom-3 right-4 text-[#4c3f91]'>
-                    {iconEye ? (
-                        <i className=''>
-                            <FiEye size={20} />
-                        </i>
-                    ) : (
-                        <i className=''>
-                            <FiEyeOff size={20} />
-                        </i>
-                    )}
-                </button>
             </div>
             <div className="flex justify-end text-blue-600 font-semibold">
                 <Link to='/forgot-password'>
@@ -121,7 +123,7 @@ export default function Login() {
     const token = useSelector(state => state.auth.token)
     const formError = useSelector(state => state.auth.formError)
 
-    
+
 
     React.useEffect(() => {
         if (token) {
