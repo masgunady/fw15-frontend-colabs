@@ -18,6 +18,7 @@ import ProfileInformation from './pages/ProfileInformation';
 import EditProfile from './pages/EditProfile';
 import SavedPost from './pages/SavedPost'
 import WriteArticle from './pages/WriteArticle';
+import WaitingList from './pages/WaitingList';
 import About from './pages/About'
 
 
@@ -49,6 +50,7 @@ export default function App() {
                         <Route path="/profile/edit" element={<EditProfile />} />
                         <Route path="/profile/saved-post" element={<SavedPost />} />
                         <Route path="/write-article" element={<WriteArticle />} />
+                        <Route path="/waiting-list" element={<WaitingList />} />
                         <Route path="/about" element={<About />} />
                     </Routes>
                 </BrowserRouter>
