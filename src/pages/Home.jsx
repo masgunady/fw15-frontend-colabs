@@ -196,7 +196,7 @@ const Home = () => {
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
                                     <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between ">
                                         <div className='text-2xl text-black font-bold'>Waiting list</div>
-                                        <Link to=''>
+                                        <Link to='/waiting-list'>
                                             <div className='text-xl text-primary font-semibold'>More</div>
                                         </Link>
                                     </div>
