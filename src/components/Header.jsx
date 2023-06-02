@@ -6,19 +6,19 @@ import { Link } from 'react-router-dom';
 // import Image from './Image/';
 import ImageTemplate from '../components/ImageTemplate'
 import {logout as logoutAction, setWarningMessage} from '../redux/reducers/auth'
-import http from '../helper/http';
 import defaultImage from '../assets/image/default.png'
 
 import {GrArticle} from 'react-icons/gr'
 
 import { FiHome, FiInfo, FiList, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
 import {MdNotificationsNone} from 'react-icons/md'
+import { getProfileAction } from '../redux/actions/profile';
 
 
 const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [profile, setProfile] = React.useState({})
+    const  profile = useSelector((state) =>state.profile.data)
     const [menuMobile, setMenuMobile] = React.useState(false)
     const token = useSelector((state) => state.auth.token)
     
@@ -29,14 +29,12 @@ const Header = () => {
                 dispatch(setWarningMessage(message))
                 navigate('/auth/login')
             }
-            const { data } = await http(token, fallback).get('/profile')
-            setProfile(data.results)
+            dispatch(getProfileAction(token, fallback))
         }
         if (token) {
             getProfileData()
         }
     }, [token, dispatch, navigate])
-
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile)
