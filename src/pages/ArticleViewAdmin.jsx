@@ -19,10 +19,21 @@ const ArticleViewAdmin = () => {
     const [isLiked, setIsLiked] = React.useState(false);
     const [createdAt, setUpdatedAt] = React.useState(null);
     const [openModal, setOpenModal] = React.useState(false)
+    const [category, setCategory] = React.useState([])
     const token = useSelector(state => state.auth.token)
     const location = useLocation();
     const reqData = location.state;
     const navigate = useNavigate()
+
+
+    React.useEffect(() => {
+        async function getDataCategory() {
+            const { data } = await http().get('/categories')
+            console.log(data)
+            setCategory(data.results)
+        }
+        getDataCategory()
+    }, [])
 
 
 
@@ -43,10 +54,10 @@ const ArticleViewAdmin = () => {
 
     const formatLikesCount = (count) => {
         if (count < 1000) {
-            return count.toString(); 
+            return count.toString();
         } else {
-            const formattedCount = (count / 1000).toFixed(1); 
-            return formattedCount.toString() + 'k'; 
+            const formattedCount = (count / 1000).toFixed(1);
+            return formattedCount.toString() + 'k';
         }
     };
 
@@ -67,30 +78,30 @@ const ArticleViewAdmin = () => {
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
-        
+
     };
 
-    const accRequestArticle = async() => {
+    const accRequestArticle = async () => {
         const qs = new URLSearchParams(reqData).toString()
-        await http(token).post('/request/acc-article',qs)
+        await http(token).post('/request/acc-article', qs)
         setOpenModal(true)
         setTimeout(() => {
             setOpenModal(false)
-            navigate('/',  { replace: true })
-        }, 1000) 
-    }
-
-    const rejectRequestArticle = async() => {
-        const qs = new URLSearchParams(reqData).toString()
-        await http(token).post('/request/reject-article',qs)
-        setOpenModal(true)
-        setTimeout(() => {
-            setOpenModal(false)
-            navigate('/',  { replace: true })
+            navigate('/', { replace: true })
         }, 1000)
     }
 
-    
+    const rejectRequestArticle = async () => {
+        const qs = new URLSearchParams(reqData).toString()
+        await http(token).post('/request/reject-article', qs)
+        setOpenModal(true)
+        setTimeout(() => {
+            setOpenModal(false)
+            navigate('/', { replace: true })
+        }, 1000)
+    }
+
+
     return (
         <>
 
@@ -156,8 +167,24 @@ const ArticleViewAdmin = () => {
                                                 <RiBookmarkFill size={40} />
                                             </div>
                                         </div>
-                                        <div className="w-full">
-                                            <button className="btn btn-primary w-full text-white capitalize">Share Article Link</button>
+                                        <div className='w-full'>
+                                            <Link to={`/edit-article/${articleView.id}`} className='w-full btn btn-secondary normal-case'>Edit Article</Link>
+                                        </div>
+                                        <div className='w-full'>
+                                            <div className="dropdown w-full">
+                                                <label tabIndex="0" className="btn normal-case w-full flex">
+                                                    <div>Add to Category</div>
+                                                </label>
+                                                <ul tabIndex="0" className="w-full dropdown-content menu p-2 shadow bg-base-100 rounded-box">
+                                                    {category.map(items => {
+                                                        return (
+                                                            <li key={`category=${items.id}`}>
+                                                                <a>{items?.name}</a>
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,17 +195,18 @@ const ArticleViewAdmin = () => {
                     <section>
                         <div className="w-full bg-white py-16 flex flex-col gap-5">
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
-                                <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black">
+                                {/* <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black">
                                     {articleView?.content}
-                                </div>
+                                </div> */}
+                                <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black" dangerouslySetInnerHTML={{ __html: articleView.content }} />
                             </div>
                         </div>
                     </section>
 
                     <section>
                         <div className="w-full py-16 flex justify-center px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 gap-5 bg-white">
-                                <button onClick={accRequestArticle} className='w-full max-w-[300px] btn btn-primary text-xl  font-bold capitalize text-white'>Publish Article</button>
-                                <button onClick={rejectRequestArticle} className='w-full max-w-[300px] btn bg-[#03999e5f] text-xl  font-bold capitalize text-black hover:text-white border-0'>Decline Article Request</button>
+                            <button onClick={accRequestArticle} className='w-full max-w-[300px] btn btn-primary text-xl  font-bold capitalize text-white'>Publish Article</button>
+                            <button onClick={rejectRequestArticle} className='w-full max-w-[300px] btn bg-[#03999e5f] text-xl  font-bold capitalize text-black hover:text-white border-0'>Decline Article Request</button>
                         </div>
                     </section>
                 </main>
@@ -193,7 +221,7 @@ const ArticleViewAdmin = () => {
                 <div className="footer">
                     <Footer />
                 </div>
-            </div>
+            </div >
         </>
     );
 };

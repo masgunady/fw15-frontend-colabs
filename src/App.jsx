@@ -19,6 +19,7 @@ import EditProfile from './pages/EditProfile';
 import SavedPost from './pages/SavedPost'
 import WriteArticle from './pages/WriteArticle';
 import About from './pages/About'
+import EditArticle from './pages/EditArticle'
 
 
 
@@ -49,6 +50,7 @@ export default function App() {
                         <Route path="/profile/edit" element={<EditProfile />} />
                         <Route path="/profile/saved-post" element={<SavedPost />} />
                         <Route path="/write-article" element={<WriteArticle />} />
+                        <Route path="/edit-article/:id" element={<EditArticle />} />
                         <Route path="/about" element={<About />} />
                     </Routes>
                 </BrowserRouter>
