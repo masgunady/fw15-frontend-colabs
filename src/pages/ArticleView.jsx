@@ -17,8 +17,6 @@ import ImageTemplate from '../components/ImageTemplate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const ArticleView = () => {
     const { id } = useParams()
     const [articleView, setArticleView] = React.useState({})
@@ -43,7 +41,7 @@ const ArticleView = () => {
         }
         getProfile()
     }, [token])
-    const notifySuccessReq = (data) => toast.success(data);
+    const notifyWarnReq = (data) => toast.warn(data);
     const HandleLikes = async () => {
         try {
             const articleId = { articleId: id }
@@ -53,7 +51,7 @@ const ArticleView = () => {
             setLikesCount(updatedLikesCount);
             setIsLiked(true);
         } catch (err) {
-            notifySuccessReq(err?.response?.data?.message)
+            notifyWarnReq(err?.response?.data?.message)
         }
     }
 
@@ -70,7 +68,6 @@ const ArticleView = () => {
         const getViewArticle = async (id) => {
             const { data } = await http().get(`/article/${id}`)
             setArticleView(data.results)
-            // const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
             const storedLikesCount = data.results.likeCount
             setUpdatedAt(data.results.createdAt);
             setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : 0);

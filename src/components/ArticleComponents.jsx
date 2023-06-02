@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineLike, AiOutlineFieldTime, AiOutlinePlus } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import defaultImage from '../assets/image/default.png'
-
 import { FaFilter } from 'react-icons/fa';
-
 import moment from 'moment';
 import ImageTemplate from './ImageTemplate';
 
@@ -65,7 +63,6 @@ export default function ArticleComponent() {
         }
     };
 
-
     return (
 
     <>
@@ -74,10 +71,12 @@ export default function ArticleComponent() {
                 <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
                 <div className="flex items-center gap-5 pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
                     <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-ghost flex items-center gap-5">
-                            <FaFilter className="text-black" size={30} />
+                        <div className='flex items-center gap-2'>
+                            <label tabIndex={0} className="btn btn-ghost flex items-center gap-5">
+                                <FaFilter className="text-black" size={30} />
+                            </label>
                             <div className='capitalize'>Sort By {message}</div>
-                        </label>
+                        </div>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                             <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><a>Name (A-Z)</a></li>
                             <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><a>Name (Z-A)</a></li>
@@ -86,9 +85,9 @@ export default function ArticleComponent() {
                             <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
                         </ul>
                     </div>
-                    <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
-                        <Link className='flex gap-1 justify-center items-center' to='/write-article'>
-                            <AiOutlinePlus className="text-black" size={15} /> Write an article
+                    <button className="btn bg-[#03999e5f] hover:bg-primary border-none text-black capitalize text-base font-semibold">
+                        <Link className='flex gap-1 justify-center items-center hover:text-white' to='/write-article'>
+                            <AiOutlinePlus className="text-black hover:text-white" size={15} /> Write an article
                         </Link>
                     </button>
                 </div>
@@ -114,7 +113,7 @@ export default function ArticleComponent() {
                                                 {<ImageTemplate className='absolute bottom-24 w-full h-full object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                        <Link>
+                                                        <Link to={`/article-view/${article.id}`}>
                                                             <div className="text-primary text-xl font-bold">{(article.title).slice(0, 25) + `...`}</div>
                                                         </Link>
                                                         <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(article.content).slice(0, 60) + `...`}} />
