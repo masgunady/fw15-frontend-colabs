@@ -55,8 +55,8 @@ const Home = () => {
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
-        
-      };
+
+    };
 
 
     React.useEffect(() => {
@@ -108,9 +108,9 @@ const Home = () => {
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Search Article</div>
                             <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
-                               <Formik 
+                                <Formik
                                     initialValues={{
-                                    searchName: '',
+                                        searchName: '',
                                     }}
                                     onSubmit={onSearch}
                                 >
@@ -121,7 +121,7 @@ const Home = () => {
                                             </div>
                                         </form>
                                     )}
-                               </Formik>
+                                </Formik>
                             </div>
                         </div>
                     </section>
@@ -147,7 +147,12 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full bg-white pb-7 flex flex-col gap-5">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40  text-black font-bold">Category</div>
+                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between  ">
+                                <div className='text-black font-bold text-2xl'>Category</div>
+                                <Link to='/category'>
+                                    <div className='font-semibold text-primary text-xl'>More</div>
+                                </Link>
+                            </div>
                             <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40  h-[260px]">
                                 <div className="flex items-center gap-5 scrollbar-hide overflow-scroll h-full">
                                     {category.map((items) => {
@@ -166,7 +171,12 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Recomended</div>
+                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between">
+                                <div className='text-2xl  text-black font-bold'>Recomended</div>
+                                <Link to='/article'>
+                                    <div  className='font-semibold text-primary text-xl'>More</div>
+                                </Link>
+                            </div>
                             <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
                                 <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                     {article.map((items) => {
