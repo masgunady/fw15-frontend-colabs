@@ -21,7 +21,7 @@ const Home = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const token = useSelector((state) => state.auth.token)
-    const  profile = useSelector((state) =>state.profile.data)
+    const profile = useSelector((state) => state.profile.data)
     const [tagArticle, setTagArtcile] = React.useState([]);
     const [category, setCategory] = React.useState([]);
     const [article, setArticle] = React.useState([]);
@@ -174,23 +174,32 @@ const Home = () => {
                                 <div className="flex items-center gap-5 scrollbar-hide overflow-scroll h-full">
                                     {category.map((items) => {
                                         return (
-                                            <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
-                                                <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
-                                                    {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
-                                                </div>
-                                                <div className="text-black text-xl font-semibold capitalize">{items.name}</div>
-                                            </div>
+                                            <>
+                                                <Link to='/article-by-category'>
+                                                    <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
+                                                        <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
+                                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
+                                                        </div>
+                                                        <div className="text-black text-xl font-semibold capitalize hover:text-primary/50">{items.name}</div>
+                                                    </div>
+                                                </Link>
+                                            </>
                                         );
                                     })}
                                 </div>
                             </div>
                         </div>
                     </section>
-                    {profile?.role === "superadmin" && 
+                    {profile?.role === "superadmin" &&
                         (
                             <section>
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                                    <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Waiting list</div>
+                                    <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between ">
+                                        <div className='text-2xl text-black font-bold'>Waiting list</div>
+                                        <Link to=''>
+                                            <div className='text-xl text-primary font-semibold'>More</div>
+                                        </Link>
+                                    </div>
                                     <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {articleWait.map((items) => {
@@ -232,11 +241,16 @@ const Home = () => {
                             </section>
                         )
                     }
-                    {profile?.role !== "superadmin" && 
+                    {profile?.role !== "superadmin" &&
                         (
                             <section>
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                                    <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Recomended</div>
+                                    <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between ">
+                                        <div className='text-2xl text-black font-bold '>Recomended</div>
+                                        <Link to='/article'>
+                                            <div className='font-semibold text-xl text-primary'>More</div>
+                                        </Link>
+                                    </div>
                                     <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {article.map((items) => {
