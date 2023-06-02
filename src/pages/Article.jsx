@@ -1,51 +1,13 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { FaFilter } from 'react-icons/fa';
 import { Helmet } from 'react-helmet';
 
 import ArticleComponent from '../components/ArticleComponents';
 
-
-import http from '../helper/http';
-import React from 'react';
-
 const Article = () => {
-    const [searchResults, setSearchResults] = React.useState([])
-
-
-    const handleSortByAsc = async () => {
-        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
-            params: searchResults,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleSortByDesc = async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
-            params: searchResults,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastAdd= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
-            params: searchResults,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastModify= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
-            params: searchResults,
-        })
-        setSearchResults(data.results)
-    }
 
     return (
         <>
-            {/* helmet */}
             <div>
                 <Helmet>
                     <title>Article</title>
@@ -66,30 +28,6 @@ const Article = () => {
                     </div>
                 </section>
                 <main>
-                    <section>
-                        <div className="w-full py-16  flex flex-col gap-5 bg-white">
-                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
-                            <div className="flex items-center gap-5 pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
-                                <div className="dropdown">
-                                    <label tabIndex={0} className="btn btn-ghost m-1">
-                                        <FaFilter className="text-black" size={30} />
-                                    </label>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                                        <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                                        <li><a>Category</a></li>
-                                        <li onClick={handleLastAdd}><a>Last Added</a></li>
-                                        <li onClick={handleLastModify}><a>Last Modified</a></li>
-                                    </ul>
-                                </div>
-                                <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
-                                    <Link className='flex gap-1 justify-center items-center' to='/write-article'>
-                                        <AiOutlinePlus className="text-black" size={15} /> Write an article
-                                    </Link>
-                                </button>
-                            </div>
-                        </div>
-                    </section>
                     <ArticleComponent />
                     <div className="w-full pb-16 flex items-center justify-center">
                         <div className="text-black text-xl font-semibold underline">Load another 30+ category</div>

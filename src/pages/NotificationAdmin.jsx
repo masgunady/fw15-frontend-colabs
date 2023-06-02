@@ -15,22 +15,33 @@ const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
     const [openModal, setOpenModal] = React.useState(false)
+    const [sortBy, setSortBy] = React.useState('createdAt')
+    const [sort, setSort] = React.useState('DESC')
+    const [itemSort, setItemSort] = React.useState('Last Added')
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
-            const {data} = await http(token).get('/request')
+            const {data} = await http(token).get(`/request?sortBy=${sortBy}&sort=${sort}`)
             setRequestAcc(data.results)
         }
         getDataRequest()
-    },[token])
+    },[token, sort, sortBy])
 
     const updateNotifications = () => {
         const getDataRequest = async() => {
-            const {data} = await http(token).get('/request')
+            const {data} = await http(token).get(`/request?sortBy=${sortBy}&sort=${sort}`)
             setRequestAcc(data.results)
         }
         getDataRequest()
     };
+
+    const handleSortName = (message, sort, sortItem) => {
+        setSortBy(message)
+        setSort(sort)
+        setItemSort(sortItem)
+        const elem = document.activeElement;
+        elem?.blur();
+    }
 
     const accRequestAuthor = async(reqData)=>{
         const qs = new URLSearchParams(reqData).toString()
@@ -73,18 +84,20 @@ const NotoficationAdmin = () => {
             <main>
                 <section>
                     <div className="w-full pb-16 flex flex-col items-start gap-5 bg-white">
-                        <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
-                            <label tabIndex={0} className="btn btn-ghost m-1">
-                                <FaFilter className="text-black" size={30} />
-                            </label>
-                            {/* <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                                <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                                <li><a>Category</a></li>
-                                <li onClick={handleLastAdd}><a>Last Added</a></li>
-                                <li onClick={handleLastModify}><a>Last Modified</a></li>
-                            </ul> */}
-                        </div>
+                            <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black capitalize">
+                                <label tabIndex={0} className="btn btn-ghost flex items-center gap-4">
+                                    <FaFilter className="text-black" size={30} />
+                                    <div className='capitalize'>Filter By : {itemSort}</div>
+                                </label>
+                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li onClick={()=> handleSortName('message', 'ASC','Name (A-Z)')}><a>Name (A-Z)</a></li>
+                                    <li onClick={()=> handleSortName('message', 'DESC','Name (Z-A)')}><a>Name (Z-A)</a></li>
+                                    <li onClick={()=> handleSortName('typeRequest', 'ASC','Category')}><a>Category</a></li>
+                                    <li  onClick={()=> handleSortName('createdAt', 'DESC','Last Added')} ><a>Last Added</a></li>
+                                    <li  onClick={()=> handleSortName('createdAt', 'ASC','First Added')} ><a>First Added</a></li>
+                                </ul>
+                            </div>
+
 
                         <div className="overflow-auto min-h-screen flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {

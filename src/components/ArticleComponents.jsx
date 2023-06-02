@@ -1,39 +1,60 @@
-// import PropTypes from 'prop-types';
 import React from 'react';
 import http from '../helper/http';
 import { Link } from 'react-router-dom';
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiOutlinePlus } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
+import defaultImage from '../assets/image/default.png'
+
+import { FaFilter } from 'react-icons/fa';
 
 import moment from 'moment';
+import ImageTemplate from './ImageTemplate';
 
 
 export default function ArticleComponent() {
-    const [article, setArticle] = React.useState([]);
-
-
-
-    const arr = ['maritim', 'entertainment', 'coffee', 'studies', 'indonesians', 'economy', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'narcotics', 'sea']
-
-
+    const [articles, setArticles] = React.useState([]);
+    const [categories, setCategories] = React.useState([])
+    const [sort, setSort] = React.useState('ASC')
+    const [sortBy, setSortBy] = React.useState('title')
+    const [message, setMessage] = React.useState('Name (A/Z)')
+    const [categorySort, setCategorySort] = React.useState('DESC')
 
     React.useEffect(() => {
-        const fetchData = async () => {
-            const fetchRequests = arr.map(async (cat) => {
-                const { data } = await http().get(`/article?sort=DESC&sortBy=likeCount&page=1&limit=5&category=${cat}`);
-                // console.log(data.results)
-                return data.results;
-            });
+        const getDataCategories = async() => {
+            const {data} = await http().get(`/categories?page=1&limit=100&sort=${categorySort}&sortBy=name`)
+            console.log(data.results)
+            setCategories(data.results)
+        }
+        getDataCategories()
+    },[categorySort])
 
-            const results = await Promise.all(fetchRequests);
-            setArticle(results);
-        };
+    React.useEffect(() => {
+        const getDataArticle = async() => {
+            const {data} = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
+            console.log(data.results)
+            setArticles(data.results)
+        }
+        getDataArticle()
+    },[sortBy, sort])
 
+    const handleSort = (sortBy, sort, message) => {
+        setSortBy(sortBy)
+        setSort(sort)
+        setMessage(message)
 
-        fetchData();
-    }, []);
-
-
+        const elem = document.activeElement;
+        elem?.blur();
+    }
+    const handleSortCategory = (message) => {
+        setMessage(message)
+        if(categorySort === 'DESC'){
+            setCategorySort('ASC')
+        }else(
+            setCategorySort('DESC')
+        )
+        const elem = document.activeElement;
+        elem?.blur();
+    }
 
     const formatLikesCount = (count) => {
         if (count < 1000) {
@@ -46,75 +67,88 @@ export default function ArticleComponent() {
 
 
     return (
-        <div className="text-black">
-            {article ? 
-            article.map((categoryData, index) => (
-                <div key={index}>
-                    <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
-                                {/* category article */}
-                                <div>{arr[index].charAt(0).toLocaleUpperCase() + arr[index].slice(1)}</div>
-                                <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
-                                </div>
+    <>
+        <section>
+            <div className="w-full py-16  flex flex-col gap-5 bg-white">
+                <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
+                <div className="flex items-center gap-5 pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
+                    <div className="dropdown">
+                        <label tabIndex={0} className="btn btn-ghost flex items-center gap-5">
+                            <FaFilter className="text-black" size={30} />
+                            <div className='capitalize'>Sort By {message}</div>
+                        </label>
+                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><a>Name (A-Z)</a></li>
+                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><a>Name (Z-A)</a></li>
+                            <li onClick={()=>{handleSortCategory('Category')}}><a>Category</a></li>
+                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><a>First Added</a></li>
+                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
+                        </ul>
+                    </div>
+                    <button className="btn bg-[#03999e5f] border-none text-black capitalize text-base font-semibold">
+                        <Link className='flex gap-1 justify-center items-center' to='/write-article'>
+                            <AiOutlinePlus className="text-black" size={15} /> Write an article
+                        </Link>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section>
+            {categories.map(category => {
+                return(
+                    <div className="w-full bg-white  pb-16 flex flex-col gap-5" key={`category-article-${category.id}`}>
+                        <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
+                            <div className='capitalize'>{category.name}</div>
+                            <div className="text-primary font-normal text-lg">
+                                <Link>View More</Link>
                             </div>
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    {categoryData.map((result) => (
-                                        
-                                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-category-${result.id}`}>
-                                            {result.picture && <img src={result.picture.startsWith('https') ? result.picture : `http://localhost:8888/uploads/${result.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
-                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                                <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                    <Link to={`/article-view/${result.id}`}>
-                                                        <div className="text-primary text-xl font-bold">{(result.title).slice(0, 35) + `...`}</div>
-                                                    </Link>
-                                                    <div className="text-black text-center text-sm">{(result.content).slice(0, 60) + `...`}</div>
-                                                    <div className="flex justify-between w-full text-sm text-black">
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineLike />
+                        </div>
+                        <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
+                            <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
+                                {
+                                    articles.filter((article)=> article.category === category.name).map((article)=> {
+                                        return(
+                                            <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-item-${article.id}`}>
+                                                {/* <img src={categoryPict} className="absolute bottom-24 w-full" alt="" /> */}
+                                                {<ImageTemplate className='absolute bottom-24 w-full h-full object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
+                                                <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                    <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                        <Link>
+                                                            <div className="text-primary text-xl font-bold">{(article.title).slice(0, 25) + `...`}</div>
+                                                        </Link>
+                                                        <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(article.content).slice(0, 60) + `...`}} />
+                                                        <div className="flex justify-between w-full text-sm text-black">
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineLike />
+                                                                </div>
+                                                                <div>{formatLikesCount(article?.likeCount)}</div>
                                                             </div>
-                                                            <div>{formatLikesCount(result?.likeCount)}</div>
-                                                        </div>
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineFieldTime />
+                                                            <div className="flex gap-2 items-center">
+                                                                <div>
+                                                                    <AiOutlineFieldTime />
+                                                                </div>
+                                                                <div>{moment(article.createdAt).startOf('hour').fromNow()}</div>
                                                             </div>
-                                                            <div>{moment(result.createdAt).startOf('hour').fromNow()}</div>
-                                                        </div>
-                                                        <div>
-                                                            <RiBookmarkFill />
+                                                            <div>
+                                                                <RiBookmarkFill />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        )
+                                    })
+                                }
+                                
                             </div>
                         </div>
-                    </section>
-                </div>
-            ))
-        : <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-        <div className="animate-pulse flex space-x-4">
-            <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-            <div className="flex-1 space-y-6 py-1">
-                <div className="h-2 bg-slate-700 rounded"></div>
-                <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="h-2 bg-slate-700 rounded col-span-2"></div>
-                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
                     </div>
-                    <div className="h-2 bg-slate-700 rounded"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-            }
-        </div> 
+
+                )
+            })}
+        </section>
+</>
     );
 
 }
