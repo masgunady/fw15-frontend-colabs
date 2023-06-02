@@ -13,15 +13,26 @@ import ImageTemplate from '../components/ImageTemplate';
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
+    const [sortBy, setSortBy] = React.useState('createdAt')
+    const [sort, setSort] = React.useState('DESC')
+    const [itemSort, setItemSort] = React.useState('Last Added')
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
-            const {data} = await http(token).get('/request/user')
+            const {data} = await http(token).get(`/request/usersortBy=${sortBy}&sort=${sort}`)
             console.log(data.results)
             setRequestAcc(data.results)
         }
         getDataRequest()
-    },[token])
+    },[token, sort, sortBy])
+
+    const handleSortName = (message, sort, sortItem) => {
+        setSortBy(message)
+        setSort(sort)
+        setItemSort(sortItem)
+        const elem = document.activeElement;
+        elem?.blur();
+    }
 
     return (
         <div className="bg-white">
@@ -50,13 +61,14 @@ const NotoficationAdmin = () => {
                             <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
                                 <label tabIndex={0} className="btn btn-ghost m-1">
                                     <FaFilter className="text-black" size={30} />
+                                    <div className='capitalize'>Filter By : {itemSort}</div>
                                 </label>
                                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li><a>Name (A-Z)</a></li>
-                                    <li><a>Name (Z-A)</a></li>
-                                    <li><a>Category</a></li>
-                                    <li><a>Last Added</a></li>
-                                    <li><a>Last Modified</a></li>
+                                    <li onClick={()=> handleSortName('message', 'ASC', "Name (A-Z)")}><a>Name (A-Z)</a></li>
+                                    <li onClick={()=> handleSortName('message', 'DESC', "Name (Z-A)")}><a>Name (Z-A)</a></li>
+                                    <li onClick={()=> handleSortName('typeRequest', 'ASC', "Category (A-Z)")}><a>Category</a></li>
+                                    <li onClick={()=> handleSortName('creatAt', 'DESC', "Last Added (A-Z)")}><a>Last Added</a></li>
+                                    <li onClick={()=> handleSortName('creatAt', 'ASC', "First Added")}><a>Last Modified</a></li>
                                 </ul>
                             </div>
                             <div>Filter</div>
