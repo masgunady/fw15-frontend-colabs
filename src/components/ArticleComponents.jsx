@@ -56,7 +56,7 @@ export default function ArticleComponent() {
                                 {/* category article */}
                                 <div>{arr[index].charAt(0).toLocaleUpperCase() + arr[index].slice(1)}</div>
                                 <div className="text-primary font-normal text-lg">
-                                    <Link>View More</Link>
+                                    <Link to='/article-by-category'>View More</Link>
                                 </div>
                             </div>
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
