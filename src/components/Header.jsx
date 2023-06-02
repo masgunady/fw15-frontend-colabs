@@ -6,19 +6,19 @@ import { Link } from 'react-router-dom';
 // import Image from './Image/';
 import ImageTemplate from '../components/ImageTemplate'
 import {logout as logoutAction, setWarningMessage} from '../redux/reducers/auth'
-import http from '../helper/http';
 import defaultImage from '../assets/image/default.png'
 
 import {GrArticle} from 'react-icons/gr'
 
 import { FiHome, FiInfo, FiList, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
 import {MdNotificationsNone} from 'react-icons/md'
+import { getProfileAction } from '../redux/actions/profile';
 
 
 const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [profile, setProfile] = React.useState({})
+    const  profile = useSelector((state) =>state.profile.data)
     const [menuMobile, setMenuMobile] = React.useState(false)
     const token = useSelector((state) => state.auth.token)
     
@@ -29,14 +29,12 @@ const Header = () => {
                 dispatch(setWarningMessage(message))
                 navigate('/auth/login')
             }
-            const { data } = await http(token, fallback).get('/profile')
-            setProfile(data.results)
+            dispatch(getProfileAction(token, fallback))
         }
         if (token) {
             getProfileData()
         }
     }, [token, dispatch, navigate])
-
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile)
@@ -93,7 +91,7 @@ const Header = () => {
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="m-1 cursor-pointer">
                                     <div className='inline-block rounded-full p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                        {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={profile?.picture || null} defaultImg={defaultImage} />}
+                                        {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full object-cover' src={profile?.picture || null} defaultImg={defaultImage} />}
                                     </div>
                                     </label>
                                     <ul tabIndex={0} className='dropdown-content menu p-4 mt-5 shadow bg-base-100 rounded-box w-52'>

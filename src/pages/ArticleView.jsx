@@ -270,9 +270,10 @@ const ArticleView = () => {
                     <section>
                         <div className="w-full bg-white py-16 flex flex-col gap-5">
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
-                                <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black">
+                                {/* <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black">
                                     {articleView?.content}
-                                </div>
+                                </div> */}
+                                <div className="flex flex-wrap items-center justify-center gap-7 h-full text-xl text-black" dangerouslySetInnerHTML={{ __html: articleView.content }} />
                             </div>
                         </div>
                     </section>

@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 import React from 'react';
 import http from '../helper/http';
 import moment from 'moment';
-// import { formatDistanceToNow } from 'date-fns';
 import ImageTemplate from '../components/ImageTemplate';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 const NotoficationAdmin = () => {
@@ -51,8 +50,6 @@ const NotoficationAdmin = () => {
             updateNotifications()
         }, 1000)
     }
-
-
     return (
         <div className="bg-white">
                 <div className="header pb-24">
@@ -80,13 +77,13 @@ const NotoficationAdmin = () => {
                             <label tabIndex={0} className="btn btn-ghost m-1">
                                 <FaFilter className="text-black" size={30} />
                             </label>
-                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a>Name (A-Z)</a></li>
-                                <li><a>Name (Z-A)</a></li>
+                            {/* <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
+                                <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
                                 <li><a>Category</a></li>
-                                <li><a>Last Added</a></li>
-                                <li><a>Last Modified</a></li>
-                            </ul>
+                                <li onClick={handleLastAdd}><a>Last Added</a></li>
+                                <li onClick={handleLastModify}><a>Last Modified</a></li>
+                            </ul> */}
                         </div>
 
                         <div className="overflow-auto min-h-screen flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
@@ -98,7 +95,6 @@ const NotoficationAdmin = () => {
                                                     <Link to={`/profile-information/${item.senderId}`} className=" w-14 h-14 flex items-center justify-center rounded-full p-[2px] bg-gradient-to-tr from-[#cedaff] to-primary">
                                                         {<ImageTemplate className='w-12 h-12 border-4 border-white rounded-full' src={item?.picture || null} defaultImg={defaultImage} />}
                                                     </Link>
-
                                                     <div className="">
                                                         <div className="text-black text-xl font-semibold">{item?.fullName === null ? "Anonimous user" : item.fullName} {item.message}</div>
                                                         <div className="text-lg text-grey-800">{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
@@ -106,7 +102,6 @@ const NotoficationAdmin = () => {
                                                 </div>
 
                                                 <div className='flex items-center gap-9'>
-
                                                     {
                                                         item?.typeRequest === "author" ? 
                                                         (

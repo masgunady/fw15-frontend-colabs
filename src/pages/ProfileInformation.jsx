@@ -38,7 +38,6 @@ const Profile = () => {
             setProfile(data.results)
         }
         getDataProfile()
-
     }, [])
 
     React.useEffect(() => {
@@ -50,7 +49,6 @@ const Profile = () => {
             console.error(error);
           }
         }
-        
         if (profile.id) {
           getTotalPosts();
         }

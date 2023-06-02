@@ -9,4 +9,7 @@
         /* font-family: 'Poppins', sans-serif; */
         font-family: 'Avenir', sans-serif;
     }
+    .ck-editor__editable {
+        min-height: 900px; /* Set the desired height */
+      }
 }

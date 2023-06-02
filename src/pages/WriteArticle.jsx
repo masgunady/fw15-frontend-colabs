@@ -6,9 +6,11 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 import { useSelector } from "react-redux";
 import React from "react";
 import http from "../helper/http";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 // import defaultProfile from '../assets/image/covid.jpeg'
 import { AiOutlineLoading3Quarters,  } from 'react-icons/ai'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 const WriteArticle = () => {
@@ -132,7 +134,7 @@ const WriteArticle = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className='btn bg-[#fff] w-full rounded-xl border-2 border-primary text-primary text-sm font-semibold tracking-[1px]'>
+                                        <label className='btn btn-ghost w-full rounded-xl border-2 border-primary text-primary hover:text-primary text-sm font-semibold tracking-[1px]'>
                                             <span>Choose Cover photo</span>
                                             <input name='picture' onChange={changePicture} className='hidden' type='file' />
                                         </label>
@@ -173,8 +175,8 @@ const WriteArticle = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <div className="form-control textarea overflow-hidden  w-full min-h-[320px] border-primary ">
-                                            <textarea
+                                        <div className="w-full min-h-[320px] border-primary text-black font-normal">
+                                            {/* <textarea
                                                 className="textarea textarea-bordered resize-none w-full min-h-[320px] border-2 text-black"
                                                 placeholder="Type the article"
                                                 name="content"
@@ -182,7 +184,31 @@ const WriteArticle = () => {
                                                 onChange={handleChange}
                                                 value={values.content}
 
-                                            />
+                                            /> */}
+                                            <Field name="content">
+                                            {({ field, form }) => (
+                                                <CKEditor
+                                                editor={ClassicEditor}
+                                                config={{
+                                                    toolbar: {
+                                                        items: [
+                                                        'bold', // Add the bold option to the toolbar
+                                                        'italic',
+                                                        'underline',
+                                                        'alignment',
+                                                        'undo',
+                                                        'redo',
+                                                        ],
+                                                    },
+                                                    }}
+                                                data={field.value}
+                                                onChange={(event, editor) => {
+                                                    const data = editor.getData();
+                                                    form.setFieldValue(field.name, data); // Set the field value using form.setFieldValue
+                                                }}
+                                                />
+                                            )}
+                                            </Field>
                                         </div>
                                     </div>
                                     <div>

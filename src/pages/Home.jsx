@@ -7,7 +7,7 @@ import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
 import { formatDistanceToNow } from 'date-fns';
-// import homeBanner from '../assets/image/home-banner.png';
+import { getProfileAction } from '../redux/actions/profile';
 
 import React from 'react';
 // import axios from 'axios';
@@ -15,23 +15,32 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import http from '../helper/http';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Home = () => {
     const { id } = useParams()
+    const dispatch = useDispatch()
+    const token = useSelector((state) => state.auth.token)
+    const  profile = useSelector((state) =>state.profile.data)
     const [tagArticle, setTagArtcile] = React.useState([]);
     const [category, setCategory] = React.useState([]);
     const [article, setArticle] = React.useState([]);
+    const [articleWait, setArticleWait] = React.useState([]);
     const [articleLatest, setArticleLatest] = React.useState([]);
     const [createdAt, setCreatedAt] = React.useState(null);
+
 
 
     const navigate = useNavigate()
 
     React.useEffect(() => {
+        dispatch(getProfileAction(token))
+    }, [dispatch, token]);
+
+    React.useEffect(() => {
         async function getDataTagArticle() {
             const { data } = await http().get('/tags?page=1&limit=15');
             setTagArtcile(data.results);
-
         }
         getDataTagArticle();
     }, []);
@@ -50,6 +59,14 @@ const Home = () => {
             setArticle(data.results);
         }
         getDataArticle();
+    }, [id]);
+
+    React.useEffect(() => {
+        async function getDataArticleWaiting() {
+            const { data } = await http().get('/article/waiting-list?sort=DESC&sortBy=likeCount&page=1&limit=10');
+            setArticleWait(data.results);
+        }
+        getDataArticleWaiting();
     }, [id]);
 
 
@@ -169,7 +186,99 @@ const Home = () => {
                             </div>
                         </div>
                     </section>
-                    <section>
+                    {profile?.role === "superadmin" && 
+                        (
+                            <section>
+                                <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                                    <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Waiting list</div>
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
+                                        <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
+                                            {articleWait.map((items) => {
+                                                return (
+                                                    <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                        <div></div>
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                            <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                                <Link to={`/article-view/${items.id}`}>
+                                                                    <div className="text-primary text-xl font-bold">{items.title}</div>
+                                                                </Link>
+                                                                <div className="text-black text-center text-sm">{items.left}</div>
+                                                                <div className="flex justify-between w-full text-sm text-black">
+                                                                    <div className="flex gap-2 justify-center items-center">
+                                                                        <div>
+                                                                            <AiOutlineLike />
+                                                                        </div>
+                                                                        <div> {items.likeCount}</div>
+                                                                    </div>
+                                                                    <div className="flex gap-2 items-center">
+                                                                        <div>
+                                                                            <AiOutlineFieldTime />
+                                                                        </div>
+                                                                        <div> {createdAt && formatUpdatedAt(createdAt)}</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <RiBookmarkFill />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        )
+                    }
+                    {profile?.role !== "superadmin" && 
+                        (
+                            <section>
+                                <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                                    <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Recomended</div>
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
+                                        <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
+                                            {article.map((items) => {
+                                                return (
+                                                    <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                        <div></div>
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                            <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                                <Link to={`/article-view/${items.id}`}>
+                                                                    <div className="text-primary text-xl font-bold">{items.title}</div>
+                                                                </Link>
+                                                                <div className="text-black text-center text-sm">{items.left}</div>
+                                                                <div className="flex justify-between w-full text-sm text-black">
+                                                                    <div className="flex gap-2 justify-center items-center">
+                                                                        <div>
+                                                                            <AiOutlineLike />
+                                                                        </div>
+                                                                        <div> {items.likeCount}</div>
+                                                                    </div>
+                                                                    <div className="flex gap-2 items-center">
+                                                                        <div>
+                                                                            <AiOutlineFieldTime />
+                                                                        </div>
+                                                                        <div> {createdAt && formatUpdatedAt(createdAt)}</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <RiBookmarkFill />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        )
+                    }
+                    {/* <section>
                         <div className="w-full bg-white  pb-16 flex flex-col gap-5">
                             <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between">
                                 <div className='text-2xl  text-black font-bold'>Recomended</div>
@@ -215,7 +324,7 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> */}
                     <section>
                         <div className="w-full min-h-[635px] px-7 md:px-16 lg:px-28 xl:px-36 bg-[#03999e5f] py-24">
                             <div className="flex flex-col-reverse md:flex-row gap-11 items-start justify-center">
@@ -248,7 +357,8 @@ const Home = () => {
                                                     </div>
                                                     <div className="flex flex-col gap-3">
                                                         <Link to={`/article-view/${item.id}`} className="text-primary text-xl font-bold">{item.title}</Link>
-                                                        <div className="text-black text-lg font-semibold">{item.content}</div>
+                                                        {/* <div className="text-black text-lg font-semibold">{item.content}</div> */}
+                                                        <div dangerouslySetInnerHTML={{ __html: item.content }} />
                                                         <div className="text-lg capitalize">{item.author}</div>
                                                         <div className="flex items-center justify-start gap-5 w-full text-sm text-black">
                                                             <div className="flex gap-2 items-center">
