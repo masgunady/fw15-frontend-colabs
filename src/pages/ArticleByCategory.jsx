@@ -1,34 +1,48 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { FaFilter } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
-
-// import { useSelector } from "react-redux";
-// import React from "react";
-// import http from "../helper/http";
-// import { Formik } from "formik";
+import defaultImage from '../assets/image/default.png'
 import moment from "moment";
 import React from "react";
 import http from "../helper/http";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
-
+import ImageTemplate from "../components/ImageTemplate";
 
 const ArticleByCategory = () => {
+    const location = useLocation()
+    const reqCategory = location.state
     const [articleCategory, setArticleCategory] = React.useState([])
-    const [activeTabCategory, setActiveTabCategory] = React.useState('maritim')
+    const [activeTabCategory, setActiveTabCategory] = React.useState(reqCategory)
+    const [categories, setCategories] = React.useState([])
     const [tabArticle, setTabArticle] = React.useState(1)
     const [totalPage, setTotalPage] = React.useState()
-    const Categories = ['maritim', 'entertainment', 'coffee', 'studies', 'pokemons', 'indonesians', 'economy', 'eports', 'festivals', 'music', 'transportation', 'forest', 'journey', 'innovation', 'history', 'accident', 'maestro', 'animals', 'narcotics', 'sea']
+    const [sort, setSort] = React.useState('ASC')
+    const [sortBy, setSortBy] = React.useState('title')
+    const [message, setMessage] = React.useState('Name (A/Z)')
+    const [categorySort, setCategorySort] = React.useState('DESC')
+
+
+    React.useEffect(() => {
+        async function getCategory() {
+            try {
+                const { data } = await http().get(`/categories?page=1&limit=100&sort=${categorySort}&sortBy=name`)
+                setCategories(data.results)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getCategory();
+    }, [categorySort]);
 
 
     React.useEffect(() => {
         async function getArticleCategory() {
             try {
-                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&page=${tabArticle}&limit=5`)
+                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&sortBy=${sortBy}&sort=${sort}&page=${tabArticle}&limit=5`)
                 setTotalPage(data.pageInfo?.totalPage)
                 setArticleCategory(data.results)
                 console.log(activeTabCategory)
@@ -37,9 +51,26 @@ const ArticleByCategory = () => {
             }
         }
         getArticleCategory();
-    }, [activeTabCategory, tabArticle]);
+    }, [activeTabCategory, tabArticle, sort, sortBy]);
 
+    const handleSort = (sortBy, sort, message) => {
+        setSortBy(sortBy)
+        setSort(sort)
+        setMessage(message)
 
+        const elem = document.activeElement;
+        elem?.blur();
+    }
+    const handleSortCategory = (message) => {
+        setMessage(message)
+        if(categorySort === 'DESC'){
+            setCategorySort('ASC')
+        }else(
+            setCategorySort('DESC')
+        )
+        const elem = document.activeElement;
+        elem?.blur();
+    }
 
 
     const handlePrevPage = () => {
@@ -59,142 +90,92 @@ const ArticleByCategory = () => {
         setTabArticle(1)
     };
 
-    const handleSortByAsc = async () => {
-        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleSortByDesc = async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastAdd= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastModify= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-
     return (
         <div className="bg-white">
             <div className="header pb-24">
                 <Header />
             </div>
-            <main className="px-[95px] gap-5 flex flex-col mt-10">
-                <section className="flex items-center">
+            <main className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 gap-5 flex flex-col mt-10">
+                <section className="flex items-center justify-between">
                     <div className="flex items-center">
-                        <Link to='/article' className="btn btn-ghost border-none">
+                        <Link to='/category' className="btn btn-ghost border-none">
                             <IoChevronBackOutline className="text-black" size={35} />
                         </Link>
                         <div className="text-black hidden md:block text-lg font-semibold mr-[410px]">Category</div>
                     </div>
-                    {/* <div className="text-black text-lg font-semibold">Goverment</div> */}
-
-                </section>
-                <>
-                    <div className="grid grid-cols-10 items-center justify-center gap-3">
-                        {Categories.map(category => {
-                            return (
-                                <>
-                                    <div className="flex justify-center items-center">
-                                        <button
-                                            key={category}
-                                            className={`font-semibold px-4 py-2 hover:bg-[#03989e]/50 rounded-lg  hover:text-[#03989e] ${activeTabCategory === category ? 'flex gap-10 activ  bg-[#03989e]/50 text-[#03989e]' : 'opacity-80'} px-4 py-2`}
-                                            onClick={() => handleTabClick(category)}
-                                        >
-                                            {category}
-                                        </button>
-                                    </div>
-
-                                </>
-                            )
-                        })}
-                    </div>
-                </>
-                <section className="flex mt-[70px] ">
-                    <div className="dropdown mr-[500px]">
+                    <div className="dropdown">
+                        <div className="flex gap-5 items-center">
+                        <div className='capitalize'>Sort By {message}</div>
                         <label tabIndex={0} className="btn btn-ghost">
                             <FaFilter className="text-black" size={30} />
                         </label>
+                        </div>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                            <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                            <li><a>Category</a></li>
-                            <li onClick={handleLastAdd}><a>Last Added</a></li>
-                            <li onClick={handleLastModify}><a>Last Modified</a></li>
+                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><a>Name (A-Z)</a></li>
+                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><a>Name (Z-A)</a></li>
+                            <li onClick={()=>{handleSortCategory('Category')}}><a>Category</a></li>
+                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><a>First Added</a></li>
+                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
                         </ul>
                     </div>
-                    {/* <div className=" w-full bg-white">
-                        <div className="">
-                            <Formik
-                                initialValues={{
-                                    searchName: '',
-                                }}
-                                onSubmit={onSearch}
-                            >
-                                {({ handleBlur, handleChange, handleSubmit }) => (
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="relative flex gap-[10px] form-control w-full max-w-[500px]">
-                                            <i className="absolute top-3">
-                                                <FaSearch size={20} />
-                                            </i>
-                                            <input className="input input-bordered input-primary" placeholder="Search" type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} />
-                                        </div>
-                                    </form>
-                                )}
-                            </Formik>
-                        </div>
-                    </div> */}
                 </section>
-                <section className="pb-20">
-                    <div className="bg-white grid grid-cols-5 gap-5 justify-center items-center ">
-                        {articleCategory.map((article) => {
-                            return (
-                                <>
-                                    <div className=" flex justify-center items-center relative overflow-hidden max-w-[260px] min-h-[293px] rounded-xl shadow-xl" key={`article-category-${article.id}`}>
-                                        {article.picture && <img src={article.picture.startsWith('https') ? article.picture : `http://localhost:8888/uploads/${article.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
-                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                <Link to={`/article-view/${article.id}`}>
-                                                    <div className="text-primary text-xl font-bold">{(article.title).slice(0, 15) + `...`}</div>
-                                                </Link>
-                                                <div className="text-black text-center text-sm">{(article.content).slice(0, 50) + `...`}</div>
-                                                <div className="flex justify-between w-full text-sm text-black">
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineLike />
+                <>
+                    <div className="w-full text-black">
+                        <div className=" flex items-center gap-7 overflow-scroll scrollbar-hide">
+                            {categories.map(category => {
+                                return (
+                                    <>
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                key={`category-list-${category.id}`}
+                                                className={`font-semibold px-4 py-2 hover:bg-[#03999e5f] capitalize rounded-lg  hover:text-[#03989e] ${activeTabCategory === category.name ? 'flex gap-10 activ  bg-[#03989e]/50 text-[#03989e]' : 'opacity-80'} px-4 py-2`}
+                                                onClick={() => handleTabClick(category.name)}
+                                            >
+                                                {category.name}
+                                            </button>
+                                        </div>
+                                    </>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </>
+                <section className="py-16">
+                    <div className="gap-7 flex flex-wrap justify-center items-center ">
+                            {
+                                articleCategory.map((article) => {
+                                    return(
+                                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-cat-${article.id}`}>
+                                            {<ImageTemplate className='absolute bottom-24 w-full h-full object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
+                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                                                <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                                    <Link to={`/article-view/${article.id}`}>
+                                                        <div className="text-primary text-xl font-bold">{(article.title).slice(0, 15) + `...`}</div>
+                                                    </Link>
+                                                    <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(article.content).slice(0, 50) + `...`}} />
+                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineLike />
+                                                            </div>
+                                                            <div>{article?.likeCount}</div>
                                                         </div>
-                                                        <div>{article?.likeCount}</div>
-                                                    </div>
-                                                    <div className="flex gap-2 items-center">
-                                                        <div>
-                                                            <AiOutlineFieldTime />
+                                                        <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <AiOutlineFieldTime />
+                                                            </div>
+                                                            <div>{moment(article.createdAt).startOf('hour').fromNow()}</div>
                                                         </div>
-                                                        <div>{moment(article.createdAt).startOf('hour').fromNow()}</div>
-                                                    </div>
-                                                    <div>
-                                                        <RiBookmarkFill />
+                                                        <div>
+                                                            <RiBookmarkFill />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </>
-                            )
-                        })}
+                                    )
+                                })
+                            }
                     </div>
                 </section>
                 <div className="flex justify-center items-center gap-9 mb-10">

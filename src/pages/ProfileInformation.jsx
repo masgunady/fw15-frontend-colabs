@@ -1,27 +1,19 @@
 
 import React from 'react'
 import { useParams } from 'react-router-dom';
-
-
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet';
-import moment from 'moment'
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import defaultImage from '../assets/image/default.png'
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
-
-
-
-
-// icon
+import defaultImage from '../assets/image/default.png';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import http from '../helper/http';
 import ImageTemplate from '../components/ImageTemplate';
-
 
 const Profile = () => {
     const { id } = useParams()

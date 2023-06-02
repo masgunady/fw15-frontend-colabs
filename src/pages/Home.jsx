@@ -175,7 +175,7 @@ const Home = () => {
                                     {category.map((items) => {
                                         return (
                                             <>
-                                                <Link to='/article-by-category'>
+                                                <Link to='/article-by-category' state={items.name}>
                                                     <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
                                                         <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
@@ -292,53 +292,6 @@ const Home = () => {
                             </section>
                         )
                     }
-                    {/* <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between">
-                                <div className='text-2xl  text-black font-bold'>Recomended</div>
-                                <Link to='/article'>
-                                    <div  className='font-semibold text-primary text-xl'>More</div>
-                                </Link>
-                            </div>
-                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
-                                <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                    {article.map((items) => {
-                                        return (
-                                            <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
-                                                <div></div>
-                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
-                                                <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
-                                                    <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
-                                                        <Link to={`/article-view/${items.id}`}>
-                                                            <div className="text-primary text-xl font-bold">{items.title}</div>
-                                                        </Link>
-                                                        <div className="text-black text-center text-sm">{items.left}</div>
-                                                        <div className="flex justify-between w-full text-sm text-black">
-                                                            <div className="flex gap-2 justify-center items-center">
-                                                                <div>
-                                                                    <AiOutlineLike />
-                                                                </div>
-                                                                <div> {items.likeCount}</div>
-                                                            </div>
-                                                            <div className="flex gap-2 items-center">
-                                                                <div>
-                                                                    <AiOutlineFieldTime />
-                                                                </div>
-                                                                <div> {createdAt && formatUpdatedAt(createdAt)}</div>
-                                                            </div>
-                                                            <div>
-                                                                <RiBookmarkFill />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </section> */}
                     <section>
                         <div className="w-full min-h-[635px] px-7 md:px-16 lg:px-28 xl:px-36 bg-[#03999e5f] py-24">
                             <div className="flex flex-col-reverse md:flex-row gap-11 items-start justify-center">
