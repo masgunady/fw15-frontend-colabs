@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FaFilter } from 'react-icons/fa';
 import { Helmet } from 'react-helmet';
@@ -12,35 +12,46 @@ import http from '../helper/http';
 import React from 'react';
 
 const Article = () => {
-    const [searchResults, setSearchResults] = React.useState([])
+    const [filterResults, setFilterResults] = React.useState([])
+    const [searchParams] = useSearchParams([])
+
+    React.useEffect(() => {
+        const getArticleByFilter = async () => {
+            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=100', {
+                params: searchParams,
+            })
+            setFilterResults(data.results)
+        }
+        getArticleByFilter()
+    }, [searchParams])
 
 
     const handleSortByAsc = async () => {
         const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
-            params: searchResults,
+            params: filterResults,
         })
-        setSearchResults(data.results)
+        setFilterResults(data.results)
     }
 
     const handleSortByDesc = async () => {
         const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
-            params: searchResults,
+            params: filterResults,
         })
-        setSearchResults(data.results)
+        setFilterResults(data.results)
     }
 
     const handleLastAdd= async () => {
         const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
-            params: searchResults,
+            params: filterResults,
         })
-        setSearchResults(data.results)
+        setFilterResults(data.results)
     }
 
     const handleLastModify= async () => {
         const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
-            params: searchResults,
+            params: filterResults,
         })
-        setSearchResults(data.results)
+        setFilterResults(data.results)
     }
 
     return (
