@@ -1,6 +1,10 @@
 # LOGPOSE
 ![Logo Logppose](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/logo-tosca.png)
 
+
+##Contributors
+- [Gunadi](https://github.com/masgunady)
+
 ##About The Project
 
 Web application providing up-to-date and reliable news and information
