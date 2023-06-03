@@ -9,21 +9,40 @@ import React from 'react';
 import http from '../helper/http';
 import moment from 'moment';
 import ImageTemplate from '../components/ImageTemplate';
+import { Helmet } from 'react-helmet';
 
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
+    const [sortBy, setSortBy] = React.useState('createdAt')
+    const [sort, setSort] = React.useState('DESC')
+    const [itemSort, setItemSort] = React.useState('Last Added')
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
-            const {data} = await http(token).get('/request/user')
+            const {data} = await http(token).get(`/request/usersortBy=${sortBy}&sort=${sort}`)
             console.log(data.results)
             setRequestAcc(data.results)
         }
         getDataRequest()
-    },[token])
+    },[token, sort, sortBy])
+
+    const handleSortName = (message, sort, sortItem) => {
+        setSortBy(message)
+        setSort(sort)
+        setItemSort(sortItem)
+        const elem = document.activeElement;
+        elem?.blur();
+    }
 
     return (
+        <>
+        <div>
+            <Helmet>
+                <title>Notification | User</title>
+                <meta name="description" content="Ini adalah deskripsi halaman saya" />
+            </Helmet>
+        </div>
         <div className="bg-white">
                 <div className="header pb-24">
                     <Header />
@@ -50,13 +69,14 @@ const NotoficationAdmin = () => {
                             <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
                                 <label tabIndex={0} className="btn btn-ghost m-1">
                                     <FaFilter className="text-black" size={30} />
+                                    <div className='capitalize'>Filter By : {itemSort}</div>
                                 </label>
                                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li><a>Name (A-Z)</a></li>
-                                    <li><a>Name (Z-A)</a></li>
-                                    <li><a>Category</a></li>
-                                    <li><a>Last Added</a></li>
-                                    <li><a>Last Modified</a></li>
+                                    <li onClick={()=> handleSortName('message', 'ASC', "Name (A-Z)")}><p>Name (A-Z)</p></li>
+                                    <li onClick={()=> handleSortName('message', 'DESC', "Name (Z-A)")}><p>Name (Z-A)</p></li>
+                                    <li onClick={()=> handleSortName('typeRequest', 'ASC', "Category (A-Z)")}><p>Category</p></li>
+                                    <li onClick={()=> handleSortName('creatAt', 'DESC', "Last Added (A-Z)")}><p>Last Added</p></li>
+                                    <li onClick={()=> handleSortName('creatAt', 'ASC', "First Added")}><p>Last Modified</p></li>
                                 </ul>
                             </div>
                             <div>Filter</div>
@@ -138,6 +158,7 @@ const NotoficationAdmin = () => {
                 <Footer />
             </div>
         </div>
+        </>
     );
 };
 export default NotoficationAdmin;

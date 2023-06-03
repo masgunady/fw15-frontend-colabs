@@ -89,10 +89,6 @@ const Profile = () => {
     };
 
 
-
-
-
-
     return (
         <>
 
@@ -120,12 +116,11 @@ const Profile = () => {
                 <div className='grid md:grid-cols-[40%_minmax(200px,_1fr)] text-black border-t-[1px] px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56'>
                     <section className='hidden md:flex flex-col pt-10 border-r-[1px]'>
                         <div className='flex w-[67%] p-10 my-10 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)] ml-14'>
-                            <div className='flex flex-col'>
-                                <div className='flex gap-[24px]'>
+                            <div className='w-full p-10 my-12 relative rounded-xl shadow-[0_0px_60px_-10px_rgba(0,0,0,0.3)]'>
+                                <div className='flex flex-col gap-10 items-center'>
                                     <div className='rounded-3xl w-20 h-20 p-[2px] bg-gradient-to-b from-green-400 to-primary'>
-                                        <div className='bg-white h-full rounded-3xl p-2'>
-                                            {/* <img className='rounded-2xl h-full w-full bg-cover' src={profile?.picture?.startsWith('https') ? profile.picture : (profile?.picture === null ? Image.profileAvatar : `http://${import.meta.env.VITE_BACKEND_URL}/uploads/${profile?.picture}`)} /> */}
-                                            <ImageTemplate className='rounded-2xl h-full w-full bg-cover' src={profile?.picture || null} defaultImg={defaultImage} />
+                                        <div className='bg-white w-full h-full rounded-3xl p-2'>
+                                            <ImageTemplate className='rounded-2xl h-full w-full object-cover' src={profile?.picture || null} defaultImg={Image.profileAvatar} />
                                         </div>
                                     </div>
                                     <div
@@ -147,31 +142,31 @@ const Profile = () => {
                                         {profile?.about}
                                     </span>
                                 </div>
-                            </div>
-                            <div
-                                className='flex flex-col justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[27%] left-[90%]'
-                            >
-                                <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                    <span>{totalPosts}</span>
-                                    <span>
-                                        Post
-                                    </span>
-                                </div>
-                                <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                    <span>
-                                        250
-                                    </span>
-                                    <span>
-                                        Visitor
-                                    </span>
-                                </div>
-                                <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                    <span>
-                                        4.5K
-                                    </span>
-                                    <span>
-                                        Comment
-                                    </span>
+                                <div
+                                    className='flex flex-col-3 justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[79%] left-[10%]'
+                                >
+                                    <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
+                                        <span>52</span>
+                                        <span>
+                                            Post
+                                        </span>
+                                    </div>
+                                    <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
+                                        <span>
+                                            250
+                                        </span>
+                                        <span>
+                                            Visitor
+                                        </span>
+                                    </div>
+                                    <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
+                                        <span>
+                                            4.5K
+                                        </span>
+                                        <span>
+                                            Comment
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +189,7 @@ const Profile = () => {
                                 {article.map(items => {
                                     return (
                                         <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-category-${items.id}`}>
-                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
+                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
                                             <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                 <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                     <Link to={`/article-view/${items.id}`}>

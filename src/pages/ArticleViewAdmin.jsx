@@ -82,7 +82,7 @@ const ArticleViewAdmin = () => {
     };
 
     const accRequestArticle = async () => {
-        const qs = new URLSearchParams(reqData).toString()
+        const qs = new URLSearchParams({articleId:id}).toString()
         await http(token).post('/request/acc-article', qs)
         setOpenModal(true)
         setTimeout(() => {

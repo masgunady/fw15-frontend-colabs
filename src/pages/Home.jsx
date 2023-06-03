@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link, useParams } from 'react-router-dom';
 
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiOutlineSearch } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
@@ -124,7 +124,7 @@ const Home = () => {
                     <section>
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Search Article</div>
-                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
+                            <div className="pl-3 pr-3 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
                                 <Formik
                                     initialValues={{
                                         searchName: '',
@@ -132,11 +132,25 @@ const Home = () => {
                                     onSubmit={onSearch}
                                 >
                                     {({ handleBlur, handleChange, handleSubmit }) => (
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="form-control w-full max-w-[500px]">
-                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" placeholder="Search" />
+                                        <>
+                                            <div className='bg-white md:w-[450px] h-full rounded-2xl border-2 border-primary flex items-center justify-start'>
+                                                <form className='flex gap-7' onSubmit={handleSubmit}>
+                                                    <div className='flex justify-between items-center gap-3'>
+                                                        <div className='flex gap-3 items-center'>
+                                                            <i className='ml-5'>
+                                                                <AiOutlineSearch size={20} />
+                                                            </i>
+                                                            <div className='form-control'>
+                                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="outline-none md:w-[330px] max-w-[500px] " placeholder="Search" />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <button type='reset' className='btn btn-ghost rounded-full'>x</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
+                                        </>
                                     )}
                                 </Formik>
                             </div>
@@ -175,8 +189,8 @@ const Home = () => {
                                     {category.map((items) => {
                                         return (
                                             <>
-                                                <Link to='/article-by-category' state={items.name}>
-                                                    <div key={`category-${items.id}`} className="flex flex-col gap-5 justify-center items-center">
+                                                <Link to='/article-by-category' state={items.name} key={`category-${items.id}`}>
+                                                    <div className="flex flex-col gap-5 justify-center items-center">
                                                         <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
                                                         </div>
@@ -200,16 +214,16 @@ const Home = () => {
                                             <div className='text-xl text-primary font-semibold'>More</div>
                                         </Link>
                                     </div>
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[310px] bg-blue-200">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {articleWait.map((items) => {
                                                 return (
                                                     <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
-                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
                                                             <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
-                                                                <Link to={`/article-view/${items.id}`}>
+                                                                <Link to={`/admin/article-view/${items.id}`}>
                                                                     <div className="text-primary text-xl font-bold">{items.title}</div>
                                                                 </Link>
                                                                 <div className="text-black text-center text-sm">{items.left}</div>
@@ -237,8 +251,15 @@ const Home = () => {
                                             })}
                                         </div>
                                     </div>
+                                    {
+                                        articleWait.length < 1 &&
+                                        <div className='flex flex-col items-center justify-center gap-7 '>
+                                            <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
+                                            <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
+                                        </div>}
                                 </div>
                             </section>
+
                         )
                     }
                     {profile?.role !== "superadmin" &&
@@ -257,7 +278,7 @@ const Home = () => {
                                                 return (
                                                     <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
-                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
                                                             <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
                                                                 <Link to={`/article-view/${items.id}`}>

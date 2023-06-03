@@ -11,6 +11,7 @@ import { AiOutlineLoading3Quarters,  } from 'react-icons/ai'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 
 const WriteArticle = () => {
@@ -81,7 +82,14 @@ const WriteArticle = () => {
     }
 
     return (
-        <div className="bg-white">
+        <>
+            <div>
+                <Helmet>
+                    <title>Article | Write Article</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
+            <div className="bg-white">
                 <div className="header pb-24">
                     <Header />
                 </div>
@@ -237,6 +245,7 @@ const WriteArticle = () => {
                 <Footer />
             </div>
         </div>
+        </>
     )
 };
 export default WriteArticle;

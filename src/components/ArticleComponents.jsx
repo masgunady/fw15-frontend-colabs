@@ -14,7 +14,7 @@ export default function ArticleComponent() {
     const [categories, setCategories] = React.useState([])
     const [sort, setSort] = React.useState('ASC')
     const [sortBy, setSortBy] = React.useState('title')
-    const [message, setMessage] = React.useState('Name (A/Z)')
+    const [message, setMessage] = React.useState('Name (A-Z)')
     const [categorySort, setCategorySort] = React.useState('DESC')
 
     React.useEffect(() => {
@@ -75,14 +75,14 @@ export default function ArticleComponent() {
                             <label tabIndex={0} className="btn btn-ghost flex items-center gap-5">
                                 <FaFilter className="text-black" size={30} />
                             </label>
-                            <div className='capitalize'>Sort By {message}</div>
+                            <div className='capitalize'>Sort By: {message}</div>
                         </div>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><a>Name (A-Z)</a></li>
-                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><a>Name (Z-A)</a></li>
-                            <li onClick={()=>{handleSortCategory('Category')}}><a>Category</a></li>
-                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><a>First Added</a></li>
-                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
+                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><p>Name (A-Z)</p></li>
+                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><p>Name (Z-A)</p></li>
+                            <li onClick={()=>{handleSortCategory('Category')}}><p>Category</p></li>
+                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
+                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><p>Last Added</p></li>
                         </ul>
                     </div>
                     <button className="btn bg-[#03999e5f] hover:bg-primary border-none text-black capitalize text-base font-semibold">
@@ -110,7 +110,7 @@ export default function ArticleComponent() {
                                         return(
                                             <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-item-${article.id}`}>
                                                 {/* <img src={categoryPict} className="absolute bottom-24 w-full" alt="" /> */}
-                                                {<ImageTemplate className='absolute bottom-24 w-full h-full object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
+                                                {<ImageTemplate className='absolute top-0 w-[320px]  object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                         <Link to={`/article-view/${article.id}`}>
