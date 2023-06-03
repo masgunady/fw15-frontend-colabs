@@ -200,16 +200,16 @@ const Home = () => {
                                             <div className='text-xl text-primary font-semibold'>More</div>
                                         </Link>
                                     </div>
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[310px] bg-blue-200">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {articleWait.map((items) => {
                                                 return (
                                                     <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
-                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
                                                             <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
-                                                                <Link to={`/article-view/${items.id}`}>
+                                                                <Link to={`/admin/article-view/${items.id}`}>
                                                                     <div className="text-primary text-xl font-bold">{items.title}</div>
                                                                 </Link>
                                                                 <div className="text-black text-center text-sm">{items.left}</div>
@@ -237,8 +237,15 @@ const Home = () => {
                                             })}
                                         </div>
                                     </div>
+                                    {
+                                        articleWait.length < 1 &&
+                                        <div className='flex flex-col items-center justify-center gap-7 '>
+                                        <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
+                                        <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
+                                    </div>}                                      
                                 </div>
                             </section>
+
                         )
                     }
                     {profile?.role !== "superadmin" &&
@@ -257,7 +264,7 @@ const Home = () => {
                                                 return (
                                                     <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
-                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />}
+                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
                                                             <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
                                                                 <Link to={`/article-view/${items.id}`}>

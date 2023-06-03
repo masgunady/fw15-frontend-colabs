@@ -34,7 +34,7 @@ const WriteArticle = () => {
             setArticle(data.results)
         }
         getDataArticle()
-    }, [])
+    }, [id])
 
     React.useEffect(() => {
         async function getDataCategory() {

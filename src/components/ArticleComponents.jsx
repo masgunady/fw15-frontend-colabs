@@ -110,7 +110,7 @@ export default function ArticleComponent() {
                                         return(
                                             <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-item-${article.id}`}>
                                                 {/* <img src={categoryPict} className="absolute bottom-24 w-full" alt="" /> */}
-                                                {<ImageTemplate className='absolute bottom-24 w-full h-full object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
+                                                {<ImageTemplate className='absolute top-0 w-[320px]  object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
                                                 <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                     <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                         <Link to={`/article-view/${article.id}`}>

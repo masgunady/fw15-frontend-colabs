@@ -194,7 +194,7 @@ const Profile = () => {
                                 {article.map(items => {
                                     return (
                                         <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-category-${items.id}`}>
-                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
+                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
                                             <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                 <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                     <Link to={`/article-view/${items.id}`}>
