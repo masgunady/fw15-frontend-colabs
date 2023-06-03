@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import PropTypes from 'prop-types';
 
 function PrivateRoute({ children }) {
     const navigate = useNavigate();
@@ -8,11 +9,14 @@ function PrivateRoute({ children }) {
 
     useEffect(() => {
         if (!token) {
-            navigate("/sign-in");
+            navigate("/auth/login");
         }
     }, [navigate, token]);
 
     return token ? children : null;
 }
 
+PrivateRoute.PropTypes = {
+    children: PropTypes.string
+}
 export default PrivateRoute;
