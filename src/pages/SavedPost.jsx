@@ -219,7 +219,7 @@ export default function SavedPost() {
                                     <>
                                         <div key={`bookmarks-${items.id}`} className="relative overflow-hidden w-full md:max-w-[220px] h-[250px] rounded-xl shadow-xl">
                                             {/* <img src={Image.covid} className="absolute bottom-24 w-full" alt="" /> */}
-                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute bottom-24 h-full object-cover w-full" alt="" />}
+                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                             <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                 <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                     <Link to={`/article-view/${items?.id}`}>

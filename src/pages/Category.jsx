@@ -5,64 +5,33 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import { FaFilter } from 'react-icons/fa';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import http from '../helper/http';
 const Category = () => {
-    const [searchParams] = useSearchParams()
     const [category, setCategory] = React.useState([]);
-    const [setFilterResults] = React.useState([])
+    const [sort, setSort] = React.useState('ASC')
+    const [sortBy, setSortBy] = React.useState('name')
+    const [message, setMessage] = React.useState('Name (A/Z)')
 
     React.useEffect(() => {
         async function getDatacategory() {
-            const { data } = await http().get('/categories?page=1&limit=20')
+            const { data } = await http().get(`/categories?sortBy=${sortBy}&sort=${sort}&page=1&limit=20`)
             setCategory(data.results)
         }
         getDatacategory()
-    }, [])
+    }, [sort, sortBy])
 
-    React.useEffect(() => {
-        const getArticleByFilter = async () => {
-            const { data } = await http().get('/categories?sort=DESC&sortBy=likeCount&page=1&limit=100', {
-                params: searchParams,
-            })
-
-            setFilterResults(data.results)
-        }
-        getArticleByFilter()
-    }, [])
-
-    const handleSortByAsc = async () => {
-        const {data} = await http().get('/categories?sort=ASC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setFilterResults(data.results)
+    const handleSort = (sortBy, sort, message) => {
+        setSortBy(sortBy)
+        setSort(sort)
+        setMessage(message)
+        const elem = document.activeElement;
+        elem?.blur();
     }
 
-    const handleSortByDesc = async () => {
-        const {data} = await http().get('/categories?sort=DESC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setFilterResults(data.results)
-    }
-
-    const handleLastAdd= async () => {
-        const {data} = await http().get('/categories?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setFilterResults(data.results)
-    }
-
-    const handleLastModify= async () => {
-        const {data} = await http().get('/categories?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setFilterResults(data.results)
-    }
 
     return (
         <>
-
-            {/* helmet */}
             <div>
                 <Helmet>
                     <title>Category</title>
@@ -87,21 +56,21 @@ const Category = () => {
                         <div className="w-full py-16  flex flex-col gap-5 bg-white">
                             <div className="flex items-center justify-between gap-5 px-7 md:px-16 lg:px-24 xl:px-28 w-full">
                                 <div className="flex items-center gap-2">
-                                    <div className="dropdown">
-                                        <label tabIndex={0} className="btn btn-ghost m-1">
-                                            <FaFilter className="text-black" size={30} />
-                                        </label>
-                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                            <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                                            <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                                            <li><a>Category</a></li>
-                                            <li onClick={handleLastAdd}><a>Last Added</a></li>
-                                            <li onClick={handleLastModify}><a>Last Modified</a></li>
-                                        </ul>
+                                <div className="dropdown">
+                                    <div className="flex gap-5 items-center">
+                                    <label tabIndex={0} className="btn btn-ghost">
+                                        <FaFilter className="text-black" size={30} />
+                                    </label>
+                                    <div className='capitalize'>Sort By {message}</div>
                                     </div>
-                                    <div>
-                                        Sort by{}
-                                    </div>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li onClick={()=>{handleSort('name', 'ASC', 'Name (A/Z)')}}><p>Name (A-Z)</p></li>
+                                        <li onClick={()=>{handleSort('name', 'DESC', 'Name (Z/A)')}}><p>Name (Z-A)</p></li>
+                                        <li onClick={()=>{handleSort('name', 'ASC', 'Category')}}><p>Category</p></li>
+                                        <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
+                                        <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><p>Last Added</p></li>
+                                    </ul>
+                                </div>
                                 </div>
                                 <div className=" text-grey-400 capitalize text-base font-semibold">20 Category</div>
                             </div>
@@ -140,7 +109,7 @@ const Category = () => {
                     </section>
 
                     <div className="w-full pb-16 flex items-center justify-center">
-                        <div className="text-black text-xl font-semibold underline">Load another 30+ category</div>
+                        <div className="text-black text-xl font-semibold underline">You have displayed all categories</div>
                     </div>
                 </main>
                 <div className="footer">

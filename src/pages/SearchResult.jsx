@@ -163,7 +163,7 @@ const SearchResult = () => {
                                         <div key={`article-${items.id}`}>
                                             <Link to={`/article-view/${items.id}`}>
                                                 <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                                    <img src={items.picture.startsWith('https') ? items.picture : `${import.meta.env.VITE_BACKEND_URL}/uploads/${items.picture}`} className="absolute bottom-24 w-full h-full object-cover" alt="" />
+                                                    <img src={items.picture.startsWith('https') ? items.picture : `${import.meta.env.VITE_BACKEND_URL}/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />
                                                     <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                         <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
                                                             <div className="text-primary text-xl font-bold">{items.title}</div>
