@@ -16,10 +16,14 @@ import { Helmet } from 'react-helmet';
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
-    const [openModal, setOpenModal] = React.useState(false)
     const [sortBy, setSortBy] = React.useState('createdAt')
     const [sort, setSort] = React.useState('DESC')
     const [itemSort, setItemSort] = React.useState('Last Added')
+    
+    const [loadingModal, setLoadingModal] = React.useState(false)
+    const [dataRequest, setDataRequest] = React.useState(null);
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalAction, setModalAction] = React.useState('');
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
@@ -45,21 +49,37 @@ const NotoficationAdmin = () => {
         elem?.blur();
     }
 
-    const accRequestAuthor = async(reqData)=>{
-        const qs = new URLSearchParams(reqData).toString()
+    const openModal = (reqData, action) => {
+        setDataRequest(reqData);
+        setModalAction(action);
+        setModalVisible(true);
+        };
+    
+        const closeModal = () => {
+        setDataRequest(null);
+        setModalAction('');
+        setModalVisible(false);
+        };
+
+    const accRequestAuthor = async()=>{
+        setModalVisible(false)
+        const data = dataRequest
+        const qs = new URLSearchParams(data).toString()
         await http(token).post('/request/acc-author', qs)
-        setOpenModal(true)
+        setLoadingModal(true)
             setTimeout(() => {
-                setOpenModal(false)
+                setLoadingModal(false)
                 updateNotifications()
             }, 1000)
     }
-    const rejectRequestAuthor = async(reqData)=>{
-        const qs = new URLSearchParams(reqData).toString()
+    const rejectRequestAuthor = async()=>{
+        setModalVisible(false)
+        const data = dataRequest
+        const qs = new URLSearchParams(data).toString()
         await http(token).post('/request/reject-author', qs)
-        setOpenModal(true)
+        setLoadingModal(true)
         setTimeout(() => {
-            setOpenModal(false)
+            setLoadingModal(false)
             updateNotifications()
         }, 1000)
     }
@@ -128,8 +148,8 @@ const NotoficationAdmin = () => {
                                                         item?.typeRequest === "author" ? 
                                                         (
                                                             <div className='flex items-center gap-7'>
-                                                                <button onClick={() => accRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn btn-primary capitalize text-white">Accept</button>
-                                                                <button onClick={() => rejectRequestAuthor({senderId: item.senderId, requestId: item.id})} className="btn bg-[#03999e5f] border-0 capitalize text-white">Ignore</button>
+                                                                <button onClick={() => openModal({senderId: item.senderId, requestId: item.id}, 'accept')} className="btn btn-primary capitalize text-white">Accept</button>
+                                                                <button onClick={() => openModal({senderId: item.senderId, requestId: item.id}, 'decline')} className="btn bg-[#03999e5f] border-0 capitalize text-white">Ignore</button>
                                                             </div>
                                                         )
                                                         :
@@ -165,11 +185,31 @@ const NotoficationAdmin = () => {
                                 )}
                         </div>
 
-                        
+                        {modalVisible && (
+                                <div>
+                                    <input type="checkbox" id="loading" className="modal-toggle" checked={modalVisible} />
+                                    <div className="modal">
+                                        <div className="modal-box">
+                                        <p className="py-4 text-black">
+                                            Are you sure {modalAction === 'accept' ? 'to Accept' : modalAction === 'decline' ? 'to decline' : ''} this request ?
+                                        </p>
+                                        <div className="modal-action">
+                                            <button type="button" className="btn btn-warning w-20 capitalize text-black" onClick={modalAction === 'accept' ? accRequestAuthor : rejectRequestAuthor}>
+                                            Yes
+                                            </button>
+                                            <label className="btn bg-[#03999e5f] border-0 text-black hover:text-white capitalize w-20" onClick={closeModal}>
+                                            Cancel!
+                                            </label>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        )}
                     </div>
                 </section>
             </main>
-                <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+
+                <input type="checkbox" id="loading" className="modal-toggle" checked={loadingModal} />
                 <div className="modal">
                     <div className="modal-box bg-transparent shadow-none">
                         <div className='justify-center flex '>

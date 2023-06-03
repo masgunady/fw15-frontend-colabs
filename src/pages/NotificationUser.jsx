@@ -20,7 +20,7 @@ const NotoficationAdmin = () => {
     
     React.useEffect(()=>{
         const getDataRequest = async() => {
-            const {data} = await http(token).get(`/request/usersortBy=${sortBy}&sort=${sort}`)
+            const {data} = await http(token).get(`/request/user?sortBy=${sortBy}&sort=${sort}`)
             console.log(data.results)
             setRequestAcc(data.results)
         }

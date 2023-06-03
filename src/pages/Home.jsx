@@ -2,11 +2,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link, useParams } from 'react-router-dom';
 
-import { AiOutlineLike, AiOutlineFieldTime, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiOutlineSearch, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
-import { formatDistanceToNow } from 'date-fns';
 import { getProfileAction } from '../redux/actions/profile';
 
 import React from 'react';
@@ -16,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import http from '../helper/http';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const Home = () => {
     const { id } = useParams()
@@ -27,9 +27,10 @@ const Home = () => {
     const [article, setArticle] = React.useState([]);
     const [articleWait, setArticleWait] = React.useState([]);
     const [articleLatest, setArticleLatest] = React.useState([]);
-    const [createdAt, setCreatedAt] = React.useState(null);
-
-
+    const [loadingModal, setLoadingModal] = React.useState(false)
+    const [selectedArticle, setSelectedArticle] = React.useState(null);
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalAction, setModalAction] = React.useState('');
 
     const navigate = useNavigate()
 
@@ -70,17 +71,65 @@ const Home = () => {
     }, [id]);
 
 
-    const formatUpdatedAt = (createdAt) => {
-        return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');
+    const updateStateWaitingList = () => {
+        async function getWaitingList() {
+            try {
+                const { data } = await http().get('/article/waiting-list?sort=DESC&sortBy=likeCount&page=1&limit=10');
+                setArticleWait(data.results);
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        getWaitingList();
+    };
+
+    const handleAccept = async() => {
+    setModalVisible(false);
+    const selectedId = selectedArticle
+    const qs = new URLSearchParams({articleId:selectedId}).toString()
+    await http(token).post('/request/acc-article', qs)
+    setLoadingModal(true)
+    setTimeout(() => {
+        setLoadingModal(false)
+        navigate('/')
+        updateStateWaitingList()
+    }, 1000)
 
     };
+
+    const handleDecline = async() => {
+    setModalVisible(false);
+    const selectedId = selectedArticle
+    const qs = new URLSearchParams({articleId:selectedId}).toString()
+    await http(token).post('/request/reject-article', qs)
+    setLoadingModal(true)
+    setTimeout(() => {
+        setLoadingModal(false)
+        navigate('/')
+    updateStateWaitingList()
+
+    }, 1000)
+    };
+
+    const openModal = (article, action) => {
+    setSelectedArticle(article);
+    setModalAction(action);
+    setModalVisible(true);
+    };
+
+    const closeModal = () => {
+    setSelectedArticle(null);
+    setModalAction('');
+    setModalVisible(false);
+    };
+
 
 
     React.useEffect(() => {
         async function getDataArticleLatest() {
             const { data } = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=4');
             setArticleLatest(data.results);
-            setCreatedAt(data.results[0].createdAt);
         }
         getDataArticleLatest();
     }, []);
@@ -153,7 +202,7 @@ const Home = () => {
                                     <div className="flex items-center gap-5">
                                         {tagArticle.map((item) => {
                                             return (
-                                                <div key={`tagArticle-${item.id}`} className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                                <div key={`tagArticle-home-${item.id}`} className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
                                                     <Link className="text-primary" to="">
                                                         #{item.name}
                                                     </Link>
@@ -167,10 +216,10 @@ const Home = () => {
                     </section>
                     <section>
                         <div className="w-full bg-white pb-7 flex flex-col gap-5">
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between  ">
+                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between  ">
                                 <div className='text-black font-bold text-2xl'>Category</div>
                                 <Link to='/category'>
-                                    <div className='font-semibold text-primary text-xl'>More</div>
+                                    <div className='font-semibold text-primary text-base'>More</div>
                                 </Link>
                             </div>
                             <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40  h-[260px]">
@@ -178,7 +227,7 @@ const Home = () => {
                                     {category.map((items) => {
                                         return (
                                             <>
-                                                <Link to='/article-by-category' state={items.name} key={`category-${items.id}`}>
+                                                <Link to='/article-by-category' state={items.name} key={`category-home-${items.id}`}>
                                                     <div className="flex flex-col gap-5 justify-center items-center">
                                                         <div className="w-[180px] h-[180px] hover:h-[190px] object-cover overflow-hidden rounded-3xl shadow-xl">
                                                             {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="w-full h-full object-cover" alt="" />}
@@ -197,49 +246,78 @@ const Home = () => {
                         (
                             <section>
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                                    <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between ">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between ">
                                         <div className='text-2xl text-black font-bold'>Waiting list</div>
                                         <Link to='/waiting-list'>
-                                            <div className='text-xl text-primary font-semibold'>More</div>
+                                            <div className='text-base text-primary font-semibold'>More</div>
                                         </Link>
                                     </div>
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[310px] bg-blue-200">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[380px]">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {articleWait.map((items) => {
                                                 return (
-                                                    <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
-                                                        <div></div>
-                                                        {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
-                                                        <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
-                                                            <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
-                                                                <Link to={`/admin/article-view/${items.id}`}>
-                                                                    <div className="text-primary text-xl font-bold">{items.title}</div>
-                                                                </Link>
-                                                                <div className="text-black text-center text-sm">{items.left}</div>
-                                                                <div className="flex justify-between w-full text-sm text-black">
-                                                                    <div className="flex gap-2 justify-center items-center">
-                                                                        <div>
-                                                                            <AiOutlineLike />
+                                                    <div key={`article-wait-home-${items.id}`} className='flex flex-col gap-5'>
+                                                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
+                                                            <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                                <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                                    <Link to={`/admin/article-view/${items.id}`}>
+                                                                        <div className="text-primary text-xl font-bold">{(items.title).slice(0, 20) + `...`}</div>
+                                                                    </Link>
+                                                                    <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(items.content).slice(0, 40) + `...`}}/>
+                                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                                        <div className="flex gap-2 justify-center items-center">
+                                                                            <div>
+                                                                                <AiOutlineLike />
+                                                                            </div>
+                                                                            <div> {items.likeCount}</div>
                                                                         </div>
-                                                                        <div> {items.likeCount}</div>
-                                                                    </div>
-                                                                    <div className="flex gap-2 items-center">
-                                                                        <div>
-                                                                            <AiOutlineFieldTime />
+                                                                        <div className="flex gap-2 items-center">
+                                                                            <div>
+                                                                                <AiOutlineFieldTime />
+                                                                            </div>
+                                                                            <div> {moment(items.createdAt).startOf('hour').fromNow()}</div>
                                                                         </div>
-                                                                        <div> {createdAt && formatUpdatedAt(createdAt)}</div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <RiBookmarkFill />
+                                                                        <div>
+                                                                            <RiBookmarkFill />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div className='flex items-center justify-between px-10 gap-7'>
+                                                        <button className="btn btn-primary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'accept')}>
+                                                            Accept
+                                                        </button>
+                                                        <button className="btn btn-secondary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'decline')}>
+                                                            Decline
+                                                        </button>
                                                         </div>
                                                     </div>
                                                 );
                                             })}
                                         </div>
                                     </div>
+                                    {modalVisible && (
+                                            <div>
+                                                <input type="checkbox" id="loading" className="modal-toggle" checked={modalVisible} />
+                                            <div className="modal">
+                                                <div className="modal-box">
+                                                <p className="py-4 text-black">
+                                                    Are you sure {modalAction === 'accept' ? 'to publish' : modalAction === 'decline' ? 'to decline' : ''} this article!
+                                                </p>
+                                                <div className="modal-action">
+                                                    <button type="button" className="btn btn-warning w-20 capitalize text-black" onClick={modalAction === 'accept' ? handleAccept : handleDecline}>
+                                                    Yes
+                                                    </button>
+                                                    <label className="btn bg-[#03999e5f] border-0 text-black hover:text-white capitalize w-20" onClick={closeModal}>
+                                                    Cancel!
+                                                    </label>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                    )}
                                     {
                                         articleWait.length < 1 &&
                                         <div className='flex flex-col items-center justify-center gap-7 '>
@@ -255,25 +333,25 @@ const Home = () => {
                         (
                             <section>
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                                    <div className="px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 flex justify-between ">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between ">
                                         <div className='text-2xl text-black font-bold '>Recomended</div>
                                         <Link to='/article'>
-                                            <div className='font-semibold text-xl text-primary'>More</div>
+                                            <div className='font-semibold text-xl base text-primary'>More</div>
                                         </Link>
                                     </div>
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[310px]">
+                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[330px]">
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {article.map((items) => {
                                                 return (
-                                                    <div key={`article-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                    <div key={`article-recomended-home-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
                                                         {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
                                                             <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
                                                                 <Link to={`/article-view/${items.id}`}>
-                                                                    <div className="text-primary text-xl font-bold">{items.title}</div>
+                                                                    <div className="text-primary text-xl font-bold">{(items.title).slice(0, 20) + `...`}</div>
                                                                 </Link>
-                                                                <div className="text-black text-center text-sm">{items.left}</div>
+                                                                <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(items.content).slice(0, 40) + `...`}}/>
                                                                 <div className="flex justify-between w-full text-sm text-black">
                                                                     <div className="flex gap-2 justify-center items-center">
                                                                         <div>
@@ -285,7 +363,7 @@ const Home = () => {
                                                                         <div>
                                                                             <AiOutlineFieldTime />
                                                                         </div>
-                                                                        <div> {createdAt && formatUpdatedAt(createdAt)}</div>
+                                                                        <div> {moment(items.createdAt).startOf('hour').fromNow()}</div>
                                                                     </div>
                                                                     <div>
                                                                         <RiBookmarkFill />
@@ -299,6 +377,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
+
                             </section>
                         )
                     }
@@ -348,7 +427,7 @@ const Home = () => {
                                                                 <div>
                                                                     <AiOutlineFieldTime />
                                                                 </div>
-                                                                <div> {createdAt && formatUpdatedAt(createdAt)}</div>
+                                                                <div> {moment(item.createdAt).startOf('hour').fromNow()}</div>
                                                             </div>
                                                             <div>
                                                                 <RiBookmarkFill />
@@ -371,7 +450,17 @@ const Home = () => {
 
                         </div>
                     </section>
+                    
                 </main>
+                <input type="checkbox" id="loading" className="modal-toggle" checked={loadingModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
+                    
                 <div className="footer">
                     <Footer />
                 </div>

@@ -100,7 +100,7 @@ export default function ArticleComponent() {
                         <div className="flex justify-between items-center text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">
                             <div className='capitalize'>{category.name}</div>
                             <div className="text-primary font-normal text-lg">
-                                <Link>View More</Link>
+                                <Link to='/article-by-category' state={category.name}>View More</Link>
                             </div>
                         </div>
                         <div className="px-7 md:px-16 lg:px-24 xl:px-28 h-[310px]">
