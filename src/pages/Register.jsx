@@ -184,7 +184,7 @@ export default function Register() {
                         <span>Home Page</span>
                     </div>
                     <div className="flex flex-col justify-self-center items-center gap-5 mb-10">
-                        <div className="h-[230px] flex flex-col items-center justify-end pb-7">
+                        <div className="h-[150px] flex flex-col items-center justify-end pb-7">
                             <img src={Image.logposeWhite} alt="" className="w-[170px]" />
                         </div>
                         <span className="text-base">logpose@mail.com</span>
@@ -212,7 +212,7 @@ export default function Register() {
                         </div>
                     </section>
                 </section>
-                <section className="flex flex-col pt-20 gap-5 md:pt-28 px-10 md:gap-5 font-normal text-black h-screen">
+                <section className="flex flex-col pt-5 gap-5 md:pt-20   px-10 md:gap-5 font-normal text-black h-screen">
                     <h1 className="font-bold text-2xl">Sign Up</h1>
                     <span
                         className="font-thin text-sm text-gray-600">Hey, welcome to News Today! Create an account to enjoy our full feautres!
