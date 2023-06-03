@@ -13,3 +13,29 @@
         min-height: 900px; /* Set the desired height */
     }
 }
+.pagination{
+    color: black;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5rem;
+    font-size: 1.2rem;
+    gap: 15px;
+}
+
+.pagination .page-num{
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 400;
+}
+
+.pagination .page-num:hover{
+    background-color: #03989E;
+    color: black;
+}
+
+.pagination .active{
+    background-color: #03989E;
+}

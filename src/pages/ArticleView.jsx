@@ -16,6 +16,7 @@ import defaultImagePost from '../assets/image/article-image.png'
 import ImageTemplate from '../components/ImageTemplate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const ArticleView = () => {
     const { id } = useParams()
@@ -71,6 +72,11 @@ const ArticleView = () => {
             const storedLikesCount = data.results.likeCount
             setUpdatedAt(data.results.createdAt);
             setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : 0);
+
+            const ipResponse = await axios.get('https://api.ipify.org?format=json');
+            const ip = ipResponse.data.ip;
+            const qs = new URLSearchParams({articleId:data.results.id,createdBy:data.results.authorId, ipAddress:ip}).toString()
+            await http().post('/article/count-data-visitor',qs)
         }
         if (id) {
             getViewArticle(id)
@@ -317,7 +323,7 @@ const ArticleView = () => {
                                                     {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
                                                 </div>
                                                 <div>
-                                                    <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                    <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).add(430, 'minutes').startOf('hour').fromNow()}</div>
                                                     <div className="text-black text-md">{items.comment}</div>
 
                                                 </div>

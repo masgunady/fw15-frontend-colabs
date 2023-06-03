@@ -204,7 +204,7 @@ const ArticleViewAdmin = () => {
                     </section>
 
                     <section>
-                        <div className="w-full py-16 flex justify-center px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 gap-5 bg-white">
+                        <div className="w-full py-16 flex flex-col lg:flex-row justify-center items-center px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-56 gap-5 bg-white">
                             <button onClick={accRequestArticle} className='w-full max-w-[300px] btn btn-primary text-xl  font-bold capitalize text-white'>Publish Article</button>
                             <button onClick={rejectRequestArticle} className='w-full max-w-[300px] btn bg-[#03999e5f] text-xl  font-bold capitalize text-black hover:text-white border-0'>Decline Article Request</button>
                         </div>
