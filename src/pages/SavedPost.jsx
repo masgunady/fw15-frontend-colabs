@@ -7,19 +7,20 @@ import Image from '../components/Image';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
+// import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { logout as logoutAction } from '../redux/reducers/auth';
 
 
 // icon
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
-import { RiBookmarkFill } from 'react-icons/ri';
+// import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+// import { RiBookmarkFill } from 'react-icons/ri';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import http from '../helper/http';
-import moment from 'moment';
+// import moment from 'moment';
 import ImageTemplate from '../components/ImageTemplate';
+import SavedPostPagination from '../components/pagination/SavedPostPagination';
 
 
 export default function SavedPost() {
@@ -29,32 +30,32 @@ export default function SavedPost() {
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = React.useState({})
     const [bookmarks, setBookmarks] = React.useState([])
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [totalPages, setTotalPages] = React.useState(0);
+    // const [currentPage, setCurrentPage] = React.useState(1);
+    // const [totalPages, setTotalPages] = React.useState(0);
     const [totalPosts, setTotalPosts] = React.useState(0);
 
 
     React.useEffect(() => {
         async function getDataBookmarks() {
-            const { data } = await http(token).get(`/bookmarks?page=${currentPage}&limit=3`)
+            const { data } = await http(token).get(`/bookmarks?page=1&limit=1000`)
             console.log(data)
             setBookmarks(data.results);
-            setTotalPages(data.pageInfo?.totalPage);
+            // setTotalPages(data.pageInfo?.totalPage);
         }
         getDataBookmarks()
     }, [token])
 
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
+    // const handlePrevPage = () => {
+    //     if (currentPage > 1) {
+    //         setCurrentPage(currentPage - 1);
+    //     }
+    // };
 
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
+    // const handleNextPage = () => {
+    //     if (currentPage < totalPages) {
+    //         setCurrentPage(currentPage + 1);
+    //     }
+    // };
 
     React.useEffect(() => {
         async function getDataProfile() {
@@ -81,14 +82,14 @@ export default function SavedPost() {
       }, [profile, token]);
 
 
-    const formatLikesCount = (count) => {
-        if (count < 1000) {
-            return count.toString(); 
-        } else {
-            const formattedCount = (count / 1000).toFixed(1); 
-            return formattedCount.toString() + 'k'; 
-        }
-    };
+    // const formatLikesCount = (count) => {
+    //     if (count < 1000) {
+    //         return count.toString(); 
+    //     } else {
+    //         const formattedCount = (count / 1000).toFixed(1); 
+    //         return formattedCount.toString() + 'k'; 
+    //     }
+    // };
 
 
     const doLogout = () => {
@@ -212,13 +213,13 @@ export default function SavedPost() {
                         </button>
                         <span>Saved Post</span>
                     </div>
-                    <div className='w-full px-2 xl:px-11'>
+                    <SavedPostPagination data={ bookmarks }/>
+                    {/* <div className='w-full px-2 xl:px-11'>
                         <div className='w-full pt-7 flex justify-center flex-wrap gap-5 xl:gap-9'>
                             {bookmarks.map((items) => {
                                 return (
                                     <>
                                         <div key={`bookmarks-${items.id}`} className="relative overflow-hidden w-full md:max-w-[220px] h-[250px] rounded-xl shadow-xl">
-                                            {/* <img src={Image.covid} className="absolute bottom-24 w-full" alt="" /> */}
                                             {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                             <div className="w-full h-[55%] absolute bottom-0 bg-white">
                                                 <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
@@ -251,9 +252,9 @@ export default function SavedPost() {
                             })}
                             <span className='hidden md:flex absolute top-0 right-[50%] cursor-pointer hover:text-primary'>Saved Post</span>
                         </div>
-                    </div>
+                    </div> */}
                     
-                    <div className="flex justify-center items-center gap-9 mb-10">
+                    {/* <div className="flex justify-center items-center gap-9 mb-10">
                                 <div className="flex justify-center items-center">
                                     <div>
                                         <button className="btn btn-base-100 shadow-lg shadow-black-500/70"  onClick={handlePrevPage}><AiOutlineArrowLeft size={20} color="white" /></button>
@@ -264,7 +265,7 @@ export default function SavedPost() {
                                         <button className="btn btn-primary shadow-lg shadow-black-500/70"  onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                 </section>
             </div>
             <Footer />

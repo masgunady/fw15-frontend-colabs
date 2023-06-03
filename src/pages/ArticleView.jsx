@@ -317,7 +317,7 @@ const ArticleView = () => {
                                                     {<ImageTemplate className='w-full h-full object-cover' src={items?.picture || null} defaultImg={defaultImage} />}
                                                 </div>
                                                 <div>
-                                                    <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                    <div className="text-primary text-md font-semibold">{items.username} - {moment(items.createdAt).add(430, 'minutes').startOf('hour').fromNow()}</div>
                                                     <div className="text-black text-md">{items.comment}</div>
 
                                                 </div>

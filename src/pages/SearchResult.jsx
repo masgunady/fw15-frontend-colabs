@@ -2,14 +2,15 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link, useSearchParams } from 'react-router-dom';
 import http from '../helper/http';
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
-import { RiBookmarkFill } from 'react-icons/ri';
+// import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+// import { RiBookmarkFill } from 'react-icons/ri';
+import SearchResultPagination from '../components/pagination/SearchResultPagination'
 
 import { FaFilter, FaSearch } from 'react-icons/fa';
 
 import React from 'react';
 import { Formik } from 'formik';
-import moment from 'moment';
+// import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
 const SearchResult = () => {
@@ -45,15 +46,6 @@ const SearchResult = () => {
     const onSearch = (values) => {
         setSearchParams(values, '/article/search')
     }
-
-    const formatLikesCount = (count) => {
-        if (count < 1000) {
-            return count.toString();
-        } else {
-            const formattedCount = (count / 1000).toFixed(1);
-            return formattedCount.toString() + 'k';
-        }
-    };
 
     return (
         <>
@@ -164,54 +156,22 @@ const SearchResult = () => {
                         </div>
                     </section>
 
-                    <section>
-                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                            <div className="px-7 md:px-16 lg:px-24 xl:px-28">
-                                <div className="flex flex-wrap justify-center items-center gap-9 h-full ">
-                                    {searchResults.map((items) => {
-                                        return (
-                                            <div key={`article-${items.id}`}>
-                                                <Link to={`/article-view/${items.id}`}>
-                                                    <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl">
-                                                        <img src={items.picture.startsWith('https') ? items.picture : `${import.meta.env.VITE_BACKEND_URL}/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />
-                                                        <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                                <div className="text-primary text-xl font-bold">{items.title}</div>
-                                                                <div className="text-black text-center text-sm">{items.left}</div>
-                                                                <div className="flex justify-between w-full text-sm text-black">
-                                                                    <div className="flex gap-2 items-center">
-                                                                        <div>
-                                                                            <AiOutlineLike />
-                                                                        </div>
-                                                                        <div>{formatLikesCount(items?.likeCount)}</div>
-                                                                    </div>
-                                                                    <div className="flex gap-2 items-center">
-                                                                        <div>
-                                                                            <AiOutlineFieldTime />
-                                                                        </div>
-                                                                        <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <RiBookmarkFill />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                            </div>
-                                        )
-                                    })}
-                                    <div>
-                                        {searchResults.length < 1 && (
-                                            <div className='flex items-center justify-center font-semibold text-2xl '>
-                                                Event &quot;{searchParams.get('searchName')}
-                                                &quot; Not found ...
-                                            </div>
-                                        )}
-                                    </div>
+
+                <section>
+                    <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                        <div className="px-7 md:px-16 lg:px-24 xl:px-28">
+                            <div>
+                                <SearchResultPagination data={ searchResults }/>
+                                <div>
+                                    {searchResults.length < 1 && (
+                                        <div className='flex items-center justify-center font-semibold text-2xl '>
+                                            Event &quot;{searchParams.get('searchName')}
+                                            &quot; Not found ...
+                                        </div>
+                                    )}
                                 </div>
                             </div>
+                            
                         </div>
                     </section>
                 </main>
