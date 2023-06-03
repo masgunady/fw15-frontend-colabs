@@ -11,6 +11,8 @@ import http from '../helper/http';
 import moment from 'moment';
 import ImageTemplate from '../components/ImageTemplate';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { Helmet } from 'react-helmet';
+
 const NotoficationAdmin = () => {
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
@@ -62,6 +64,13 @@ const NotoficationAdmin = () => {
         }, 1000)
     }
     return (
+        <>
+        <div>
+            <Helmet>
+                <title>Notification | Admin</title>
+                <meta name="description" content="Ini adalah deskripsi halaman saya" />
+            </Helmet>
+        </div>
         <div className="bg-white">
                 <div className="header pb-24">
                     <Header />
@@ -90,11 +99,11 @@ const NotoficationAdmin = () => {
                                     <div className='capitalize'>Filter By : {itemSort}</div>
                                 </label>
                                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li onClick={()=> handleSortName('message', 'ASC','Name (A-Z)')}><a>Name (A-Z)</a></li>
-                                    <li onClick={()=> handleSortName('message', 'DESC','Name (Z-A)')}><a>Name (Z-A)</a></li>
-                                    <li onClick={()=> handleSortName('typeRequest', 'ASC','Category')}><a>Category</a></li>
-                                    <li  onClick={()=> handleSortName('createdAt', 'DESC','Last Added')} ><a>Last Added</a></li>
-                                    <li  onClick={()=> handleSortName('createdAt', 'ASC','First Added')} ><a>First Added</a></li>
+                                    <li onClick={()=> handleSortName('message', 'ASC','Name (A-Z)')}><p>Name (A-Z)</p></li>
+                                    <li onClick={()=> handleSortName('message', 'DESC','Name (Z-A)')}><p>Name (Z-A)</p></li>
+                                    <li onClick={()=> handleSortName('typeRequest', 'ASC','Category')}><p>Category</p></li>
+                                    <li  onClick={()=> handleSortName('createdAt', 'DESC','Last Added')} ><p>Last Added</p></li>
+                                    <li  onClick={()=> handleSortName('createdAt', 'ASC','First Added')} ><p>First Added</p></li>
                                 </ul>
                             </div>
 
@@ -173,6 +182,7 @@ const NotoficationAdmin = () => {
                 <Footer />
             </div>
         </div>
+        </>
     );
 };
 export default NotoficationAdmin;

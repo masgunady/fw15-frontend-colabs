@@ -11,6 +11,7 @@ import React from "react";
 import http from "../helper/http";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import ImageTemplate from "../components/ImageTemplate";
+import { Helmet } from "react-helmet";
 
 const ArticleByCategory = () => {
     const location = useLocation()
@@ -91,7 +92,14 @@ const ArticleByCategory = () => {
     };
 
     return (
-        <div className="bg-white">
+        <>
+            <div>
+                <Helmet>
+                    <title>Category | By Article</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
+            <div className="bg-white">
             <div className="header pb-24">
                 <Header />
             </div>
@@ -111,11 +119,11 @@ const ArticleByCategory = () => {
                         </label>
                         </div>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><a>Name (A-Z)</a></li>
-                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><a>Name (Z-A)</a></li>
-                            <li onClick={()=>{handleSortCategory('Category')}}><a>Category</a></li>
-                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><a>First Added</a></li>
-                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
+                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><p>Name (A-Z)</p></li>
+                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><p>Name (Z-A)</p></li>
+                            <li onClick={()=>{handleSortCategory('Category')}}><p>Category</p></li>
+                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
+                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><p>Last Added</p></li>
                         </ul>
                     </div>
                 </section>
@@ -195,6 +203,7 @@ const ArticleByCategory = () => {
                 <Footer />
             </div>
         </div>
+        </>
     )
 };
 export default ArticleByCategory;
