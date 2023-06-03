@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import http from '../helper/http';
 import ImageTemplate from '../components/ImageTemplate';
 import ProfileInformationPagination from '../components/pagination/ProfileInformationPagination';
+import defaultImage from '../assets/image/default.png'
 
 const Profile = () => {
     const { id } = useParams()

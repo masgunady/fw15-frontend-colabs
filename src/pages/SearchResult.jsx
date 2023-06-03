@@ -2,22 +2,18 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link, useSearchParams } from 'react-router-dom';
 import http from '../helper/http';
-// import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
-// import { RiBookmarkFill } from 'react-icons/ri';
 import SearchResultPagination from '../components/pagination/SearchResultPagination'
 
 import { FaFilter, FaSearch } from 'react-icons/fa';
 
 import React from 'react';
 import { Formik } from 'formik';
-// import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
 const SearchResult = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchResults, setSearchResults] = React.useState([])
 
-    // const [articles, setArticles] = React.useState([]);
     const [sort, setSort] = React.useState('ASC')
     const [sortBy, setSortBy] = React.useState('title')
     const [message, setMessage] = React.useState('Name (A-Z)')
@@ -157,21 +153,22 @@ const SearchResult = () => {
                     </section>
 
 
-                <section>
-                    <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                        <div className="px-7 md:px-16 lg:px-24 xl:px-28">
-                            <div>
-                                <SearchResultPagination data={ searchResults }/>
+                    <section>
+                        <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                            <div className="px-7 md:px-16 lg:px-24 xl:px-28">
                                 <div>
-                                    {searchResults.length < 1 && (
-                                        <div className='flex items-center justify-center font-semibold text-2xl '>
-                                            Event &quot;{searchParams.get('searchName')}
-                                            &quot; Not found ...
-                                        </div>
-                                    )}
+                                    <SearchResultPagination data={ searchResults }/>
+                                    <div>
+                                        {searchResults.length < 1 && (
+                                            <div className='flex items-center justify-center font-semibold text-2xl '>
+                                                Event &quot;{searchParams.get('searchName')}
+                                                &quot; Not found ...
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+                                
                             </div>
-                            
                         </div>
                     </section>
                 </main>
