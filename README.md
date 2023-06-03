@@ -14,10 +14,10 @@ Web application providing up-to-date and reliable news and information
 
 ##Built with
 
-- [fontend]()
+- [fontend](https://fw15-logpose.netlify.app/)
 1. [React js ](https://reactjs.org/)
 2. [Tailwind](https://tailwindcss.com/)
 
-- [Backend](https://github.com/rioprayoga23/fw12-backend-collab)
+- [Backend](https://fw15-logpose-backend.vercel.app/)
 1. [Node js](https://nodejs.org/en/)
 2. [Express js](https://expressjs.com/en/starter/installing.html)
