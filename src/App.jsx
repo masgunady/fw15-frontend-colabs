@@ -21,10 +21,10 @@ import WriteArticle from './pages/WriteArticle';
 import WaitingList from './pages/WaitingList';
 import About from './pages/About'
 import EditArticle from './pages/EditArticle'
+import PrivateRoute from './components/PrivateRoute'
 
 
-
-import { store , persistor} from "./redux/store"
+import { store, persistor } from "./redux/store"
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
@@ -32,7 +32,7 @@ export default function App() {
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <BrowserRouter>
-                <ScrollToTop />
+                    <ScrollToTop />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/article" element={<Article />} />
@@ -47,12 +47,34 @@ export default function App() {
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
-                        <Route path="/profile-information/:id" element={<ProfileInformation />} />
-                        <Route path="/profile/edit" element={<EditProfile />} />
-                        <Route path="/profile/saved-post" element={<SavedPost />} />
-                        <Route path="/write-article" element={<WriteArticle />} />
+
+                        <Route path="/profile-information/:id"
+                            element={
+                                <PrivateRoute>
+                                    <ProfileInformation />
+                                </PrivateRoute>} />
+
+                        <Route path="/profile/edit"
+                            element={
+                                <PrivateRoute>
+                                    <EditProfile />
+                                </PrivateRoute>} />
+                        <Route path="/profile/saved-post" element={
+                            <PrivateRoute>
+                                <SavedPost />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/write-article" element={
+                            <PrivateRoute>
+                                <WriteArticle />
+                            </PrivateRoute>
+                        } />
                         <Route path="/waiting-list" element={<WaitingList />} />
-                        <Route path="/edit-article/:id" element={<EditArticle />} />
+                        <Route path="/edit-article/:id" element={
+                            <PrivateRoute>
+                                <EditArticle />
+                            </PrivateRoute>
+                        } />
                         <Route path="/about" element={<About />} />
                     </Routes>
                 </BrowserRouter>

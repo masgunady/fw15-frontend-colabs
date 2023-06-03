@@ -16,7 +16,7 @@ import { Helmet } from 'react-helmet';
 const SearchResult = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchResults, setSearchResults] = React.useState([])
-    
+
     // const [articles, setArticles] = React.useState([]);
     const [sort, setSort] = React.useState('ASC')
     const [sortBy, setSortBy] = React.useState('title')
@@ -24,13 +24,13 @@ const SearchResult = () => {
 
 
     React.useEffect(() => {
-        const getDataArticle = async() => {
-            const {data} = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
+        const getDataArticle = async () => {
+            const { data } = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
             console.log(data.results)
             setSearchResults(data.results)
         }
         getDataArticle()
-    },[searchParams ,sortBy, sort])
+    }, [searchParams, sortBy, sort])
 
     const handleSort = (sortBy, sort, message) => {
         setSortBy(sortBy)
@@ -47,8 +47,6 @@ const SearchResult = () => {
         setSearchParams(values, '/article/search')
     }
 
-    
-
     return (
         <>
             <div>
@@ -62,91 +60,102 @@ const SearchResult = () => {
                     <Header />
                 </div>
 
-            <main>
-                <section>
-                    <div className="w-full pt-7  flex flex-col gap-5 bg-white">
-                        <div className=" px-7 md:px-16 lg:px-24 xl:px-28 w-full">
-                            <div className="flex items-center justify-between gap-5">
-                            <Formik 
-                                    initialValues={{
-                                    searchName: '',
-                                    }}
-                                    onSubmit={onSearch}
-                            >
-                                    {({  handleBlur, handleChange, handleSubmit }) => (
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="form-control w-full max-w-[500px]">
-                                                <i> <FaSearch /> </i>
-                                                <input className="input input-bordered input-primary" type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search'/>
+                <main>
+                    <section>
+                        <div className="w-full pt-7  flex flex-col gap-5 bg-white">
+                            <div className=" px-7 md:px-16 lg:px-24 xl:px-28 w-full">
+                                <div className="md:flex md:items-center justify-between gap-4 ">
+                                    <Formik
+                                        initialValues={{
+                                            searchName: '',
+                                        }}
+                                        onSubmit={onSearch}
+                                    >
+                                        {({ handleBlur, handleChange, handleSubmit }) => (
+                                            <div className='bg-white md:w-[450px] h-[50px] rounded-2xl border-2 border-primary flex items-center justify-start'>
+                                                <form onSubmit={handleSubmit} className='flex'>
+                                                    <div className='flex justify-center items-center gap-3 px-5'>
+                                                        <i className=''>
+                                                            <FaSearch />
+                                                        </i>
+                                                        <div className='form-control'>
+                                                            <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search' className="outline-none md:w-[330px] w-[160px] max-w-[500px]" />
+                                                        </div>
+                                                        <div>
+                                                            <button type='reset' className='btn btn-ghost rounded-full'>x</button>
+                                                            <button type='submit' className='hidden'></button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
-                                    )}
-                            </Formik>
-                                <div className='flex items-center gap-2'>
-                                    <div className="dropdown dropdown-end">
-                                        <label tabIndex={0} className="btn btn-ghost m-1">
-                                            <FaFilter className="text-black" size={30} />
-                                            <div className='capitalize'>Sort By: {message}</div>
-                                        </label>
-                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A-Z)')}}><p>Name (A-Z)</p></li>
-                                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z-A)')}}><p>Name (Z-A)</p></li>
-                                            <li onClick={()=>{handleSort('category', 'ASC', 'Category')}}><p>Category</p></li>
-                                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
-                                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'First Added')}}><p>Last Added</p></li>
-                                        </ul>
+                                        )}
+                                    </Formik>
+                                    <div className='flex items-center gap-2'>
+                                        <div className="dropdown dropdown-end">
+                                            <label tabIndex={0} className="btn btn-ghost m-1">
+                                                <FaFilter className="text-black" size={30} />
+                                                <div className='capitalize'>Sort By: {message}</div>
+                                            </label>
+                                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                                <li onClick={() => { handleSort('title', 'ASC', 'Name (A-Z)') }}><p>Name (A-Z)</p></li>
+                                                <li onClick={() => { handleSort('title', 'DESC', 'Name (Z-A)') }}><p>Name (Z-A)</p></li>
+                                                <li onClick={() => { handleSort('category', 'ASC', 'Category') }}><p>Category</p></li>
+                                                <li onClick={() => { handleSort('createdAt', 'ASC', 'First Added') }}><p>First Added</p></li>
+                                                <li onClick={() => { handleSort('createdAt', 'DESC', 'First Added') }}><p>Last Added</p></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <section>
-                    <div className="w-full py-16  flex flex-col gap-5 bg-white">
-                        <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Related Tags</div>
-                        <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
-                            <div className="w-full  scrollbar-hide overflow-scroll">
-                                <div className="flex items-center gap-5">
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #jokowidodo
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #dayniki
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #jokowidodo
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #dayniki
-                                        </Link>
-                                    </div>
-                                    <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
-                                        <Link className="text-primary" to="">
-                                            #ladygaga
-                                        </Link>
+                    </section>
+                    <section>
+                        <div className="w-full py-16  flex flex-col gap-5 bg-white">
+                            <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Related Tags</div>
+                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
+                                <div className="w-full  scrollbar-hide overflow-scroll">
+                                    <div className="flex items-center gap-5">
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #ladygaga
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #jokowidodo
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #dayniki
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #ladygaga
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #jokowidodo
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #dayniki
+                                            </Link>
+                                        </div>
+                                        <div className="bg-[#03999e5f] h-[33px] p-2 flex items-center justify-center rounded-md" to="">
+                                            <Link className="text-primary" to="">
+                                                #ladygaga
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+
 
                 <section>
                     <div className="w-full bg-white  pb-16 flex flex-col gap-5">
@@ -164,13 +173,12 @@ const SearchResult = () => {
                             </div>
                             
                         </div>
-                    </div>
-                </section>
-            </main>
-            <div className="footer">
-                <Footer />
+                    </section>
+                </main>
+                <div className="footer">
+                    <Footer />
+                </div>
             </div>
-        </div>
         </>
     );
 };

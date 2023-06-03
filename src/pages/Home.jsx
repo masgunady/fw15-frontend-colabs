@@ -124,7 +124,7 @@ const Home = () => {
                     <section>
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Search Article</div>
-                            <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
+                            <div className="pl-3 pr-3 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
                                 <Formik
                                     initialValues={{
                                         searchName: '',
@@ -132,14 +132,25 @@ const Home = () => {
                                     onSubmit={onSearch}
                                 >
                                     {({ handleBlur, handleChange, handleSubmit }) => (
-                                        <form className='w-full flex items-center gap-[3px]' onSubmit={handleSubmit}>
-                                            <i className=''>
-                                                <AiOutlineSearch size={20} />
-                                            </i>
-                                            <div className="form-control w-full max-w-[500px]">
-                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" placeholder="Search" />
+                                        <>
+                                            <div className='bg-white md:w-[450px] h-full rounded-2xl border-2 border-primary flex items-center justify-start'>
+                                                <form className='flex gap-7' onSubmit={handleSubmit}>
+                                                    <div className='flex justify-between items-center gap-3'>
+                                                        <div className='flex gap-3 items-center'>
+                                                            <i className='ml-5'>
+                                                                <AiOutlineSearch size={20} />
+                                                            </i>
+                                                            <div className='form-control'>
+                                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="outline-none md:w-[330px] max-w-[500px] " placeholder="Search" />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <button type='reset' className='btn btn-ghost rounded-full'>x</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
+                                        </>
                                     )}
                                 </Formik>
                             </div>
@@ -243,9 +254,9 @@ const Home = () => {
                                     {
                                         articleWait.length < 1 &&
                                         <div className='flex flex-col items-center justify-center gap-7 '>
-                                        <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
-                                        <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
-                                    </div>}                                      
+                                            <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
+                                            <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
+                                        </div>}
                                 </div>
                             </section>
 
