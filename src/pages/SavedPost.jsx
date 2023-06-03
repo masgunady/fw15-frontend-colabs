@@ -166,9 +166,6 @@ export default function SavedPost() {
                             </div>
                         </div>
                     </div>
-                    <div className='self-start pl-14 text-center'>
-                        <span className='text-primary text-lg font-bold hover:text-[#0d696c] cursor-pointer'>See Profile</span>
-                    </div>
                     <div className='w-full text-lg font-bold my-11'>
                         <ul>
                             <Link to='/profile/edit'>
