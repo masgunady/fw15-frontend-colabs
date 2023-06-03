@@ -21,3 +21,10 @@ Web application providing up-to-date and reliable news and information
 - [Backend](https://fw15-logpose-backend.vercel.app/)
 1. [Node js](https://nodejs.org/en/)
 2. [Express js](https://expressjs.com/en/starter/installing.html)
+
+
+##How to use
+
+[Registe]()
+[Login]()
+[Home]()
