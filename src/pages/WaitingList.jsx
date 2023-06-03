@@ -22,7 +22,7 @@ const WaitingList = () => {
       </div>
       <main>
           <WaitingListComponent />
-          <div className="w-full pb-16 flex items-center justify-center">
+          <div className="w-full flex items-center justify-center">
               <div className="text-black text-xl font-semibold underline"></div>
           </div>
       </main>

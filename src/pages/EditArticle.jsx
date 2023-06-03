@@ -30,7 +30,7 @@ const WriteArticle = () => {
     React.useEffect(() => {
         async function getDataArticle() {
             const { data } = await http().get(`/article/${id}`)
-            console.log(data)
+            
             setArticle(data.results)
         }
         getDataArticle()
@@ -40,7 +40,7 @@ const WriteArticle = () => {
         async function getDataCategory() {
             try {
                 const { data } = await http(token).get('/categories')
-                console.log(data)
+                
                 setCategory(data.results)
             } catch (err) {
                 console.log(err)
@@ -83,7 +83,6 @@ const WriteArticle = () => {
                 }
 
             })
-            console.log(data)
             setArticle(data.results)
         } catch (err) {
             console.log(err)
@@ -127,14 +126,14 @@ const WriteArticle = () => {
                     <Formik
                         initialValues={{
                             title: article?.title,
-                            categoryId: article?.category,
+                            categoryId: article?.categoryId,
                             content: article?.content
                         }}
                         onSubmit={editArticle}
                         enableReinitialize
                     >
 
-                        {({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
+                        {({ handleSubmit, handleChange, handleBlur, values }) => (
                             <form onSubmit={handleSubmit} className="flex flex-col-reverse md:flex-row gap-7 items-center min-h-[500px] pb-16">
                                 <div className="flex flex-col justify-center items-center w-[300px] h-[505px] gap-8">
                                     <div className="w-[300px] h-full border-2 rounded-2xl p-3 border-primary">
@@ -210,8 +209,6 @@ const WriteArticle = () => {
                                                                 items: [
                                                                     'bold', // Add the bold option to the toolbar
                                                                     'italic',
-                                                                    'underline',
-                                                                    'alignment',
                                                                     'undo',
                                                                     'redo',
                                                                 ],
@@ -228,7 +225,7 @@ const WriteArticle = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button type="submit" className="btn btn-primary w-full text-white text-lg capitalize">request publish edit article</button>
+                                        <button type="submit" className="btn btn-primary w-full text-white text-lg capitalize">Process edit article</button>
                                     </div>
                                 </div>
                             </form>
