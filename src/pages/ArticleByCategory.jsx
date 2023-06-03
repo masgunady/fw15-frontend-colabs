@@ -3,15 +3,16 @@ import Footer from "../components/Footer";
 import { Link, useLocation } from "react-router-dom";
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { FaFilter } from 'react-icons/fa';
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
-import { RiBookmarkFill } from 'react-icons/ri';
-import defaultImage from '../assets/image/default.png'
-import moment from "moment";
+// import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+// import { RiBookmarkFill } from 'react-icons/ri';
+// import defaultImage from '../assets/image/default.png'
+// import moment from "moment";
 import React from "react";
 import http from "../helper/http";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
-import ImageTemplate from "../components/ImageTemplate";
+// import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
+// import ImageTemplate from "../components/ImageTemplate";
 import { Helmet } from "react-helmet";
+import ArticleByCategoryPagination from "../components/pagination/ArticleByCategoryPagination";
 
 const ArticleByCategory = () => {
     const location = useLocation()
@@ -20,7 +21,7 @@ const ArticleByCategory = () => {
     const [activeTabCategory, setActiveTabCategory] = React.useState(reqCategory)
     const [categories, setCategories] = React.useState([])
     const [tabArticle, setTabArticle] = React.useState(1)
-    const [totalPage, setTotalPage] = React.useState()
+    // const [totalPage, setTotalPage] = React.useState()
     const [sort, setSort] = React.useState('ASC')
     const [sortBy, setSortBy] = React.useState('title')
     const [message, setMessage] = React.useState('Name (A/Z)')
@@ -43,8 +44,8 @@ const ArticleByCategory = () => {
     React.useEffect(() => {
         async function getArticleCategory() {
             try {
-                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&sortBy=${sortBy}&sort=${sort}&page=${tabArticle}&limit=5`)
-                setTotalPage(data.pageInfo?.totalPage)
+                const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&sortBy=${sortBy}&sort=${sort}&page=${tabArticle}&limit=1000`)
+                // setTotalPage(data.pageInfo?.totalPage)
                 setArticleCategory(data.results)
                 console.log(activeTabCategory)
             } catch (error) {
@@ -74,17 +75,17 @@ const ArticleByCategory = () => {
     }
 
 
-    const handlePrevPage = () => {
-        if (tabArticle >= 1) {
-            setTabArticle(tabArticle - 1);
-        }
-    }
+    // const handlePrevPage = () => {
+    //     if (tabArticle >= 1) {
+    //         setTabArticle(tabArticle - 1);
+    //     }
+    // }
 
-    const handleNextPage = () => {
-        if (tabArticle < totalPage) {
-            setTabArticle(tabArticle + 1);
-        }
-    };
+    // const handleNextPage = () => {
+    //     if (tabArticle < totalPage) {
+    //         setTabArticle(tabArticle + 1);
+    //     }
+    // };
 
     const handleTabClick = (category) => {
         setActiveTabCategory(category)
@@ -148,7 +149,7 @@ const ArticleByCategory = () => {
                         </div>
                     </div>
                 </>
-                <section className="py-16">
+                {/* <section className="py-16">
                     <div className="gap-7 flex flex-wrap justify-center items-center ">
                             {
                                 articleCategory.map((article) => {
@@ -185,8 +186,8 @@ const ArticleByCategory = () => {
                                 })
                             }
                     </div>
-                </section>
-                <div className="flex justify-center items-center gap-9 mb-10">
+                </section> */}
+                {/* <div className="flex justify-center items-center gap-9 mb-10">
                     <div className="flex justify-center items-center">
                         <div>
                             <button className="btn btn-base-100 shadow-lg shadow-black-500/70" disabled={tabArticle === 1} onClick={handlePrevPage}><AiOutlineArrowLeft size={20} color="white" /></button>
@@ -197,7 +198,8 @@ const ArticleByCategory = () => {
                             <button className="btn btn-primary shadow-lg shadow-black-500/70" disabled={tabArticle > totalPage} onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                <ArticleByCategoryPagination data={ articleCategory }/>
             </main>
             <div>
                 <Footer />

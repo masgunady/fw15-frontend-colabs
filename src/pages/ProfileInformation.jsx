@@ -4,24 +4,25 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet';
-import moment from 'moment';
+// import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import defaultImage from '../assets/image/default.png';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
-import { RiBookmarkFill } from 'react-icons/ri';
+// import defaultImage from '../assets/image/default.png';
+// import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+// import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+// import { RiBookmarkFill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import http from '../helper/http';
 import ImageTemplate from '../components/ImageTemplate';
+import ProfileInformationPagination from '../components/pagination/ProfileInformationPagination';
 
 const Profile = () => {
     const { id } = useParams()
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = React.useState({});
     const [article, setArticle] = React.useState([]);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [totalPages, setTotalPages] = React.useState(0);
+    // const [currentPage, setCurrentPage] = React.useState(1);
+    // const [totalPages, setTotalPages] = React.useState(0);
     const [totalPosts, setTotalPosts] = React.useState(0);
 
     React.useEffect(() => {
@@ -30,7 +31,7 @@ const Profile = () => {
             setProfile(data.results)
         }
         getDataProfile()
-    }, [])
+    }, [token, id])
 
     React.useEffect(() => {
         async function getTotalPosts() {
@@ -50,43 +51,30 @@ const Profile = () => {
     React.useEffect(() => {
         async function getDataArticle() {
             try {
-                const { data } = await http(token).get(`/article/by-user/${id}?page=${currentPage}&limit=4`);
-                console.log(data.pageInfo?.totalPage);
+                const { data } = await http(token).get(`/article/by-user/${id}?page=1&limit=1000`);
+                // console.log(data.pageInfo?.totalPage);
                 setArticle(data.results);
-                setTotalPages(data.pageInfo?.totalPage);
+                // setTotalPages(data.pageInfo?.totalPage);
             } catch (error) {
                 console.log(error);
             }
         }
         getDataArticle();
-    }, [token, currentPage, id]);
+    }, [token, id]);
 
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
+    // const handlePrevPage = () => {
+    //     if (currentPage > 1) {
+    //         setCurrentPage(currentPage - 1);
+    //     }
+    // };
 
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
+    // const handleNextPage = () => {
+    //     if (currentPage < totalPages) {
+    //         setCurrentPage(currentPage + 1);
+    //     }
+    // };
 
-    const getLikesCount = (articleId) => {
-        const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
-        if (storedLikesCount) {
-            const likesCount = parseInt(storedLikesCount);
-            if (likesCount < 1000) {
-                return likesCount.toString();
-            } else {
-                const formattedCount = (likesCount / 1000).toFixed(1);
-                return formattedCount.toString() + 'k';
-            }
-        } else {
-            return '0';
-        }
-    };
+    
 
 
     return (
@@ -146,7 +134,7 @@ const Profile = () => {
                                     className='flex flex-col-3 justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[79%] left-[10%]'
                                 >
                                     <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                        <span>52</span>
+                                        <span>{totalPosts}</span>
                                         <span>
                                             Post
                                         </span>
@@ -184,7 +172,8 @@ const Profile = () => {
                     <section className='relative gap-10 pt-10 px-10 md:px-0'>
                         <div className='font-extrabold text-xl ml-10'>Post</div>
                         <div className='relative'>
-                            <div className='grid p-10 lg:grid-cols-2 gap-5'>
+                            <ProfileInformationPagination data={ article }/>
+                            {/* <div className='grid p-10 lg:grid-cols-2 gap-5'>
 
                                 {article.map(items => {
                                     return (
@@ -231,7 +220,7 @@ const Profile = () => {
                                         <button className="btn btn-primary shadow-lg shadow-black-500/70"  onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </section>
                 </div>
