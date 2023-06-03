@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import { Helmet } from 'react-helmet';
 
 const SearchResult = () => {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams('')
     const [searchResults, setSearchResults] = React.useState([])
 
     const [sort, setSort] = React.useState('ASC')
@@ -21,8 +21,7 @@ const SearchResult = () => {
 
     React.useEffect(() => {
         const getDataArticle = async () => {
-            const { data } = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
-            console.log(data.results)
+            const { data } = await http().get(`/article?${searchParams}&sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
             setSearchResults(data.results)
         }
         getDataArticle()

@@ -18,7 +18,6 @@ const Profile = () => {
     const [profile, setProfile] = React.useState({});
     const [article, setArticle] = React.useState([]);
     
-    const [totalPosts, setTotalPosts] = React.useState(0);
 
     React.useEffect(() => {
         async function getDataProfile() {
@@ -27,20 +26,6 @@ const Profile = () => {
         }
         getDataProfile()
     }, [token, id])
-
-    React.useEffect(() => {
-        async function getTotalPosts() {
-          try {
-            const { data } = await http(token).get(`/article/by-user/${profile.id}`);
-            setTotalPosts(data.results.length);
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        if (profile.id) {
-          getTotalPosts();
-        }
-      }, [profile, token]);
 
 
     React.useEffect(() => {
@@ -116,14 +101,14 @@ const Profile = () => {
                             className='flex flex-col justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[28%] left-[85%] mt-[-250px]'
                         >
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                <span>{totalPosts}</span>
+                                <span>{profile?.articleCountTotal}</span>
                                 <span>
                                     Post
                                 </span>
                             </div>
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
                                 <span>
-                                    250
+                                    {profile?.visitorCountTotal}
                                 </span>
                                 <span>
                                     Visitor
@@ -131,7 +116,7 @@ const Profile = () => {
                             </div>
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
                                 <span>
-                                    4.5K
+                                    {profile?.commentCountTotal}
                                 </span>
                                 <span>
                                     Comment

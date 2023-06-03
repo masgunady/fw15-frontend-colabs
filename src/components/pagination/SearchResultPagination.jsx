@@ -17,7 +17,7 @@ function SearchResultPagination(props) {
 
   React.useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setSearchResults(data.slice(itemOffset, endOffset))
     setPageCount(Math.ceil(data.length / itemsPerPage))
   },[itemOffset, itemsPerPage, data])
