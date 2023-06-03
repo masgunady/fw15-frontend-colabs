@@ -164,14 +164,14 @@ export default function EditProfile() {
                             className='flex flex-col-3 justify-center text-white lg:absolute bg-primary rounded-xl shadow-[0_35px_50px_-15px_rgba(0,0,0,0.3)] lg:w-[79%] left-[10%]'
                         >
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
-                                <span>52</span>
+                                <span>{profile?.articleCountTotal}</span>
                                 <span>
                                     Post
                                 </span>
                             </div>
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
                                 <span>
-                                    250
+                                    {profile?.visitorCountTotal}
                                 </span>
                                 <span>
                                     Visitor
@@ -179,7 +179,7 @@ export default function EditProfile() {
                             </div>
                             <div className='flex flex-col justify-center items-center p-5 md:w-16 lg:w-24 h-16 rounded-xl bg-primary cursor-pointer text-sm hover:bg-[#0d696c]'>
                                 <span>
-                                    4.5K
+                                    {profile?.commentCountTotal}
                                 </span>
                                 <span>
                                     Comment

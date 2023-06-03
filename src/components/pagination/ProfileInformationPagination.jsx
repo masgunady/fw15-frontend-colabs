@@ -66,7 +66,8 @@ function ProfileInformationPagination(props) {
                             <Link to={`/article-view/${items.id}`}>
                                 <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
                             </Link>
-                            <div className="text-black text-center text-sm">{(items.content).slice(0, 60) + `...`}</div>
+                            <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{ __html: (items.content).slice(0, 60) + `...` }} />
+                            
                             <div className="flex justify-between w-full text-sm text-black">
                                 <div className="flex gap-2 items-center">
                                     <div>
