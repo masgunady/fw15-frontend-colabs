@@ -124,14 +124,13 @@ export default function EditProfile() {
         <>
             <div>
                 <Helmet>
-                    <title>Edit Profile</title>
+                    <title>Profile | Edit Profile</title>
                     <meta name="description" content="Ini adalah deskripsi halaman saya" />
                 </Helmet>
             </div>
             <div className="header pb-24">
                 <Header /> 
             </div>
-
             <div className='flex flex-col-reverse md:flex-row text-black border-t-[1px] px-2 md:px-16 lg:px-24 xl:px-28 2xl:px-56'>
                 <section className='basis-1/3 flex flex-col justify-center items-center pt-16 px-7 border-t-2 lg:border-t-0 lg:border-r-[1px] w-full min-w-[400px]'>
                     <span className='lg:text-2xl font-extrabold'>Profile</span>

@@ -5,55 +5,41 @@ import http from '../helper/http';
 import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 
-import { FaFilter } from 'react-icons/fa';
+import { FaFilter, FaSearch } from 'react-icons/fa';
 
 import React from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
+import { Helmet } from 'react-helmet';
 
 const SearchResult = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchResults, setSearchResults] = React.useState([])
+    
+    // const [articles, setArticles] = React.useState([]);
+    const [sort, setSort] = React.useState('ASC')
+    const [sortBy, setSortBy] = React.useState('title')
+    const [message, setMessage] = React.useState('Name (A-Z)')
 
 
     React.useEffect(() => {
-        const getArticleBySearch = async () => {
-            const { data } = await http().get('/article?sort=DESC&sortBy=likeCount&page=1&limit=100', {
-                params: searchParams,
-            })
-
+        const getDataArticle = async() => {
+            const {data} = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
+            console.log(data.results)
             setSearchResults(data.results)
         }
-        getArticleBySearch()
-    }, [searchParams])
+        getDataArticle()
+    },[searchParams ,sortBy, sort])
 
-    const handleSortByAsc = async () => {
-        const {data} = await http().get('/article?sort=ASC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
+    const handleSort = (sortBy, sort, message) => {
+        setSortBy(sortBy)
+        setSort(sort)
+        setMessage(message)
+
+        const elem = document.activeElement;
+        elem?.blur();
     }
 
-    const handleSortByDesc = async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=title&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastAdd= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=createdAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
-
-    const handleLastModify= async () => {
-        const {data} = await http().get('/article?sort=DESC&sortBy=updatedAt&page=1&limit=100', {  
-            params: searchParams,
-        })
-        setSearchResults(data.results)
-    }
 
 
     const onSearch = (values) => {
@@ -70,7 +56,14 @@ const SearchResult = () => {
     };
 
     return (
-        <div className="className='bg-white md:bg-[#F4F7FF]'">
+        <>
+            <div>
+                <Helmet>
+                    <title>HOME | Search</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
+            <div className="className='bg-white md:bg-[#F4F7FF]'">
                 <div className="header pb-24">
                     <Header />
                 </div>
@@ -89,6 +82,7 @@ const SearchResult = () => {
                                     {({  handleBlur, handleChange, handleSubmit }) => (
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-control w-full max-w-[500px]">
+                                                <i> <FaSearch /> </i>
                                                 <input className="input input-bordered input-primary" type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search'/>
                                             </div>
                                         </form>
@@ -98,16 +92,16 @@ const SearchResult = () => {
                                     <div className="dropdown dropdown-end">
                                         <label tabIndex={0} className="btn btn-ghost m-1">
                                             <FaFilter className="text-black" size={30} />
+                                            <div className='capitalize'>Sort By: {message}</div>
                                         </label>
                                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                            <li onClick={handleSortByAsc}><a>Name (A-Z)</a></li>
-                                            <li onClick={handleSortByDesc}><a>Name (Z-A)</a></li>
-                                            <li><a>Category</a></li>
-                                            <li onClick={handleLastAdd}><a>Last Added</a></li>
-                                            <li onClick={handleLastModify}><a>Last Modified</a></li>
+                                            <li onClick={()=>{handleSort('title', 'ASC', 'Name (A-Z)')}}><p>Name (A-Z)</p></li>
+                                            <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z-A)')}}><p>Name (Z-A)</p></li>
+                                            <li onClick={()=>{handleSort('category', 'ASC', 'Category')}}><p>Category</p></li>
+                                            <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
+                                            <li onClick={()=>{handleSort('createdAt', 'DESC', 'First Added')}}><p>Last Added</p></li>
                                         </ul>
                                     </div>
-                                    <div>Filter</div>
                                 </div>
                             </div>
                         </div>
@@ -215,6 +209,7 @@ const SearchResult = () => {
                 <Footer />
             </div>
         </div>
+        </>
     );
 };
 export default SearchResult;

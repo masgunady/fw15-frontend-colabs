@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link, useParams } from 'react-router-dom';
 
-import { AiOutlineLike, AiOutlineFieldTime } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineFieldTime, AiSearch } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
@@ -124,7 +124,7 @@ const Home = () => {
                     <section>
                         <div className="w-full pt-16  flex flex-col gap-5 bg-white">
                             <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 2xl:px-40 text-black font-bold">Search Article</div>
-                            <div className=" pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
+                            <div className="absolute bottom-0 pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 w-full">
                                 <Formik
                                     initialValues={{
                                         searchName: '',
@@ -132,7 +132,10 @@ const Home = () => {
                                     onSubmit={onSearch}
                                 >
                                     {({ handleBlur, handleChange, handleSubmit }) => (
-                                        <form onSubmit={handleSubmit}>
+                                        <form className='w-full flex items-center justify-between gap-[3px]' onSubmit={handleSubmit}>
+                                            <i className=''>
+                                                <AiSearch size={20} />
+                                            </i>
                                             <div className="form-control w-full max-w-[500px]">
                                                 <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="input input-bordered input-primary" placeholder="Search" />
                                             </div>

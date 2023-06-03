@@ -4,6 +4,8 @@ import http from '../helper/http';
 import { Link } from 'react-router-dom';
 
 import { FaFilter } from 'react-icons/fa'
+import { IoChevronBackOutline } from 'react-icons/io5';
+import { Helmet } from 'react-helmet';
 
 
 export default function WaitingListComponent() {
@@ -38,9 +40,28 @@ export default function WaitingListComponent() {
 
     return (
         <>
+            <div>
+                <Helmet>
+                    <title>Waiting List | Admin</title>
+                    <meta name="description" content="Ini adalah deskripsi halaman saya" />
+                </Helmet>
+            </div>
+            <section>
+                <div className="w-full py-9  flex flex-col gap-5 bg-white">
+                    <div className="flex justify-center lg:hidden pb-5 text-2xl px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 text-black font-bold">Notification</div>
+                    <div className="flex items-center gap-5 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56 w-full">
+                        <div className="flex-1 flex items-center gap-5">
+                            <Link to='/' className="border-none">
+                                <IoChevronBackOutline className="text-black" size={35} />
+                            </Link>
+                            <div className="text-black hidden md:block text-lg font-semibold">Home Page</div>
+                        </div>
+                        <div className="flex-1 hidden lg:flex justify-center text-black text-lg font-semibold">Waiting List</div>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div className="w-full py-16  flex flex-col gap-5 bg-white">
-                    <div className="text-2xl px-7 md:px-16 lg:px-24 xl:px-28 text-black font-bold">Search Article</div>
                     <div className="flex items-center gap-5 pl-7 md:pl-16 lg:pl-24 xl:pl-28 w-full">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost flex items-center gap-5">
@@ -48,11 +69,11 @@ export default function WaitingListComponent() {
                                 <div className='capitalize'>Sort By {message}</div>
                             </label>
                             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li onClick={()=>{handleSort('title', 'ASC', 'Name (A-Z)')}}><a>Name (A-Z)</a></li>
-                                <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z-A)')}}><a>Name (Z-A)</a></li>
-                                <li><a>Category</a></li>
-                                <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><a>First Added</a></li>
-                                <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><a>Last Added</a></li>
+                                <li onClick={()=>{handleSort('title', 'ASC', 'Name (A-Z)')}}><p>Name (A-Z)</p></li>
+                                <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z-A)')}}><p>Name (Z-A)</p></li>
+                                <li onClick={()=>{handleSort('category', 'ASC', 'Category')}}><p>Category</p></li>
+                                <li onClick={()=>{handleSort('createdAt', 'ASC', 'First Added')}}><p>First Added</p></li>
+                                <li onClick={()=>{handleSort('createdAt', 'DESC', 'Last Added')}}><p>Last Added</p></li>
                             </ul>
                         </div>
                     </div>
