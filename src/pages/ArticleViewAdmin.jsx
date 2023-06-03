@@ -29,7 +29,6 @@ const ArticleViewAdmin = () => {
     React.useEffect(() => {
         async function getDataCategory() {
             const { data } = await http().get('/categories')
-            console.log(data)
             setCategory(data.results)
         }
         getDataCategory()

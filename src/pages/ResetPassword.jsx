@@ -45,8 +45,6 @@ export default function ForgotPassword() {
             const body = new URLSearchParams({ code, email, password, confirmPassword }).toString()
 
             const { data } = await http().post('/auth/reset-password', body)
-            console.log(data)
-
             setSuccessMessage(data.message)
             setTimeout(() => {
                 setSuccessMessage('')
