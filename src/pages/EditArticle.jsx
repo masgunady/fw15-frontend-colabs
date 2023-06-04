@@ -14,6 +14,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Helmet } from "react-helmet";
 import defaultImage from '../assets/image/default.png'
 import ImageTemplate from "../components/ImageTemplate";
+import jwtDecode from 'jwt-decode'
 
 
 const WriteArticle = () => {
@@ -27,10 +28,18 @@ const WriteArticle = () => {
     const [openModal, setOpenModal] = React.useState(false)
     const [pictureURI, setPictureURI] = React.useState('')
 
+    React.useEffect(()=> {
+        if(token){
+            const {role} = jwtDecode(token)
+            if(role !== "superadmin"){
+                navigate(`/article-view/${id}`)
+            }
+        }
+    },[id, navigate,token])
+
     React.useEffect(() => {
         async function getDataArticle() {
             const { data } = await http().get(`/article/${id}`)
-            
             setArticle(data.results)
         }
         getDataArticle()
@@ -62,7 +71,6 @@ const WriteArticle = () => {
         setSelectedPicture(file)
         fileToDataUrl(file)
     }
-
 
     const editArticle = async (values) => {
         setOpenModal(true)

@@ -19,6 +19,7 @@
     "daisyui": "^2.51.6",
     "date-fns": "^2.30.0",
     "formik": "^2.2.9",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "postcss": "^8.4.23",
     "prop-types": "^15.8.1",

@@ -1,19 +1,21 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaFilter } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/image/default.png'
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
-import React from 'react';
+import React from 'react'; 
 import http from '../helper/http';
 import moment from 'moment';
 import ImageTemplate from '../components/ImageTemplate';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { Helmet } from 'react-helmet';
+import jwtDecode from 'jwt-decode'
 
 const NotoficationAdmin = () => {
+    const navigate = useNavigate()
     const token = useSelector((state) => state.auth.token)
     const [requestAcc, setRequestAcc] = React.useState([])
     const [sortBy, setSortBy] = React.useState('createdAt')
@@ -24,6 +26,15 @@ const NotoficationAdmin = () => {
     const [dataRequest, setDataRequest] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalAction, setModalAction] = React.useState('');
+
+    React.useEffect(()=> {
+        if(token){
+            const {role} = jwtDecode(token)
+            if(role !== "superadmin"){
+                navigate('/user/notification-user')
+            }
+        }
+    },[navigate,token])
     
     React.useEffect(()=>{
         const getDataRequest = async() => {

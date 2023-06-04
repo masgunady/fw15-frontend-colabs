@@ -40,14 +40,32 @@ export default function App() {
                         <Route path="/article-by-category" element={<ArticleByCategory />} />
                         <Route path="/search-result" element={<SearchResult />} />
                         <Route path="/article-view/:id" element={<ArticleView />} />
-                        <Route path="/admin/article-view/:id" element={<ArticleViewAdmin />} />
-                        <Route path="/admin/notification-admin" element={<NotificationAdmin />} />
-                        <Route path="/user/notification-user" element={<NotificationUser />} />
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
 
+                        
+                        
+                        <Route path="/admin/article-view/:id" element={
+                        <PrivateRoute>
+                            <ArticleViewAdmin />
+                        </PrivateRoute>
+                        
+                        } />
+                        <Route path="/user/notification-user" element={
+                        <PrivateRoute>
+                            <NotificationUser />
+                        </PrivateRoute>
+                        
+                        } />
+                        <Route path="/admin/notification-admin" element={
+                        <PrivateRoute>
+                            <NotificationAdmin />
+                        </PrivateRoute>
+                        
+                        } />
+                        
                         <Route path="/profile-information/:id"
                             element={
                                 <PrivateRoute>

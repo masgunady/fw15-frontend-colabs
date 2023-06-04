@@ -36,7 +36,9 @@ const Home = () => {
     const navigate = useNavigate()
 
     React.useEffect(() => {
-        dispatch(getProfileAction(token))
+        if(token){
+            dispatch(getProfileAction(token))
+        }
     }, [dispatch, token]);
 
     React.useEffect(() => {
@@ -267,7 +269,7 @@ const Home = () => {
                                         <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
                                             {article.map((items) => {
                                                 return (
-                                                    <div key={`article-recomended-home-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                    <div key={`article-recomended-homes-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
                                                         <div></div>
                                                         {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
                                                         <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">

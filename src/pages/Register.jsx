@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 // icons
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
-import { AiFillTwitterCircle } from "react-icons/ai";
+import { AiFillTwitterCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import Image from '../components/Image';
@@ -135,9 +135,11 @@ export default function Register() {
     // const token = useSelector(state => state.auth.token)
     const successMessage = useSelector((state) => state.auth.successMessage)
     const formError = useSelector(state => state.auth.formError)
+    const [loadingModal, setLoadingModal] = React.useState(false)
 
 
     const doLogin = async (values, { setSubmitting, setErrors }) => {
+        setLoadingModal(true)
         dispatch(clearMessage())
         dispatch(asyncRegisterAction(values))
 
@@ -147,6 +149,9 @@ export default function Register() {
                 password: formError.filter(item => item.param === "password")[0].message,
             })
         }
+        setTimeout(()=>{
+            setLoadingModal(false)
+        },800)
         setSubmitting(false)
 
 
@@ -155,12 +160,15 @@ export default function Register() {
 
     React.useEffect(() => {
         if (successMessage) {
-            setTimeout(() => {
-                navigate('/auth/login')
-            }, 2000)
+            setLoadingModal(false)
+            // setTimeout(() => {
+            // }, 1000)          
             setTimeout(() => {
                 dispatch(clearMessage())
-            }, 2000)
+            }, 2000)          
+            setTimeout(() => {
+                navigate('/auth/login')
+            }, 2500)
         }
     }, [successMessage, navigate, dispatch])
 
@@ -253,6 +261,14 @@ export default function Register() {
                         <Link to="/" className="mt-5 self-center underline underline-offset-4 cursor-pointer hover:text-cyan-700">Back to Home Page</Link>
                     </div>
                 </section>
+                <input type="checkbox" id="loading" className="modal-toggle" checked={loadingModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )
