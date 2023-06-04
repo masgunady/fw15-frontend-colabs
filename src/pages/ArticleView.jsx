@@ -36,11 +36,13 @@ const ArticleView = () => {
 
 
     React.useEffect(() => {
-        const getProfile = async () => {
-            const { data } = await http(token).get(`/profile`)
-            setProfile(data.results)
+        if(token){
+            const getProfile = async () => {
+                const { data } = await http(token).get(`/profile`)
+                setProfile(data.results)
+            }
+            getProfile()
         }
-        getProfile()
     }, [token])
     const notifyWarnReq = (data) => toast.warn(data);
     const HandleLikes = async () => {
@@ -84,53 +86,59 @@ const ArticleView = () => {
     }, [id])
 
     React.useEffect(() => {
-        async function getDataComment() {
-            try {
-                const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
-                setComment(data.results);
-            } catch (err) {
-                console.log(err)
+        if(token){
+            const getDataComment = async()=>{
+                try {
+                    const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
+                    setComment(data.results);
+                } catch (err) {
+                    console.log(err)
+                }
             }
+            getDataComment();
         }
-        getDataComment();
-    }, [id]);
+    }, [id, token]);
 
 
     const updateStateComments = () => {
-        async function getDataComment() {
-            try {
-                const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
-                setComment(data.results);
-
-            } catch (err) {
-                console.log(err)
+        if(token){
+            const getDataComment = async() => {
+                try {
+                    const { data } = await http().get(`/comments/${id}?page=1&limit=5&sort=DESC&sortBy=createdAt`);
+                    setComment(data.results);
+    
+                } catch (err) {
+                    console.log(err)
+                }
             }
+            getDataComment();
         }
-        getDataComment();
     };
 
 
     React.useEffect(() => {
-        const checkBookmarks = async () => {
-            const { data } = await http(token).get(`/bookmarks/check/${id}`)
-            const btnStatus = data.results
-            if (btnStatus) {
-                setBookmarkButton(true)
-            }else{
-                setBookmarkButton()
+        if(token){
+            const checkBookmarks = async () => {
+                const { data } = await http(token).get(`/bookmarks/check/${id}`)
+                const btnStatus = data.results
+                if (btnStatus) {
+                    setBookmarkButton(true)
+                }else{
+                    setBookmarkButton()
+                }
             }
-        }
-        const checLikes = async () => {
-            const { data } = await http(token).get(`/likes/check/${id}`)
-            const btnStatus = data.results
-            if (btnStatus) {
-                setIsLiked(true);
-            }else{
-                setIsLiked();
+            const checLikes = async () => {
+                const { data } = await http(token).get(`/likes/check/${id}`)
+                const btnStatus = data.results
+                if (btnStatus) {
+                    setIsLiked(true);
+                }else{
+                    setIsLiked();
+                }
             }
+            checkBookmarks()
+            checLikes()
         }
-        checkBookmarks()
-        checLikes()
     }, [id, token]);
 
     const updateStateBookmarks = () => {

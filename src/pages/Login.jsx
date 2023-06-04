@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 // icons
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
-import { AiFillTwitterCircle } from "react-icons/ai";
+import { AiFillTwitterCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import { Formik } from "formik";
@@ -122,18 +122,24 @@ export default function Login() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const formError = useSelector(state => state.auth.formError)
+    const [loadingModal, setLoadingModal] = React.useState(false)
 
 
 
     React.useEffect(() => {
         if (token) {
-            navigate('/')
+            setTimeout(()=>{
+                setLoadingModal(false)
+                navigate('/')
+            },1200)
         }
+        
     }, [token, navigate])
 
 
 
     const doLogin = async (values, { setSubmitting, setErrors }) => {
+        setLoadingModal(true)
         dispatch(clearMessage())
         dispatch(asyncLoginAction(values))
         if (formError.length) {
@@ -142,6 +148,9 @@ export default function Login() {
                 password: formError.filter(item => item.param === "password")[0].message,
             })
         }
+        setTimeout(()=>{
+            setLoadingModal(false)
+        },800)
         setSubmitting(false)
 
     }
@@ -231,6 +240,14 @@ export default function Login() {
                         </div>
                     </div>
                 </section>
+                <input type="checkbox" id="loading" className="modal-toggle" checked={loadingModal} />
+                <div className="modal">
+                    <div className="modal-box bg-transparent shadow-none">
+                        <div className='justify-center flex '>
+                            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )

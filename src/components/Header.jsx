@@ -7,35 +7,58 @@ import { Link } from 'react-router-dom';
 import ImageTemplate from '../components/ImageTemplate'
 import {logout as logoutAction} from '../redux/reducers/auth'
 import defaultImage from '../assets/image/default.png'
-
 import {GrArticle} from 'react-icons/gr'
-
+import jwtDecode from 'jwt-decode'
 import { FiHome, FiInfo, FiList, FiUnlock, FiSettings, FiLogOut, FiAlignJustify } from 'react-icons/fi';
 import {MdNotificationsNone} from 'react-icons/md'
 import { getProfileAction } from '../redux/actions/profile';
+import http from '../helper/http';
 
 
 const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const  profile = useSelector((state) =>state.profile.data)
+    const [loadingModal, setLoadingModal] = React.useState(false)
     const [menuMobile, setMenuMobile] = React.useState(false)
     const token = useSelector((state) => state.auth.token)
+
+    React.useEffect(() => {
+        if(token){
+            const getProfileData = async() => {
+                dispatch(getProfileAction(token))
+            }
+            getProfileData()
+        }       
+    }, [token, dispatch, navigate])
+    
+    
+    
     
     React.useEffect(() => {
-        async function getProfileData() {
-            dispatch(getProfileAction(token))
+        if(token){
+            const {role} = jwtDecode(token)
+            const getProfile = async () => {
+                const { data } = await http(token).get(`/profile`)
+                const roleUsage = data.results.role
+                setTimeout(()=>{
+                    if(role !== roleUsage){
+                        console.log("Not Match")
+                        setLoadingModal(true)
+                    }
+                },2500)
+            }
+            getProfile()
         }
-        if (token) {
-            getProfileData()
-        }
-    }, [token, dispatch, navigate])
+    }, [token])
+
 
     const handleMenuMobile = () => {
         setMenuMobile(!menuMobile)
     }
 
     const doLogout = () => {
+        setLoadingModal(false)
         dispatch(logoutAction())
         navigate('/auth/login')
     }
@@ -255,7 +278,21 @@ const Header = () => {
 
             </div>
         </div>
-
+        <div>
+        <input type="checkbox" id="loading" className="modal-toggle" checked={loadingModal} />
+            <div className="modal">
+                <div className="modal-box">
+                <p className="py-4 text-black">
+                    Hi {profile?.name} !, <br/> Your request as the author has been accepted by the system. please do login again to feel the effect!
+                </p>
+                <div className="modal-action">
+                    <button type="button" className="btn btn-warning w-20 capitalize text-black" onClick={doLogout}>
+                    OK!
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
         </>
     );
 };

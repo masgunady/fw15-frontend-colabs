@@ -11,6 +11,7 @@ import http from '../helper/http';
 import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNow } from 'date-fns';
+import jwtDecode from 'jwt-decode'
 
 const ArticleViewAdmin = () => {
     const { id } = useParams()
@@ -25,17 +26,36 @@ const ArticleViewAdmin = () => {
     const reqData = location.state;
     const navigate = useNavigate()
 
+    React.useEffect(()=> {
+        if(token){
+            const {role} = jwtDecode(token)
+            if(role !== "superadmin"){
+                navigate(`/article-view/${id}`)
+            }
+        }
+    },[id, navigate,token])
+
+    React.useEffect(() => {
+        const getViewArticle = async (id) => {
+            const { data } = await http(token).get(`/article/${id}`)
+            setArticleView(data.results)
+            const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
+            setUpdatedAt(data.results.createdAt);
+            setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : data.results.likesCount || 0);
+        }
+        if (id) {
+            getViewArticle(id)
+        }
+    }, [id,token])
+
 
     React.useEffect(() => {
         async function getDataCategory() {
             const { data } = await http().get('/categories')
-            console.log(data)
             setCategory(data.results)
         }
         getDataCategory()
     }, [])
-
-
 
 
     const HandleLikes = async () => {
@@ -60,21 +80,6 @@ const ArticleViewAdmin = () => {
             return formattedCount.toString() + 'k';
         }
     };
-
-
-
-    React.useEffect(() => {
-        const getViewArticle = async (id) => {
-            const { data } = await http(token).get(`/article/${id}`)
-            setArticleView(data.results)
-            const storedLikesCount = localStorage.getItem(`likesCount_${id}`);
-            setUpdatedAt(data.results.createdAt);
-            setLikesCount(storedLikesCount ? parseInt(storedLikesCount) : data.results.likesCount || 0);
-        }
-        if (id) {
-            getViewArticle(id)
-        }
-    }, [id])
 
     const formatUpdatedAt = (createdAt) => {
         return formatDistanceToNow(new Date(createdAt), { addSuffix: true, includeSeconds: false }).replace('about', '');

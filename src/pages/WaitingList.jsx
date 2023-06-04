@@ -1,10 +1,24 @@
 import { Helmet } from 'react-helmet'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import React from 'react';
 
 import WaitingListComponent from '../components/WaitingListComponent';
+import { useSelector } from 'react-redux';
+import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const WaitingList = () => {
+  const token = useSelector((state) => state.auth.token)
+  const navigate = useNavigate()
+  React.useEffect(()=> {
+    if(token){
+        const {role} = jwtDecode(token)
+        if(role !== "superadmin"){
+            navigate(`/`)
+        }
+    }
+},[navigate,token])
 
 
   return (
