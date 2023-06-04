@@ -61,9 +61,9 @@ const Category = () => {
                                     <label tabIndex={0} className="btn btn-ghost">
                                         <FaFilter className="text-black" size={30} />
                                     </label>
-                                    <div className='capitalize'>Sort By {message}</div>
+                                    <div className='capitalize text-black'>Sort By {message}</div>
                                     </div>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-black">
                                         <li onClick={()=>{handleSort('name', 'ASC', 'Name (A/Z)')}}><p>Name (A-Z)</p></li>
                                         <li onClick={()=>{handleSort('name', 'DESC', 'Name (Z/A)')}}><p>Name (Z-A)</p></li>
                                         <li onClick={()=>{handleSort('name', 'ASC', 'Category')}}><p>Category</p></li>

@@ -6,6 +6,8 @@ import { AiOutlineFieldTime, AiOutlineLike } from 'react-icons/ai';
 import { RiBookmarkFill } from 'react-icons/ri';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import ImageTemplate from '../ImageTemplate';
+import defaultImage from '../../assets/image/embed-video.png'
 
 function ProfileInformationPagination(props) {
   const { data } = props;
@@ -31,69 +33,60 @@ function ProfileInformationPagination(props) {
     data: PropTypes.objectOf(PropTypes.array)
   }
 
-  const getLikesCount = (articleId) => {
-    const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
-    if (storedLikesCount) {
-        const likesCount = parseInt(storedLikesCount);
-        if (likesCount < 1000) {
-            return likesCount.toString();
-        } else {
-            const formattedCount = (likesCount / 1000).toFixed(1);
-            return formattedCount.toString() + 'k';
-        }
-    } else {
-        return '0';
-    }
-};
-  // const formatLikesCount = (count) => {
-  //   if (count < 1000) {
-  //       return count.toString(); 
-  //   } else {
-  //       const formattedCount = (count / 1000).toFixed(1); 
-  //       return formattedCount.toString() + 'k'; 
-  //   }
-  // };
+//   const getLikesCount = (articleId) => {
+//     const storedLikesCount = localStorage.getItem(`likesCount_${articleId}`);
+//     if (storedLikesCount) {
+//         const likesCount = parseInt(storedLikesCount);
+//         if (likesCount < 1000) {
+//             return likesCount.toString();
+//         } else {
+//             const formattedCount = (likesCount / 1000).toFixed(1);
+//             return formattedCount.toString() + 'k';
+//         }
+//     } else {
+//         return '0';
+//     }
+// };
   return (
     <div className='w-full'>
-      <div className='grid p-10 lg:grid-cols-2 gap-5'>
-
-        {article.map(items => {
-            return (
-                <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-category-${items.id}`}>
-                    {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
-                    <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                        <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                            <Link to={`/article-view/${items.id}`}>
-                                <div className="text-primary text-xl font-bold">{(items.title).slice(0, 35) + `...`}</div>
-                            </Link>
-                            <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{ __html: (items.content).slice(0, 60) + `...` }} />
-                            
-                            <div className="flex justify-between w-full text-sm text-black">
-                                <div className="flex gap-2 items-center">
+      <div className="gap-7 flex flex-wrap justify-center items-center ">
+                {
+                  article.map((item) => {
+                      return(
+                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-cat-${item.id}`}>
+                          {<ImageTemplate className='absolute top-0 w-[320px]  object-cover' src={item?.picture || null} defaultImg={defaultImage} />}
+                          <div className="w-full h-[55%] absolute bottom-0 bg-white">
+                            <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
+                                <Link to={`/article-view/${item.id}`}>
+                                  <div className="text-primary text-xl font-bold">{(item.title).slice(0, 15) + `...`}</div>
+                                </Link>
+                                <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(item.content).slice(0, 50) + `...`}} />
+                                <div className="flex justify-between w-full text-sm text-black">
+                                  <div className="flex gap-2 items-center">
                                     <div>
-                                        <AiOutlineLike />
+                                      <AiOutlineLike />
                                     </div>
-                                    <div> {getLikesCount(items.id)}</div>
-                                </div>
-                                <div className="flex gap-2 items-center">
+                                    <div>{item?.likeCount}</div>
+                                  </div>
+                                  <div className="flex gap-2 items-center">
                                     <div>
-                                        <AiOutlineFieldTime />
+                                      <AiOutlineFieldTime />
                                     </div>
-                                    <div>{moment(items.createdAt).startOf('hour').fromNow()}</div>
-                                </div>
-                                <div>
+                                    <div>{moment(item.createdAt).add(7, 'hour').startOf('hour').fromNow()}</div>
+                                  </div>
+                                  <div>
                                     <RiBookmarkFill />
+                                  </div>
                                 </div>
                             </div>
+                          </div>
                         </div>
-                    </div>
-                </div>
-
-            )
-        })}
-      </div>
-      <div className="flex justify-center items-center gap-9 mb-10">
-            <div className="flex justify-center items-center">
+                      )
+                  })
+                }
+        </div>
+      <div className="flex justify-center items-center gap-9 my-16">
+            <div className="flex justify-start lg:justify-center items-center w-[98%]">
                 <ReactPaginate
                   breakLabel="..."
                   nextLabel="next"

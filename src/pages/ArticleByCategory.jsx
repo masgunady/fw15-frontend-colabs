@@ -45,7 +45,6 @@ const ArticleByCategory = () => {
         async function getArticleCategory() {
             try {
                 const { data } = await http().get(`/article?category=${encodeURIComponent(activeTabCategory)}&sortBy=${sortBy}&sort=${sort}&page=${tabArticle}&limit=1000`)
-                // setTotalPage(data.pageInfo?.totalPage)
                 setArticleCategory(data.results)
                 console.log(activeTabCategory)
             } catch (error) {
@@ -75,18 +74,6 @@ const ArticleByCategory = () => {
     }
 
 
-    // const handlePrevPage = () => {
-    //     if (tabArticle >= 1) {
-    //         setTabArticle(tabArticle - 1);
-    //     }
-    // }
-
-    // const handleNextPage = () => {
-    //     if (tabArticle < totalPage) {
-    //         setTabArticle(tabArticle + 1);
-    //     }
-    // };
-
     const handleTabClick = (category) => {
         setActiveTabCategory(category)
         setTabArticle(1)
@@ -114,12 +101,12 @@ const ArticleByCategory = () => {
                     </div>
                     <div className="dropdown">
                         <div className="flex gap-5 items-center">
-                        <div className='capitalize'>Sort By {message}</div>
+                        <div className='capitalize text-black'>Sort By {message}</div>
                         <label tabIndex={0} className="btn btn-ghost">
                             <FaFilter className="text-black" size={30} />
                         </label>
                         </div>
-                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-black">
                             <li onClick={()=>{handleSort('title', 'ASC', 'Name (A/Z)')}}><p>Name (A-Z)</p></li>
                             <li onClick={()=>{handleSort('title', 'DESC', 'Name (Z/A)')}}><p>Name (Z-A)</p></li>
                             <li onClick={()=>{handleSortCategory('Category')}}><p>Category</p></li>
@@ -149,56 +136,7 @@ const ArticleByCategory = () => {
                         </div>
                     </div>
                 </>
-                {/* <section className="py-16">
-                    <div className="gap-7 flex flex-wrap justify-center items-center ">
-                            {
-                                articleCategory.map((article) => {
-                                    return(
-                                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl" key={`article-cat-${article.id}`}>
-                                            {<ImageTemplate className='absolute top-0 w-[320px]  object-cover' src={article?.picture || null} defaultImg={defaultImage} />}
-                                            <div className="w-full h-[55%] absolute bottom-0 bg-white">
-                                                <div className="px-6 flex flex-col gap-2 items-center justify-center pt-3">
-                                                    <Link to={`/article-view/${article.id}`}>
-                                                        <div className="text-primary text-xl font-bold">{(article.title).slice(0, 15) + `...`}</div>
-                                                    </Link>
-                                                    <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(article.content).slice(0, 50) + `...`}} />
-                                                    <div className="flex justify-between w-full text-sm text-black">
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineLike />
-                                                            </div>
-                                                            <div>{article?.likeCount}</div>
-                                                        </div>
-                                                        <div className="flex gap-2 items-center">
-                                                            <div>
-                                                                <AiOutlineFieldTime />
-                                                            </div>
-                                                            <div>{moment(article.createdAt).startOf('hour').fromNow()}</div>
-                                                        </div>
-                                                        <div>
-                                                            <RiBookmarkFill />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                    </div>
-                </section> */}
-                {/* <div className="flex justify-center items-center gap-9 mb-10">
-                    <div className="flex justify-center items-center">
-                        <div>
-                            <button className="btn btn-base-100 shadow-lg shadow-black-500/70" disabled={tabArticle === 1} onClick={handlePrevPage}><AiOutlineArrowLeft size={20} color="white" /></button>
-                        </div>
-                    </div>
-                    <div className="flex justify-center items-center">
-                        <div>
-                            <button className="btn btn-primary shadow-lg shadow-black-500/70" disabled={tabArticle > totalPage} onClick={handleNextPage}><AiOutlineArrowRight size={20} color="white" /></button>
-                        </div>
-                    </div>
-                </div> */}
+                
                 <ArticleByCategoryPagination data={ articleCategory }/>
             </main>
             <div>

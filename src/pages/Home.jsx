@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import { Link, useParams } from 'react-router-dom';
 
 import { AiOutlineLike, AiOutlineFieldTime, AiOutlineSearch, AiOutlineLoading3Quarters } from 'react-icons/ai';
+import {RxCross1} from 'react-icons/rx'
 import { RiBookmarkFill } from 'react-icons/ri';
 import embedVideo from '../assets/image/embed-video.png';
 import { Helmet } from 'react-helmet';
@@ -182,21 +183,20 @@ const Home = () => {
                                 >
                                     {({ handleBlur, handleChange, handleSubmit }) => (
                                         <>
-                                            <div className='bg-white md:w-[450px] h-full rounded-2xl border-2 border-primary flex items-center justify-start'>
-                                                <form className='flex gap-7' onSubmit={handleSubmit}>
-                                                    <div className='flex justify-between items-center gap-3'>
-                                                        <div className='flex gap-3 items-center'>
-                                                            <i className='ml-5'>
+                                            <div className='w-full flex items-center justify-start px-4 sm:px-0'>
+                                                <form className='w-full' onSubmit={handleSubmit}>
+                                                        <div className='h-14 w-full md:max-w-[450px]  flex items-center gap-2 border-2 border-primary rounded-xl'>
+                                                            <i className='pl-5'>
                                                                 <AiOutlineSearch size={20} />
                                                             </i>
-                                                            <div className='form-control'>
-                                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="outline-none md:w-[330px] max-w-[500px] " placeholder="Search" />
+                                                            <div className='form-control w-full h-full text-black'>
+                                                                <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} className="outline-none w-full h-full" placeholder="Search" />
+                                                            </div>
+                                                            <div>
+                                                                <button type='reset' className='btn btn-ghost'><RxCross1/></button>
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <button type='reset' className='btn btn-ghost rounded-full'>x</button>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </form>
                                             </div>
                                         </>
@@ -253,94 +253,7 @@ const Home = () => {
                             </div>
                         </div>
                     </section>
-                    {profile?.role === "superadmin" &&
-                        (
-                            <section>
-                                <div className="w-full bg-white  pb-16 flex flex-col gap-5">
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between ">
-                                        <div className='text-2xl text-black font-bold'>Waiting list</div>
-                                        <Link to='/waiting-list'>
-                                            <div className='text-base text-primary font-semibold'>More</div>
-                                        </Link>
-                                    </div>
-                                    <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[380px]">
-                                        <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
-                                            {articleWait.map((items) => {
-                                                return (
-                                                    <div key={`article-wait-home-${items.id}`} className='flex flex-col gap-5'>
-                                                        <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
-                                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
-                                                            <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
-                                                                <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
-                                                                    <Link to={`/admin/article-view/${items.id}`}>
-                                                                        <div className="text-primary text-xl font-bold">{(items.title).slice(0, 20) + `...`}</div>
-                                                                    </Link>
-                                                                    <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(items.content).slice(0, 40) + `...`}}/>
-                                                                    <div className="flex justify-between w-full text-sm text-black">
-                                                                        <div className="flex gap-2 justify-center items-center">
-                                                                            <div>
-                                                                                <AiOutlineLike />
-                                                                            </div>
-                                                                            <div> {items.likeCount}</div>
-                                                                        </div>
-                                                                        <div className="flex gap-2 items-center">
-                                                                            <div>
-                                                                                <AiOutlineFieldTime />
-                                                                            </div>
-                                                                            <div> {moment(items.createdAt).startOf('hour').fromNow()}</div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <RiBookmarkFill />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className='flex items-center justify-between px-10 gap-7'>
-                                                        <button className="btn btn-primary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'accept')}>
-                                                            Accept
-                                                        </button>
-                                                        <button className="btn btn-secondary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'decline')}>
-                                                            Decline
-                                                        </button>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                    {modalVisible && (
-                                            <div>
-                                                <input type="checkbox" id="loading" className="modal-toggle" checked={modalVisible} />
-                                            <div className="modal">
-                                                <div className="modal-box">
-                                                <p className="py-4 text-black">
-                                                    Are you sure {modalAction === 'accept' ? 'to publish' : modalAction === 'decline' ? 'to decline' : ''} this article!
-                                                </p>
-                                                <div className="modal-action">
-                                                    <button type="button" className="btn btn-warning w-20 capitalize text-black" onClick={modalAction === 'accept' ? handleAccept : handleDecline}>
-                                                    Yes
-                                                    </button>
-                                                    <label className="btn bg-[#03999e5f] border-0 text-black hover:text-white capitalize w-20" onClick={closeModal}>
-                                                    Cancel!
-                                                    </label>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                    )}
-                                    {
-                                        articleWait.length < 1 &&
-                                        <div className='flex flex-col items-center justify-center gap-7 '>
-                                            <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
-                                            <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
-                                        </div>}
-                                </div>
-                            </section>
-
-                        )
-                    }
-                    {profile?.role !== "superadmin" &&
+                    {token === "" &&
                         (
                             <section>
                                 <div className="w-full bg-white  pb-16 flex flex-col gap-5">
@@ -374,7 +287,7 @@ const Home = () => {
                                                                         <div>
                                                                             <AiOutlineFieldTime />
                                                                         </div>
-                                                                        <div> {moment(items.createdAt).startOf('hour').fromNow()}</div>
+                                                                        <div> {moment(items.createdAt).add(420, 'minutes').startOf('minute').fromNow()}</div>
                                                                     </div>
                                                                     <div>
                                                                         <RiBookmarkFill />
@@ -391,14 +304,157 @@ const Home = () => {
 
                             </section>
                         )
+                    
+
+                    }
+
+                    {token !== "" && (
+                            profile?.role === "superadmin"
+                            ?
+                            (
+                                <section>
+                                    <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                                        <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between ">
+                                            <div className='text-2xl text-black font-bold'>Waiting list</div>
+                                            <Link to='/waiting-list'>
+                                                <div className='text-base text-primary font-semibold'>More</div>
+                                            </Link>
+                                        </div>
+                                        <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 max-h-[380px]">
+                                            <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
+                                                {articleWait.map((items) => {
+                                                    return (
+                                                        <div key={`article-wait-home-${items.id}`} className='flex flex-col gap-5'>
+                                                            <div className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                                {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px] object-cover" alt="" />}
+                                                                <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                                    <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                                        <Link to={`/admin/article-view/${items.id}`}>
+                                                                            <div className="text-primary text-xl font-bold">{(items.title).slice(0, 20) + `...`}</div>
+                                                                        </Link>
+                                                                        <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(items.content).slice(0, 40) + `...`}}/>
+                                                                        <div className="flex justify-between w-full text-sm text-black">
+                                                                            <div className="flex gap-2 justify-center items-center">
+                                                                                <div>
+                                                                                    <AiOutlineLike />
+                                                                                </div>
+                                                                                <div> {items.likeCount}</div>
+                                                                            </div>
+                                                                            <div className="flex gap-2 items-center">
+                                                                                <div>
+                                                                                    <AiOutlineFieldTime />
+                                                                                </div>
+                                                                                <div> {moment(items.createdAt).add(420, 'minutes').startOf('minute').fromNow()}</div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <RiBookmarkFill />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex items-center justify-between px-10 gap-7'>
+                                                            <button className="btn btn-primary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'accept')}>
+                                                                Accept
+                                                            </button>
+                                                            <button className="btn btn-secondary rounded-xl text-white capitalize" onClick={() => openModal(items.id, 'decline')}>
+                                                                Decline
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                        {modalVisible && (
+                                                <div>
+                                                    <input type="checkbox" id="loading" className="modal-toggle" checked={modalVisible} />
+                                                <div className="modal">
+                                                    <div className="modal-box">
+                                                    <p className="py-4 text-black">
+                                                        Are you sure {modalAction === 'accept' ? 'to publish' : modalAction === 'decline' ? 'to decline' : ''} this article!
+                                                    </p>
+                                                    <div className="modal-action">
+                                                        <button type="button" className="btn btn-warning w-20 capitalize text-black" onClick={modalAction === 'accept' ? handleAccept : handleDecline}>
+                                                        Yes
+                                                        </button>
+                                                        <label className="btn bg-[#03999e5f] border-0 text-black hover:text-white capitalize w-20" onClick={closeModal}>
+                                                        Cancel!
+                                                        </label>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        )}
+                                        {
+                                            articleWait.length < 1 &&
+                                            <div className='flex flex-col items-center justify-center gap-7 '>
+                                                <div className='font-semibold text-2xl text-secondary'>No Waiting List Found</div>
+                                                <div className='font-medium text base max-w-[300px] text-center'>Waiting List arrived when author request to poblush the articles</div>
+                                            </div>}
+                                    </div>
+                                </section>
+                            )
+                            :
+                            (
+                                <section>
+                                    <div className="w-full bg-white  pb-16 flex flex-col gap-5">
+                                        <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 pr-7 md:pr-16 lg:pr-24 flex justify-between ">
+                                            <div className='text-2xl text-black font-bold '>Recomended</div>
+                                            <Link to='/article'>
+                                                <div className='font-semibold text-xl base text-primary'>More</div>
+                                            </Link>
+                                        </div>
+                                        <div className="pl-7 md:pl-16 lg:pl-24 xl:pl-28 2xl:pl-40 h-[330px]">
+                                            <div className="flex items-start gap-9 scrollbar-hide overflow-scroll h-full ">
+                                                {article.map((items) => {
+                                                    return (
+                                                        <div key={`article-recomended-home-${items.id}`} className="relative overflow-hidden min-w-[260px] h-[293px] rounded-xl shadow-xl ">
+                                                            <div></div>
+                                                            {items.picture && <img src={items.picture.startsWith('https') ? items.picture : `http://localhost:8888/uploads/${items.picture}`} className="absolute top-0 w-[320px]  object-cover" alt="" />}
+                                                            <div className="w-full h-[50%] absolute bottom-0 bg-white py-3">
+                                                                <div key={`article-${items.id}`} className="px-6 flex flex-col gap-2 items-center justify-between h-full">
+                                                                    <Link to={`/article-view/${items.id}`}>
+                                                                        <div className="text-primary text-xl font-bold">{(items.title).slice(0, 20) + `...`}</div>
+                                                                    </Link>
+                                                                    <div className="text-black text-center text-sm" dangerouslySetInnerHTML={{__html:(items.content).slice(0, 40) + `...`}}/>
+                                                                    <div className="flex justify-between w-full text-sm text-black">
+                                                                        <div className="flex gap-2 justify-center items-center">
+                                                                            <div>
+                                                                                <AiOutlineLike />
+                                                                            </div>
+                                                                            <div> {items.likeCount}</div>
+                                                                        </div>
+                                                                        <div className="flex gap-2 items-center">
+                                                                            <div>
+                                                                                <AiOutlineFieldTime />
+                                                                            </div>
+                                                                            <div> {moment(items.createdAt).add(420, 'minutes').startOf('minute').fromNow()}</div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <RiBookmarkFill />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                </section>
+                            )
+                        )
                     }
                     <section>
-                        <div className="w-full min-h-[635px] px-7 md:px-16 lg:px-28 xl:px-36 bg-[#03999e5f] py-24">
+                        <div className="w-full min-h-[580px] px-7 md:px-16 lg:px-28 xl:px-36 bg-[#03999e5f] py-24">
                             <div className="flex flex-col-reverse md:flex-row gap-11 items-start justify-center">
                                 <div className="flex flex-col gap-9 max-w-[400px]">
                                     <div className="font-serif text-4xl font-bold text-black">Lets hear about Kaylas success story</div>
                                     <div className="text-2xl font-semibold text-black">See how well News Today works in a real user’s life. </div>
-                                    <Link to="/" className="btn btn-primary capitalize w-full text-white tracking-wider max-w-[180px]">
+                                    <Link to="/search-result" className="btn btn-primary capitalize w-full text-white tracking-wider max-w-[180px]">
                                         Let&apos;s get started
                                     </Link>
                                 </div>
@@ -438,7 +494,7 @@ const Home = () => {
                                                                 <div>
                                                                     <AiOutlineFieldTime />
                                                                 </div>
-                                                                <div> {moment(item.createdAt).startOf('hour').fromNow()}</div>
+                                                                <div> {moment(item.createdAt).add(420, 'minutes').startOf('minute').fromNow()}</div>
                                                             </div>
                                                             <div>
                                                                 <RiBookmarkFill />

@@ -9,6 +9,7 @@ import { FaFilter, FaSearch } from 'react-icons/fa';
 import React from 'react';
 import { Formik } from 'formik';
 import { Helmet } from 'react-helmet';
+import { RxCross1 } from 'react-icons/rx';
 
 const SearchResult = () => {
     const [searchParams, setSearchParams] = useSearchParams('')
@@ -67,17 +68,17 @@ const SearchResult = () => {
                                         onSubmit={onSearch}
                                     >
                                         {({ handleBlur, handleChange, handleSubmit }) => (
-                                            <div className='bg-white md:w-[450px] h-[50px] rounded-2xl border-2 border-primary flex items-center justify-start'>
-                                                <form onSubmit={handleSubmit} className='flex'>
-                                                    <div className='flex justify-center items-center gap-3 px-5'>
-                                                        <i className=''>
+                                            <div className='w-full flex items-center justify-start px-4 sm:px-0'>
+                                                <form onSubmit={handleSubmit} className='w-full'>
+                                                    <div className='h-14 w-full md:max-w-[450px]  flex items-center gap-2 border-2 border-primary rounded-xl'>
+                                                        <i className='pl-5'>
                                                             <FaSearch />
                                                         </i>
-                                                        <div className='form-control'>
-                                                            <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search' className="outline-none md:w-[330px] w-[160px] max-w-[500px]" />
+                                                        <div className='form-control w-full h-full text-black'>
+                                                            <input type='text' name='searchName' onBlur={handleBlur} onChange={handleChange} placeholder='Search' className="outline-none w-full h-full" />
                                                         </div>
                                                         <div>
-                                                            <button type='reset' className='btn btn-ghost rounded-full'>x</button>
+                                                        <button type='reset' className='btn btn-ghost'><RxCross1/></button>
                                                             <button type='submit' className='hidden'></button>
                                                         </div>
                                                     </div>

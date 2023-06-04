@@ -20,7 +20,6 @@ export default function ArticleComponent() {
     React.useEffect(() => {
         const getDataCategories = async() => {
             const {data} = await http().get(`/categories?page=1&limit=100&sort=${categorySort}&sortBy=name`)
-            console.log(data.results)
             setCategories(data.results)
         }
         getDataCategories()
@@ -29,7 +28,6 @@ export default function ArticleComponent() {
     React.useEffect(() => {
         const getDataArticle = async() => {
             const {data} = await http().get(`/article?sortBy=${sortBy}&sort=${sort}&page=1&limit=100`)
-            console.log(data.results)
             setArticles(data.results)
         }
         getDataArticle()
