@@ -67,11 +67,13 @@ const NotoficationAdmin = () => {
                     <div className="w-full pb-16 flex flex-col items-start gap-5 bg-white">
                         <div className='flex items-center'>
                             <div className="dropdown px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56">
-                                <label tabIndex={0} className="btn btn-ghost m-1">
-                                    <FaFilter className="text-black" size={30} />
-                                    <div className='capitalize'>Filter By : {itemSort}</div>
-                                </label>
-                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <div className='flex items-center text-black'>
+                                    <label tabIndex={0} className="btn btn-ghost m-1">
+                                        <FaFilter className="text-black" size={30} />
+                                    </label>
+                                    <div className='capitalize '>Filter By : {itemSort}</div>
+                                </div>
+                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-black">
                                     <li onClick={()=> handleSortName('message', 'ASC', "Name (A-Z)")}><p>Name (A-Z)</p></li>
                                     <li onClick={()=> handleSortName('message', 'DESC', "Name (Z-A)")}><p>Name (Z-A)</p></li>
                                     <li onClick={()=> handleSortName('typeRequest', 'ASC', "Category (A-Z)")}><p>Category</p></li>
@@ -79,7 +81,6 @@ const NotoficationAdmin = () => {
                                     <li onClick={()=> handleSortName('creatAt', 'ASC', "First Added")}><p>Last Modified</p></li>
                                 </ul>
                             </div>
-                            <div>Filter</div>
                         </div>
                         <div className="overflow-auto min-h-screen flex flex-col gap-7 px-8 md:px-16 lg:px-24 xl:px-28 2xl:px-56  w-full">
                             {

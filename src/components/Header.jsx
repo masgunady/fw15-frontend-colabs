@@ -5,7 +5,7 @@ import logo from '../assets/image/logo-tosca.png';
 import { Link } from 'react-router-dom';
 // import Image from './Image/';
 import ImageTemplate from '../components/ImageTemplate'
-import {logout as logoutAction, setWarningMessage} from '../redux/reducers/auth'
+import {logout as logoutAction} from '../redux/reducers/auth'
 import defaultImage from '../assets/image/default.png'
 
 import {GrArticle} from 'react-icons/gr'
@@ -24,12 +24,7 @@ const Header = () => {
     
     React.useEffect(() => {
         async function getProfileData() {
-            const fallback = (message) => {
-                dispatch(logoutAction())
-                dispatch(setWarningMessage(message))
-                navigate('/auth/login')
-            }
-            dispatch(getProfileAction(token, fallback))
+            dispatch(getProfileAction(token))
         }
         if (token) {
             getProfileData()
