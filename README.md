@@ -24,7 +24,11 @@ Web application providing up-to-date and reliable news and information
 
 
 ##How to use
+##Register Page
+![Registe](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Register.png)
 
-[Registe]()
-[Login]()
-[Home]()
+##Login Page
+![Login](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Login.png)
+
+##Home Page
+![Home](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Home.png)
