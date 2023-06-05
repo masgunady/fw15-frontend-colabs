@@ -33,4 +33,4 @@ Web application providing up-to-date and reliable news and information
 ![Login](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Login.png)
 
 ##Home Page
-![Home](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Home.png)
+![Home](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/home.png)
