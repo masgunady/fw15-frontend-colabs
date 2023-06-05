@@ -3,7 +3,6 @@
 
 ##About The Project
 
-![Logo Logppose](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/logo-tosca.png)![Logo Logppose](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/logo-tosca.png)
 Web application providing up-to-date and reliable news and information
 
 ##Feature
