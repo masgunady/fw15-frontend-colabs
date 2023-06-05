@@ -29,6 +29,8 @@ Web application providing up-to-date and reliable news and information
 - [Argon](https://www.npmjs.com/package/argon2)
 - [jwt token](https://www.npmjs.com/package/jsonwebtoken)
 - [Multer](https://www.npmjs.com/package/multer)
+- [Moment](https://momentjs.com/)
+- [Formik](https://formik.org/)
 
 
 #How to use
