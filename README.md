@@ -5,14 +5,14 @@
 
 Web application providing up-to-date and reliable news and information
 
-#Feature
+# Feature
 
 - Up-to-date and reliable news.
 - Becoming an author to write news.
 - Like, comment,subscribe on news.
 - And more
 
-#Built with
+# Built with
 
 - [fontend](https://fw15-logpose.netlify.app/)
 1. [React js ](https://reactjs.org/)
@@ -33,7 +33,7 @@ Web application providing up-to-date and reliable news and information
 - [Formik](https://formik.org/)
 
 
-#How to use
+# How to use
 
 ##Register Page
 ![Register](https://github.com/masgunady/fw15-logpose-frontend/blob/main/src/assets/image/Register.png)
